@@ -41,6 +41,6 @@ builder.globalConnectionField("totalCount", (t) =>
 );
 
 builder.queryType({});
-builder.mutationType({});
+// builder.mutationType({});
 
 export { builder };

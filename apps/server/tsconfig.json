@@ -1,7 +1,12 @@
 {
-	"extends": "@repo/tsconfig/node.json",
+	"extends": "@guesthub/tsconfig/base.json",
 	"compilerOptions": {
+		"rootDir": ".",
 		"baseUrl": ".",
-		"rootDir": "."
-	}
+		"outDir": "./dist",
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	},
+	"include": ["src/**/*", "./drizzle.config.ts"]
 }

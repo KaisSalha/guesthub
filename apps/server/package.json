@@ -46,13 +46,13 @@
 		"graphql": "^16.8.1",
 		"mercurius": "^14.0.0",
 		"openai": "^4.31.0",
-		"pg": "^8.11.3",
+		"pg": "^8.11.4",
 		"pino": "^8.19.0",
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
 		"@repo/eslint-config": "workspace:*",
-		"@repo/tsconfig": "workspace:*",
+		"@guesthub/tsconfig": "workspace:*",
 		"@swc-node/register": "^1.9.0",
 		"@swc/cli": "^0.3.10",
 		"@swc/core": "^1.4.11",
