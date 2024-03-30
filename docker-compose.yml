@@ -1,0 +1,19 @@
+#docker-compose.yml
+version: "3.8"
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: ./containers/postgres/Dockerfile
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: firststep
+      POSTGRES_USER: firststep
+      POSTGRES_PASSWORD: kais12345
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

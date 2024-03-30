@@ -1,0 +1,4 @@
+# containers/db/Dockerfile
+FROM postgres:16.1
+
+EXPOSE 5432

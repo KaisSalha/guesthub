@@ -1,0 +1,49 @@
+#! /bin/bash
+
+help() {
+    cat << UsageMessage
+
+firststep utilities
+
+Usage: ./run [command]
+
+Commands:
+    run
+    Starts the server in production mode
+
+    dev
+    Starts the server in development mode
+
+    reset_db
+    Resets the database
+
+UsageMessage
+}
+
+run() {
+    docker compose up --build
+}
+
+build() {
+    docker compose build
+}
+
+dev() {
+    NODE_ENV=development docker compose up
+}
+
+reset_db() {
+  docker compose run --rm postgres dropdb -h postgres -U firststep firststep --force
+  docker compose run --rm postgres createdb -h postgres -U firststep firststep
+}
+
+clean_simulator() {
+  xcrun simctl erase all
+}
+
+if declare -F "$1" > /dev/null; then
+  $@
+else
+  echo "Unknown command: $1"
+  help
+fi
