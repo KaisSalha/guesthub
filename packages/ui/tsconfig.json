@@ -1,5 +1,11 @@
 {
-  "extends": "@repo/tsconfig/react-lib.json",
+  "extends": "@guesthub/tsconfig/react-lib.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
   "include": ["."],
   "exclude": ["node_modules"]
 }

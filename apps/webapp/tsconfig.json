@@ -1,0 +1,10 @@
+{
+	"extends": "@guesthub/tsconfig/web.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	},
+	"include": ["src"]
+}
