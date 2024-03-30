@@ -13,6 +13,7 @@ import { Provider } from "jotai";
 import { jotaiStore } from "./lib/jotaiStore";
 import { setContext } from "@apollo/client/link/context";
 import { authAtom } from "./atoms/auth";
+import { ThemeProvider } from "next-themes";
 
 const httpLink = createHttpLink({
   uri: `${import.meta.env.VITE_API_ENDPOINT}/graphql`,
@@ -55,9 +56,11 @@ function App() {
       <Suspense fallback={null}>
         <Provider store={jotaiStore}>
           <ApolloProvider client={client}>
-            <TooltipProvider delayDuration={0}>
-              <RouterProvider router={router} />
-            </TooltipProvider>
+            <ThemeProvider>
+              <TooltipProvider delayDuration={0}>
+                <RouterProvider router={router} />
+              </TooltipProvider>
+            </ThemeProvider>
           </ApolloProvider>
         </Provider>
       </Suspense>
