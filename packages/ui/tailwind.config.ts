@@ -23,18 +23,44 @@ export default {
       },
       colors: {
         brand: "hsl(var(--brand))",
-        border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        background: {
+          DEFAULT: "hsl(var(--bg))",
+          emphasis: "hsl(var(--bg-emphasis))",
+          subtle: "hsl(var(--bg-subtle))",
+          muted: "hsl(var(--bg-muted))",
+          inverted: "hsl(var(--bg-inverted))",
+          info: "hsl(var(--bg-info))",
+          success: "hsl(var(--bg-success))",
+          attention: "hsl(var(--bg-attention))",
+          error: "hsl(var(--bg-error))",
+          darkerror: "hsl(var(--bg-dark-error))",
+        },
+        border: {
+          DEFAULT: "hsl(var(--border))",
+          emphasis: "hsl(var(--border-emphasis))",
+          subtle: `hsl(var(--border-subtle))`,
+          muted: "hsl(var(--border-muted))",
+          booker: `hsl(var(--border-booker))`,
+          error: "hsl(var(--border-error))",
+        },
+        text: {
+          emphasis: "hsl(var(--text-emphasis))",
+          default: "hsl(var(--text))",
+          subtle: "hsl(var(--text-subtle))",
+          muted: "hsl(var(--text-muted))",
+          inverted: "hsl(var(--text-inverted))",
+          info: "hsl(var(--text-info))",
+          success: "hsl(var(--text-success))",
+          attention: "hsl(var(--text-attention))",
+          error: "hsl(var(--text-error))",
+          brand: "hsl(var(--brand-text))",
+        },
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -50,11 +76,7 @@ export default {
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          foreground: "hsl(var(--text))",
         },
       },
       borderRadius: {

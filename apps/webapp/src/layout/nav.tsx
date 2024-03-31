@@ -24,18 +24,11 @@ export function Nav({ links, isCollapsed }: NavProps) {
           isCollapsed ? (
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
-                <div
-                  className={cn(
-                    "",
-                    link.selected && "border-l-2 px-[5px] border-brand"
-                  )}
-                >
+                <div className={cn("")}>
                   <div
                     className={cn(
-                      "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-4 text-xs text-zinc-500 hover:cursor-pointer",
-                      link.selected &&
-                        "text-black bg-zinc-200 px-2 mx-0.5 rounded-md",
-                      !link.selected && "hover:text-zinc-700"
+                      "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-xs text-text hover:cursor-pointer hover:bg-background-subtle rounded-md px-2 mx-2",
+                      link.selected && "bg-background-emphasis"
                     )}
                     onClick={link.onClick}
                   >
@@ -52,19 +45,12 @@ export function Nav({ links, isCollapsed }: NavProps) {
               </TooltipContent>
             </Tooltip>
           ) : (
-            <div
-              key={index}
-              className={cn(
-                "px-4",
-                link.selected && "border-l-2 pl-[14px] border-brand"
-              )}
-            >
+            <div key={index} className={cn("px-4")}>
               <div
                 key={index}
                 className={cn(
-                  "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2 text-xs text-zinc-500 hover:cursor-pointer w-full",
-                  link.selected && "text-black bg-zinc-200 rounded-md ",
-                  !link.selected && "hover:text-zinc-700"
+                  "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2 text-xs text-text hover:cursor-pointer hover:bg-background-subtle w-full rounded-md ",
+                  link.selected && "bg-background-emphasis"
                 )}
                 onClick={link.onClick}
               >

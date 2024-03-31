@@ -9,7 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@guesthub/ui/form";
-import { cn } from "@/lib/utils";
+import { cn } from "@guesthub/ui/lib";
 import { useState } from "react";
 import { z } from "zod";
 
