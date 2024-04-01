@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { cn } from "../lib";
 
-const Card = React.forwardRef<
+const CardComponent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
@@ -15,7 +15,7 @@ const Card = React.forwardRef<
     {...props}
   />
 ));
-Card.displayName = "Card";
+CardComponent.displayName = "Card";
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
@@ -73,11 +73,22 @@ const CardFooter = React.forwardRef<
 ));
 CardFooter.displayName = "CardFooter";
 
-export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
-  CardContent,
-};
+interface CardComposition
+  extends React.ForwardRefExoticComponent<
+    React.HTMLAttributes<HTMLDivElement> & React.RefAttributes<HTMLDivElement>
+  > {
+  Header: typeof CardHeader;
+  Footer: typeof CardFooter;
+  Title: typeof CardTitle;
+  Description: typeof CardDescription;
+  Content: typeof CardContent;
+}
+
+const Card = CardComponent as CardComposition;
+Card.Header = CardHeader;
+Card.Footer = CardFooter;
+Card.Title = CardTitle;
+Card.Description = CardDescription;
+Card.Content = CardContent;
+
+export { Card };

@@ -1,24 +1,18 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@guesthub/ui/tooltip";
+import { Card } from "@guesthub/ui/card";
 import { createFileRoute } from "@tanstack/react-router";
 import React from "react";
 
 const Dashboard = () => {
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger>
-          <p>Hover</p>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Add to library</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <div className="flex flex-col gap-4 mb-4">
+      <Card>
+        <Card.Header>
+          <Card.Title>Dashboard</Card.Title>
+          <Card.Description>View and manage your data</Card.Description>
+        </Card.Header>
+        <Card.Content className="flex flex-col gap-3"></Card.Content>
+      </Card>
+    </div>
   );
 };
 

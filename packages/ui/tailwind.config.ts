@@ -42,7 +42,6 @@ export default {
           emphasis: "hsl(var(--border-emphasis))",
           subtle: `hsl(var(--border-subtle))`,
           muted: "hsl(var(--border-muted))",
-          booker: `hsl(var(--border-booker))`,
           error: "hsl(var(--border-error))",
         },
         text: {

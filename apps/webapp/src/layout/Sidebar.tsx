@@ -47,7 +47,7 @@ export const Sidebar = () => {
       <div
         ref={panelRef}
         className={cn(
-          "flex flex-col bg-background-muted w-48 min-h-screen fixed  border-r-2 border-border-muted",
+          "flex flex-col bg-background-muted w-48 min-h-screen fixed  border-r",
           isCollapsed && "transition-all duration-300 ease-in-out w-12"
         )}
       >

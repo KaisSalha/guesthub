@@ -18,7 +18,7 @@
     --bg-emphasis: 220 13% 91%;
     --bg: 0 0% 100%;
     --bg-subtle: 220 14% 96%;
-    --bg-muted: 210 20% 98%;
+    --bg-muted: 210 20% 98.5%;
     --bg-inverted: 0 0% 6%;
 
     /* background -> components*/
@@ -32,7 +32,6 @@
     --border-emphasis: 218 11% 65%;
     --border: 216 12% 84%;
     --border-subtle: 220 13% 91%;
-    --border-booker: #e5e7eb;
     --border-muted: 220 14% 96%;
     --border-error: 4 63% 41%;
 
@@ -77,7 +76,7 @@
     --destructive: 0 84.2 60.2%;
     --destructive-foreground: 0 0 98%;
 
-    --input: 240 5.9 90%;
+    --input: 240 5.9 92%;
     --ring: 240 10 3.9%;
 
     --radius: 0.5rem;
@@ -102,9 +101,8 @@
 
     /* Borders */
     --border-emphasis: 0 0 46%;
-    --border: 0 0 34%;
+    --border: 0 0 28%;
     --border-subtle: 0 0 22%;
-    --border-booker: 0 0 22%;
     --border-muted: 0 0 18%;
     --border-error: 4 63 41%;
 
@@ -147,7 +145,7 @@
     --destructive: 0 62.8 30.6%;
     --destructive-foreground: 0 0 98%;
 
-    --input: 240 3.7 15.9%;
+    --input: 240 3.7 20.9%;
     --ring: 240 4.9 83.9%;
   }
 }
