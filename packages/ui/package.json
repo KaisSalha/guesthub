@@ -21,6 +21,7 @@
     "./carousel": "./components/carousel.tsx",
     "./checkbox": "./components/checkbox.tsx",
     "./collapsible": "./components/collapsible.tsx",
+    "./combobox": "./components/combobox.tsx",
     "./command": "./components/command.tsx",
     "./context-menu": "./components/context-menu.tsx",
     "./dialog": "./components/dialog.tsx",
