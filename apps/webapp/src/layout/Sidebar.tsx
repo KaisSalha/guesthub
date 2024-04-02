@@ -61,8 +61,7 @@ export const Sidebar = () => {
             className={cn(
               !isCollapsed && "h-8 w-8",
               isCollapsed && "h-5 w-5 ml-[2px] mb-[3px]",
-              "text-brand",
-              "transition-all duration-300 ease-in-out"
+              "text-brand"
             )}
           />
         </div>
