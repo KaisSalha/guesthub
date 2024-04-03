@@ -23,14 +23,14 @@ export default {
       },
       colors: {
         brand: "hsl(var(--brand))",
-        input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: {
-          DEFAULT: "hsl(var(--bg))",
-          emphasis: "hsl(var(--bg-emphasis))",
-          subtle: "hsl(var(--bg-subtle))",
+          default: "hsl(var(--bg))",
+          surface: "hsl(var(--bg-surface))",
           muted: "hsl(var(--bg-muted))",
+          subtle: "hsl(var(--bg-subtle))",
           inverted: "hsl(var(--bg-inverted))",
+
           info: "hsl(var(--bg-info))",
           success: "hsl(var(--bg-success))",
           attention: "hsl(var(--bg-attention))",
@@ -38,18 +38,19 @@ export default {
           darkerror: "hsl(var(--bg-dark-error))",
         },
         border: {
-          DEFAULT: "hsl(var(--border))",
+          default: "hsl(var(--border))",
           emphasis: "hsl(var(--border-emphasis))",
           subtle: `hsl(var(--border-subtle))`,
           muted: "hsl(var(--border-muted))",
           error: "hsl(var(--border-error))",
         },
         text: {
-          emphasis: "hsl(var(--text-emphasis))",
           default: "hsl(var(--text))",
+          emphasis: "hsl(var(--text-emphasis))",
           subtle: "hsl(var(--text-subtle))",
           muted: "hsl(var(--text-muted))",
           inverted: "hsl(var(--text-inverted))",
+
           info: "hsl(var(--text-info))",
           success: "hsl(var(--text-success))",
           attention: "hsl(var(--text-attention))",
