@@ -27,7 +27,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                 <div className={cn("")}>
                   <div
                     className={cn(
-                      "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-xs text-text hover:cursor-pointer hover:bg-background-subtle rounded-md px-2 mx-2",
+                      "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-xs text-foreground hover:cursor-pointer hover:bg-background-subtle rounded-md px-2 mx-2",
                       link.selected && "bg-background-muted"
                     )}
                     onClick={link.onClick}
@@ -49,7 +49,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
               <div
                 key={index}
                 className={cn(
-                  "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2 text-xs text-text hover:cursor-pointer hover:bg-background-subtle w-full rounded-md ",
+                  "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2 text-xs text-foreground hover:cursor-pointer hover:bg-background-subtle w-full rounded-md ",
                   link.selected && "bg-background-muted"
                 )}
                 onClick={link.onClick}
