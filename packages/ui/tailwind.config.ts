@@ -35,6 +35,7 @@ export default {
           info: "hsl(var(--bg-info))",
           success: "hsl(var(--bg-success))",
           attention: "hsl(var(--bg-attention))",
+          destructive: "hsl(var(--bg-destructive))",
           error: "hsl(var(--bg-error))",
           darkerror: "hsl(var(--bg-dark-error))",
         },
@@ -55,14 +56,11 @@ export default {
           info: "hsl(var(--text-info))",
           success: "hsl(var(--text-success))",
           attention: "hsl(var(--text-attention))",
+          destructive: "hsl(var(--text-destructive))",
           error: "hsl(var(--text-error))",
           brand: "hsl(var(--brand-text))",
         },
         foreground: "hsl(var(--foreground))",
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
