@@ -1,59 +1,43 @@
-import { Card } from "@guesthub/ui/card";
+import { Button } from "@guesthub/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@guesthub/ui/popover";
 import { createFileRoute } from "@tanstack/react-router";
 import React from "react";
+import { toast } from "sonner";
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@guesthub/ui/breadcrumb";
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@guesthub/ui/hover-card";
 
 const Dashboard = () => {
   return (
     <div className="flex flex-col gap-4 mb-4">
-      <Card>
-        <Card.Header>
-          <Card.Title>Dashboard</Card.Title>
-          <Card.Description>View and manage your data</Card.Description>
-        </Card.Header>
-        <Card.Content className="flex flex-col gap-3">
-          <p>Card Content</p>
+      <Button
+        variant="outline"
+        onClick={() =>
+          toast("Event has been created", {
+            description: "Sunday, December 03, 2023 at 9:00 AM",
+            action: {
+              label: "Undo",
+              onClick: () => console.log("Undo"),
+            },
+          })
+        }
+      >
+        Show Toast
+      </Button>
 
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/">Home</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/components">Components</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </Card.Content>
-      </Card>
+      <Popover>
+        <PopoverTrigger>Open</PopoverTrigger>
+        <PopoverContent>Place content for the popover here.</PopoverContent>
+      </Popover>
 
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/components">Components</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <HoverCard>
+        <HoverCardTrigger>Hover</HoverCardTrigger>
+        <HoverCardContent>
+          The React Framework – created and maintained by @vercel.
+        </HoverCardContent>
+      </HoverCard>
     </div>
   );
 };

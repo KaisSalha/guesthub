@@ -25,11 +25,12 @@ export default {
         brand: "hsl(var(--brand))",
         ring: "hsl(var(--ring))",
         background: {
-          default: "hsl(var(--bg))",
+          DEFAULT: "hsl(var(--bg))",
           surface: "hsl(var(--bg-surface))",
           muted: "hsl(var(--bg-muted))",
           subtle: "hsl(var(--bg-subtle))",
           inverted: "hsl(var(--bg-inverted))",
+          popover: "hsl(var(--bg-background-popover))",
 
           info: "hsl(var(--bg-info))",
           success: "hsl(var(--bg-success))",
@@ -38,14 +39,14 @@ export default {
           darkerror: "hsl(var(--bg-dark-error))",
         },
         border: {
-          default: "hsl(var(--border))",
+          DEFAULT: "hsl(var(--border))",
           emphasis: "hsl(var(--border-emphasis))",
           subtle: `hsl(var(--border-subtle))`,
           muted: "hsl(var(--border-muted))",
           error: "hsl(var(--border-error))",
         },
         text: {
-          default: "hsl(var(--text))",
+          DEFAULT: "hsl(var(--text))",
           emphasis: "hsl(var(--text-emphasis))",
           subtle: "hsl(var(--text-subtle))",
           muted: "hsl(var(--text-muted))",
@@ -69,10 +70,6 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--text))",
         },
       },
       borderRadius: {
