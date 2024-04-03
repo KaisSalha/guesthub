@@ -48,9 +48,7 @@
     --text-attention: 16 62% 28%;
     --text-error: 2 55% 30%;
 
-    /* Brand shinanigans
-    */
-
+    /* Brand */
     --brand: 7 89% 64%;
     --brand-emphasis: 0 0% 6%;
     --brand-text: 0 0% 100%;
@@ -63,9 +61,6 @@
 
     --primary: 240 5.9 10%;
     --primary-foreground: 0 0 98%;
-
-    --muted: 240 4.8 95.9%;
-    --muted-foreground: 240 3.8 46.1%;
 
     --accent: 240 4.8 95.9%;
     --accent-foreground: 240 5.9 10%;
@@ -115,9 +110,7 @@
     --text-attention: 37 86 92%;
     --text-error: 3 66 93%;
 
-    /* Brand shenanigans
-      -> These will be computed for the users theme at runtime.
-    */
+    /* Brand */
     --brand: 7 89 64%;
     --brand-emphasis: 218 11 65%;
     --brand-text: 0 0 0%;
@@ -128,9 +121,6 @@
 
     --primary: 0 0 98%;
     --primary-foreground: 240 5.9 10%;
-
-    --muted: 240 3.7 15.9%;
-    --muted-foreground: 240 5 64.9%;
 
     --accent: 240 3.7 15.9%;
     --accent-foreground: 0 0 98%;
