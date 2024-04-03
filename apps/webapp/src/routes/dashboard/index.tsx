@@ -1,43 +1,49 @@
-import { Button } from "@guesthub/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@guesthub/ui/popover";
 import { createFileRoute } from "@tanstack/react-router";
 import React from "react";
-import { toast } from "sonner";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@guesthub/ui/hover-card";
+import { Card } from "@guesthub/ui/card";
+import { Label } from "@guesthub/ui/label";
+import { RadioGroup, RadioGroupItem } from "@guesthub/ui/radio-group";
 
 const Dashboard = () => {
   return (
     <div className="flex flex-col gap-4 mb-4">
-      <Button
-        variant="outline"
-        onClick={() =>
-          toast("Event has been created", {
-            description: "Sunday, December 03, 2023 at 9:00 AM",
-            action: {
-              label: "Undo",
-              onClick: () => console.log("Undo"),
-            },
-          })
-        }
-      >
-        Show Toast
-      </Button>
+      <Card>
+        <Card.Header>
+          <Card.Title>Card Title</Card.Title>
+          <Card.Description>Card Description</Card.Description>
+        </Card.Header>
+        <Card.Content>
+          <RadioGroup defaultValue="comfortable">
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="default" id="r1" />
+              <Label htmlFor="r1">Default</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="comfortable" id="r2" />
+              <Label htmlFor="r2">Comfortable</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="compact" id="r3" />
+              <Label htmlFor="r3">Compact</Label>
+            </div>
+          </RadioGroup>
+        </Card.Content>
+      </Card>
 
-      <Popover>
-        <PopoverTrigger>Open</PopoverTrigger>
-        <PopoverContent>Place content for the popover here.</PopoverContent>
-      </Popover>
-
-      <HoverCard>
-        <HoverCardTrigger>Hover</HoverCardTrigger>
-        <HoverCardContent>
-          The React Framework – created and maintained by @vercel.
-        </HoverCardContent>
-      </HoverCard>
+      <RadioGroup defaultValue="comfortable">
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="default" id="r1" />
+          <Label htmlFor="r1">Default</Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="comfortable" id="r2" />
+          <Label htmlFor="r2">Comfortable</Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="compact" id="r3" />
+          <Label htmlFor="r3">Compact</Label>
+        </div>
+      </RadioGroup>
     </div>
   );
 };
