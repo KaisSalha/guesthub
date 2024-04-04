@@ -18,6 +18,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@guesthub/ui/accordion";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@guesthub/ui/alert-dialog";
 
 const Dashboard = () => {
   return (
@@ -57,7 +68,26 @@ const Dashboard = () => {
           <Card.Description>Card Description</Card.Description>
         </Card.Header>
         <Card.Content className="flex w-fit flex-col gap-8">
-          <Button variant="destructive">Test</Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive">Delete</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction variant="destructive">
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
 
           <Input type="email" placeholder="Email" />
         </Card.Content>
