@@ -31,17 +31,17 @@
     --bg-background-popover: 0 0 100%;
 
     /* Borders */
-    --border: 216 12% 84%;
+    --border: 220 13% 88%;
     --border-emphasis: 218 11% 65%;
-    --border-subtle: 220 13% 91%;
+    --border-subtle: 220 13% 94%;
     --border-muted: 220 14% 96%;
     --border-error: 4 63% 41%;
 
     /* Content/Text */
     --foreground: 217 19% 27%;
     --foreground-emphasis: 217 19% 27%;
-    --foreground-subtle: 220 9% 46%;
-    --foreground-muted: 218 11% 65%;
+    --foreground-subtle: 220 9% 55%;
+    --foreground-muted: 218 11% 70%;
     --foreground-inverted: 0 0% 100%;
 
     /* Content/Text -> components */
@@ -84,10 +84,10 @@
     --bg-dark-error: 2 55 30%;
 
     /* Borders */
-    --border: 0 0 28%;
+    --border: 0 0 22%;
     --border-emphasis: 0 0 46%;
-    --border-subtle: 0 0 22%;
-    --border-muted: 0 0 18%;
+    --border-subtle: 0 0 18%;
+    --border-muted: 0 0 16%;
     --border-error: 4 63 41%;
 
     /* Content/Text */
