@@ -16,10 +16,10 @@
 
     /* background */
     --bg: 0 0% 100%;
-    --bg-surface: 210 20% 98.5%;
-    --bg-muted: 240 5.9 92%;
-    --bg-subtle: 220 14% 96%;
-    --bg-inverted: 0 0% 6%;
+    --bg-surface: 0 0% 99%;
+    --bg-muted: 0 0 92%;
+    --bg-subtle: 0 0% 96%;
+    --bg-inverted: 0 0% 18%;
 
     /* background -> components*/
     --bg-info: 218 83% 98%;
@@ -31,17 +31,17 @@
     --bg-background-popover: 0 0 100%;
 
     /* Borders */
-    --border: 220 13% 88%;
-    --border-emphasis: 218 11% 65%;
-    --border-subtle: 220 13% 94%;
-    --border-muted: 220 14% 96%;
-    --border-error: 4 63% 41%;
+    --border: 0 0% 92%;
+    --border-emphasis: 0 0% 65%;
+    --border-subtle: 0 0% 94%;
+    --border-muted: 0 0% 96%;
+    --border-error: 0 0% 41%;
 
     /* Content/Text */
-    --foreground: 217 19% 27%;
-    --foreground-emphasis: 217 19% 27%;
-    --foreground-subtle: 220 9% 55%;
-    --foreground-muted: 218 11% 70%;
+    --foreground: 0 0% 18%;
+    --foreground-emphasis: 0 0% 27%;
+    --foreground-subtle: 0 0% 43%;
+    --foreground-muted: 0 0% 70%;
     --foreground-inverted: 0 0% 100%;
 
     /* Content/Text -> components */
@@ -52,7 +52,7 @@
     --foreground-error: 2 55% 30%;
 
     /* Brand */
-    --brand: 7 89% 64%;
+    --brand: 9 72% 62%;
     --brand-emphasis: 0 0% 6%;
     --brand-text: 0 0% 100%;
 
@@ -70,9 +70,9 @@
 
     --bg: 0 0 10%;
     --bg-surface: 0 0 12%;
-    --bg-muted: 240 3.7 20.9%;
+    --bg-muted: 0 0 20.9%;
     --bg-subtle: 0 0 18%;
-    --bg-inverted: 220 14 96%;
+    --bg-inverted: 0 0 96%;
     --bg-background-popover: 0 0 12%;
 
     /* background -> components*/
@@ -92,7 +92,7 @@
 
     /* Content/Text */
     --foreground: 0 0 84%;
-    --foreground-emphasis: 240 20 99%;
+    --foreground-emphasis: 0 0 99%;
     --foreground-subtle: 0 0 65%;
     --foreground-muted: 0 0 34%;
     --foreground-inverted: 0 0 10%;
@@ -105,7 +105,7 @@
     --foreground-error: 3 66 93%;
 
     /* Brand */
-    --brand: 7 89 64%;
+    --brand: 9 72% 62%;
     --brand-emphasis: 218 11 65%;
     --brand-text: 0 0 0%;
 

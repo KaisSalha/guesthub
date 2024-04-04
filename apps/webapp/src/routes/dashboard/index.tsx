@@ -12,10 +12,29 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@guesthub/ui/breadcrumb";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@guesthub/ui/accordion";
 
 const Dashboard = () => {
   return (
     <div className="flex flex-col gap-4 mb-4">
+      <Card>
+        <Card.Header>
+          <Card.Title>Card Title</Card.Title>
+          <Card.Description>Card Description</Card.Description>
+        </Card.Header>
+        <Card.Content>
+          <p>Card Content</p>
+        </Card.Content>
+        <Card.Footer>
+          <p>Card Footer</p>
+        </Card.Footer>
+      </Card>
+
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -61,6 +80,31 @@ const Dashboard = () => {
         </Button>
 
         <Input type="email" placeholder="Email" />
+
+        <Button>Primary</Button>
+
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Is it accessible?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It adheres to the WAI-ARIA design pattern.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Is it styled?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It comes with default styles that matches the other
+              components&apos; aesthetic.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-3">
+            <AccordionTrigger>Is it animated?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It's animated by default, but you can disable it if you
+              prefer.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
     </div>
   );
