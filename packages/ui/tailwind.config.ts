@@ -61,10 +61,6 @@ export default {
           error: "hsl(var(--foreground-error))",
           brand: "hsl(var(--brand-foreground))",
         },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
       },
       borderRadius: {
         lg: "var(--radius)",
