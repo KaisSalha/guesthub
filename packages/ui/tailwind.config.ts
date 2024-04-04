@@ -27,8 +27,9 @@ export default {
         background: {
           DEFAULT: "hsl(var(--bg))",
           surface: "hsl(var(--bg-surface))",
-          muted: "hsl(var(--bg-muted))",
           subtle: "hsl(var(--bg-subtle))",
+          muted: "hsl(var(--bg-muted))",
+          emphasis: "hsl(var(--bg-emphasis))",
           inverted: "hsl(var(--bg-inverted))",
           popover: "hsl(var(--bg-background-popover))",
 

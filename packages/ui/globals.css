@@ -17,8 +17,9 @@
     /* background */
     --bg: 0 0% 100%;
     --bg-surface: 0 0% 99%;
-    --bg-muted: 0 0 92%;
     --bg-subtle: 0 0% 96%;
+    --bg-muted: 0 0 92%;
+    --bg-emphasis: 0 0% 87%;
     --bg-inverted: 0 0% 18%;
 
     /* background -> components*/
@@ -70,8 +71,9 @@
 
     --bg: 0 0 10%;
     --bg-surface: 0 0 12%;
-    --bg-muted: 0 0 20.9%;
     --bg-subtle: 0 0 18%;
+    --bg-muted: 0 0 21%;
+    --bg-emphasis: 0 0 26%;
     --bg-inverted: 0 0 96%;
     --bg-background-popover: 0 0 12%;
 
