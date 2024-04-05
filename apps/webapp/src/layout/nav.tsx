@@ -17,7 +17,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
   return (
     <div
       data-collapsed={isCollapsed}
-      className="group flex flex-col gap-4 py-2 text-foreground/70 dark:text-foreground"
+      className="group flex flex-col gap-4 py-2"
     >
       <nav className="grid gap-3">
         {links.map((link, index) =>
@@ -27,8 +27,8 @@ export function Nav({ links, isCollapsed }: NavProps) {
                 <div className={cn("")}>
                   <div
                     className={cn(
-                      "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-xs hover:cursor-pointer hover:bg-background-subtle rounded-md px-2 mx-2",
-                      link.selected && "bg-background-muted"
+                      "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-xs hover:cursor-pointer hover:bg-background-emphasis rounded-lg px-2 mx-2 text-foreground/70",
+                      link.selected && "bg-background-muted/85 text-foreground"
                     )}
                     onClick={link.onClick}
                   >
@@ -49,8 +49,9 @@ export function Nav({ links, isCollapsed }: NavProps) {
               <div
                 key={index}
                 className={cn(
-                  "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2 text-xs hover:cursor-pointer hover:bg-background-subtle w-full rounded-md",
-                  link.selected && "bg-background-muted"
+                  "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2 text-xs hover:cursor-pointer hover:bg-background-muted w-full rounded-md",
+                  link.selected &&
+                    "bg-background-muted/85 text-foreground-emphasis font-foreground"
                 )}
                 onClick={link.onClick}
               >

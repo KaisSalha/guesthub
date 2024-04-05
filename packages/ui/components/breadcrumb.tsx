@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronRightIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { DotsHorizontalIcon, SlashIcon } from "@radix-ui/react-icons";
 import { Slot } from "@radix-ui/react-slot";
 
 import { cn } from "../lib";
@@ -19,7 +19,7 @@ const BreadcrumbList = React.forwardRef<
   <ol
     ref={ref}
     className={cn(
-      "flex flex-wrap items-center gap-1.5 break-words text-sm sm:gap-2.5",
+      "flex flex-wrap items-center gap-1.5 break-words text-sm",
       className
     )}
     {...props}
@@ -51,7 +51,7 @@ const BreadcrumbLink = React.forwardRef<
     <Comp
       ref={ref}
       className={cn(
-        "transition-colors text-foreground-subtle hover:text-foreground-emphasis",
+        "transition-colors text-foreground-subtle hover:text-foreground-emphasis font-medium",
         className
       )}
       {...props}
@@ -83,10 +83,10 @@ const BreadcrumbSeparator = ({
   <li
     role="presentation"
     aria-hidden="true"
-    className={cn("[&>svg]:size-3.5", className)}
+    className={cn("[&>svg]:size-3.5 text-foreground-muted", className)}
     {...props}
   >
-    {children ?? <ChevronRightIcon />}
+    {children ?? <SlashIcon />}
   </li>
 );
 BreadcrumbSeparator.displayName = "BreadcrumbSeparator";

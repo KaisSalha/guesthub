@@ -47,19 +47,21 @@ export const Sidebar = () => {
       <div
         ref={panelRef}
         className={cn(
-          "flex flex-col bg-background-surface w-48 min-h-screen fixed border-r",
+          "flex flex-col bg-background-surface w-48 min-h-screen fixed border-r pt-4",
           isCollapsed && "w-12"
         )}
       >
         <div
           className={cn(
-            "w-full flex flex-row items-center mt-3 gap-1.5 mb-2",
+            "w-full flex flex-row items-center gap-1.5 mb-4",
             isCollapsed && "justify-center",
             !isCollapsed && "mx-5"
           )}
         >
           <Dribbble className="h-5 w-5 text-brand" />
-          {!isCollapsed && <p className="text-sm font-bold">GuestHub</p>}
+          {!isCollapsed && (
+            <p className="text-sm font-bold tracking-wider">GuestHub</p>
+          )}
         </div>
         {sections.map((section, index) => (
           <Fragment key={index}>
