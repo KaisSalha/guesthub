@@ -8,9 +8,12 @@ import {
   BreadcrumbSeparator,
   BreadcrumbList,
 } from "@guesthub/ui/breadcrumb";
+import { Calendar } from "@guesthub/ui/calendar";
 import { Card } from "@guesthub/ui/card";
 
 const Dashboard = () => {
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+
   return (
     <div className="flex flex-col gap-4 mb-4">
       <Breadcrumb>
@@ -40,7 +43,14 @@ const Dashboard = () => {
             Welcome to the dashboard. This is a great place to start.
           </Card.Description>
         </Card.Header>
-        <Card.Content className="flex flex-col gap-3"></Card.Content>
+        <Card.Content className="flex flex-col gap-3">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            className="rounded-md border shadow w-fit"
+          />
+        </Card.Content>
       </Card>
     </div>
   );
