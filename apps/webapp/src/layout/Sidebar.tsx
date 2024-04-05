@@ -59,9 +59,7 @@ export const Sidebar = () => {
           )}
         >
           <Dribbble className="h-5 w-5 text-brand" />
-          {!isCollapsed && (
-            <p className="text-sm font-bold tracking-wider">GuestHub</p>
-          )}
+          {!isCollapsed && <p className="font-bold tracking-wider">GuestHub</p>}
         </div>
         {sections.map((section, index) => (
           <Fragment key={index}>
