@@ -18,6 +18,9 @@ export default {
       },
     },
     extend: {
+      flexGrow: {
+        2: "2",
+      },
       fontFamily: {
         sans: ["var(--font-sans)"],
       },

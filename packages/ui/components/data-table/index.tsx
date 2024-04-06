@@ -146,7 +146,7 @@ const DataTable = <TData, TValue>({
         table={table}
         onCreateButtonClick={onCreateButtonClick}
       />
-      <div className="rounded-md border">
+      <div className="rounded-md border border-border-subtle">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

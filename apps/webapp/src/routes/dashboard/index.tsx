@@ -8,12 +8,152 @@ import {
   BreadcrumbSeparator,
   BreadcrumbList,
 } from "@guesthub/ui/breadcrumb";
-import { Calendar } from "@guesthub/ui/calendar";
 import { Card } from "@guesthub/ui/card";
+import { DataTable } from "@guesthub/ui/data-table";
+import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@guesthub/ui/button";
+import { Checkbox } from "@guesthub/ui/checkbox";
+import { SortAscIcon } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@guesthub/ui/dropdown-menu";
+
+export type Payment = {
+  id: string;
+  amount: number;
+  status: "pending" | "processing" | "success" | "failed";
+  email: string;
+};
+
+const data: Payment[] = [
+  {
+    id: "m5gr84i9",
+    amount: 316,
+    status: "success",
+    email: "ken99@yahoo.com",
+  },
+  {
+    id: "3u1reuv4",
+    amount: 242,
+    status: "success",
+    email: "Abe45@gmail.com",
+  },
+  {
+    id: "derv1ws0",
+    amount: 837,
+    status: "processing",
+    email: "Monserrat44@gmail.com",
+  },
+  {
+    id: "5kma53ae",
+    amount: 874,
+    status: "success",
+    email: "Silas22@gmail.com",
+  },
+  {
+    id: "bhqecj4p",
+    amount: 721,
+    status: "failed",
+    email: "carmella@hotmail.com",
+  },
+];
+
+export const columns: ColumnDef<Payment>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("status")}</div>
+    ),
+  },
+  {
+    accessorKey: "email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Email
+          <SortAscIcon className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+  },
+  {
+    accessorKey: "amount",
+    header: () => <div className="text-right">Amount</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("amount"));
+
+      // Format the amount as a dollar amount
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(amount);
+
+      return <div className="text-right font-medium">{formatted}</div>;
+    },
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const payment = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(payment.id)}
+            >
+              Copy payment ID
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>View customer</DropdownMenuItem>
+            <DropdownMenuItem>View payment details</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+];
 
 const Dashboard = () => {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
-
   return (
     <div className="flex flex-col gap-4 mb-4">
       <Breadcrumb>
@@ -36,22 +176,63 @@ const Dashboard = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Card className="bg-background-surface">
-        <Card.Header>
-          <Card.Title>Dashboard</Card.Title>
-          <Card.Description>
+      <div className="flex flex-row gap-5">
+        <Card variant="info">
+          <Card.Header>
+            <Card.Title>Dashboard</Card.Title>
+          </Card.Header>
+          <Card.Content className="text-foreground-info px-6">
             Welcome to the dashboard. This is a great place to start.
-          </Card.Description>
-        </Card.Header>
-        <Card.Content className="flex flex-col gap-3 p-6">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={setDate}
-            className="rounded-md border shadow w-fit"
+          </Card.Content>
+        </Card>
+        <Card variant="success">
+          <Card.Header>
+            <Card.Title>Dashboard</Card.Title>
+          </Card.Header>
+          <Card.Content className="text-foreground-success px-6">
+            Welcome to the dashboard. This is a great place to start.
+          </Card.Content>
+        </Card>
+        <Card variant="attention">
+          <Card.Header>
+            <Card.Title>Dashboard</Card.Title>
+          </Card.Header>
+          <Card.Content className="text-foreground-error px-6">
+            Welcome to the dashboard. This is a great place to start.
+          </Card.Content>
+        </Card>
+        <Card variant="error">
+          <Card.Header>
+            <Card.Title>Dashboard</Card.Title>
+          </Card.Header>
+          <Card.Content className="text-foreground-error px-6 pb-3">
+            Welcome to the dashboard. This is a great place to start.
+          </Card.Content>
+        </Card>
+      </div>
+
+      <div className="flex gap-2 flex-col sm:flex-row">
+        <div className="basis-0 grow-[2]">
+          <DataTable
+            loading={false}
+            data={data}
+            totalCount={data.length}
+            columns={columns}
           />
-        </Card.Content>
-      </Card>
+        </div>
+
+        <Card className="bg-background-surface basis-0 grow">
+          <Card.Header>
+            <Card.Title>Dashboard</Card.Title>
+            <Card.Description>
+              Welcome to the dashboard. This is a great place to start.
+            </Card.Description>
+          </Card.Header>
+          <Card.Content className="px-6 pb-3">
+            Welcome to the dashboard. This is a great place to start.
+          </Card.Content>
+        </Card>
+      </div>
     </div>
   );
 };
