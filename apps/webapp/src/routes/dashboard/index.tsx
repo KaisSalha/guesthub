@@ -10,7 +10,6 @@ import {
 } from "@guesthub/ui/breadcrumb";
 import { Card } from "@guesthub/ui/card";
 import { DataTable } from "@guesthub/ui/data-table";
-import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@guesthub/ui/button";
 import { Checkbox } from "@guesthub/ui/checkbox";
 import { SortAscIcon } from "lucide-react";
@@ -63,96 +62,6 @@ const data: Payment[] = [
   },
 ];
 
-export const columns: ColumnDef<Payment>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <SortAscIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
-
 const Dashboard = () => {
   return (
     <div className="flex flex-col gap-4 mb-4">
@@ -176,7 +85,7 @@ const Dashboard = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <div className="flex flex-row gap-5">
+      <div className="flex flex-col sm:flex-row gap-5">
         <Card variant="info">
           <Card.Header>
             <Card.Title>Dashboard</Card.Title>
@@ -217,20 +126,127 @@ const Dashboard = () => {
             loading={false}
             data={data}
             totalCount={data.length}
-            columns={columns}
+            columns={[
+              {
+                id: "select",
+                header: ({ table }) => (
+                  <Checkbox
+                    checked={
+                      table.getIsAllPageRowsSelected() ||
+                      (table.getIsSomePageRowsSelected() && "indeterminate")
+                    }
+                    onCheckedChange={(value) =>
+                      table.toggleAllPageRowsSelected(!!value)
+                    }
+                    aria-label="Select all"
+                  />
+                ),
+                cell: ({ row }) => (
+                  <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                  />
+                ),
+                enableSorting: false,
+                enableHiding: false,
+              },
+              {
+                accessorKey: "status",
+                header: "Status",
+                cell: ({ row }) => (
+                  <div className="capitalize">{row.getValue("status")}</div>
+                ),
+              },
+              {
+                accessorKey: "email",
+                header: ({ column }) => {
+                  return (
+                    <Button
+                      variant="ghost"
+                      onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                      }
+                    >
+                      Email
+                      <SortAscIcon className="ml-2 h-4 w-4" />
+                    </Button>
+                  );
+                },
+                cell: ({ row }) => (
+                  <div className="lowercase">{row.getValue("email")}</div>
+                ),
+              },
+              {
+                accessorKey: "amount",
+                header: () => <div className="text-right">Amount</div>,
+                cell: ({ row }) => {
+                  const amount = parseFloat(row.getValue("amount"));
+
+                  // Format the amount as a dollar amount
+                  const formatted = new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(amount);
+
+                  return (
+                    <div className="text-right font-medium">{formatted}</div>
+                  );
+                },
+              },
+              {
+                id: "actions",
+                enableHiding: false,
+                cell: ({ row }) => {
+                  const payment = row.original;
+
+                  return (
+                    <div className="flex flex-row justify-end pr-3">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button className="h-8 w-fit p-2 self-end">
+                            Open menu
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              navigator.clipboard.writeText(payment.id)
+                            }
+                          >
+                            Copy payment ID
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem>View customer</DropdownMenuItem>
+                          <DropdownMenuItem>
+                            View payment details
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  );
+                },
+              },
+            ]}
           />
         </div>
 
-        <Card className="bg-background-surface basis-0 grow">
+        <Card className="bg-background-surface basis-0 grow flex flex-col h-fit">
           <Card.Header>
             <Card.Title>Dashboard</Card.Title>
             <Card.Description>
               Welcome to the dashboard. This is a great place to start.
             </Card.Description>
           </Card.Header>
-          <Card.Content className="px-6 pb-3">
+          <Card.Content className="flex flex-1 grow items-center px-6 pb-4">
             Welcome to the dashboard. This is a great place to start.
           </Card.Content>
+          <Card.Footer className="flex justify-end">
+            <Button variant="destructive" className="self-end">
+              Delete
+            </Button>
+          </Card.Footer>
         </Card>
       </div>
     </div>

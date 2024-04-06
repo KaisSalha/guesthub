@@ -98,9 +98,20 @@ const DataTable = <TData, TValue>({
       columnFilters,
     ]);
 
+  const columnsMemo = useMemo(
+    () =>
+      loading
+        ? columns.map((column) => ({
+            ...column,
+            cell: () => <Skeleton className="w-40 h-8" />,
+          }))
+        : columns,
+    [loading, columns]
+  );
+
   const table = useReactTable({
     data,
-    columns,
+    columns: columnsMemo,
     state: {
       sorting,
       columnVisibility,
@@ -123,21 +134,55 @@ const DataTable = <TData, TValue>({
 
   if (loading)
     return (
-      <>
-        <div className="flex flex-row justify-between gap-3">
-          <Skeleton className="w-40 h-8" />
-          <Skeleton className="w-32 h-8" />
+      <div className="space-y-4">
+        <DataTableToolbar
+          table={table}
+          onCreateButtonClick={onCreateButtonClick}
+        />
+        <div className="rounded-md border border-border-subtle">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow
+                  key={headerGroup.id}
+                  className="bg-background-muted/40"
+                >
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id} colSpan={header.colSpan}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
-        <Skeleton className="w-full h-96" />
-        <div className="flex flex-row justify-between ">
-          <Skeleton className="w-40 h-8" />
-          <div className="flex flex-row justify-between gap-3">
-            <Skeleton className="w-32 h-8" />
-            <Skeleton className="w-32 h-8" />
-            <Skeleton className="w-40 h-8" />
-          </div>
-        </div>
-      </>
+        <DataTablePagination table={table} totalCount={0} />
+      </div>
     );
 
   return (
