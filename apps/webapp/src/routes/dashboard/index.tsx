@@ -43,7 +43,7 @@ const Dashboard = () => {
             Welcome to the dashboard. This is a great place to start.
           </Card.Description>
         </Card.Header>
-        <Card.Content className="flex flex-col gap-3">
+        <Card.Content className="flex flex-col gap-3 p-6">
           <Calendar
             mode="single"
             selected={date}
