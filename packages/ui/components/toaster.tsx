@@ -1,13 +1,17 @@
+import { MEDIA_QUERIES } from "../lib";
 import { useTheme } from "next-themes";
 import { Toaster as Sonner } from "sonner";
+import { useMediaQuery } from "usehooks-ts";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme();
+  const matches = useMediaQuery(MEDIA_QUERIES.MD);
 
   return (
     <Sonner
+      position={matches ? "bottom-right" : "top-center"}
       theme={theme as ToasterProps["theme"]}
       className="toaster group"
       toastOptions={{

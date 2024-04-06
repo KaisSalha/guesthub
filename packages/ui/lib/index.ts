@@ -1,6 +1,4 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { cn } from "./cn";
+import { MEDIA_QUERIES } from "./media-queries";
 
-export const cn = (...inputs: ClassValue[]) => {
-  return twMerge(clsx(inputs));
-};
+export { cn, MEDIA_QUERIES };
