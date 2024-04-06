@@ -21,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@guesthub/ui/dropdown-menu";
+import { toast } from "sonner";
 
 export type Payment = {
   id: string;
@@ -85,7 +86,7 @@ const Dashboard = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <div className="flex flex-col sm:flex-row gap-5">
+      <div className="flex flex-col md:flex-row gap-5">
         <Card variant="info">
           <Card.Header>
             <Card.Title>Dashboard</Card.Title>
@@ -120,7 +121,7 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      <div className="flex gap-2 flex-col sm:flex-row">
+      <div className="flex gap-2 flex-col md:flex-row">
         <div className="basis-0 grow-[2]">
           <DataTable
             loading={false}
@@ -211,9 +212,10 @@ const Dashboard = () => {
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
                           <DropdownMenuItem
-                            onClick={() =>
-                              navigator.clipboard.writeText(payment.id)
-                            }
+                            onClick={() => {
+                              navigator.clipboard.writeText(payment.id);
+                              toast.success("Payment ID copied to clipboard");
+                            }}
                           >
                             Copy payment ID
                           </DropdownMenuItem>
@@ -243,7 +245,11 @@ const Dashboard = () => {
             Welcome to the dashboard. This is a great place to start.
           </Card.Content>
           <Card.Footer className="flex justify-end">
-            <Button variant="destructive" className="self-end">
+            <Button
+              variant="destructive"
+              className="self-end"
+              onClick={() => toast.success("Deleted successfully")}
+            >
               Delete
             </Button>
           </Card.Footer>
