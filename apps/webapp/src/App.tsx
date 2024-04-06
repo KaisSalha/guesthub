@@ -10,7 +10,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { Provider } from "jotai";
-import { jotaiStore } from "./lib/jotaiStore";
+import { jotaiStore } from "./lib/jotai-store";
 import { setContext } from "@apollo/client/link/context";
 import { authAtom } from "./atoms/auth";
 import { ThemeProvider } from "next-themes";

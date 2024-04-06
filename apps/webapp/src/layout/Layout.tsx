@@ -1,4 +1,4 @@
-import { Sidebar } from "./Sidebar";
+import { Sidebar } from "./sidebar";
 
 interface LayoutProps {
   defaultLayout?: number[];

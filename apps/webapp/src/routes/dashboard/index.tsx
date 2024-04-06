@@ -65,7 +65,7 @@ const data: Payment[] = [
 
 const Dashboard = () => {
   return (
-    <div className="flex flex-col gap-4 mb-4">
+    <div className="flex flex-col gap-8 mb-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -91,7 +91,7 @@ const Dashboard = () => {
           <Card.Header>
             <Card.Title>Dashboard</Card.Title>
           </Card.Header>
-          <Card.Content className="text-foreground-info px-6">
+          <Card.Content className="text-foreground-info px-6 pb-3">
             Welcome to the dashboard. This is a great place to start.
           </Card.Content>
         </Card>
@@ -99,7 +99,7 @@ const Dashboard = () => {
           <Card.Header>
             <Card.Title>Dashboard</Card.Title>
           </Card.Header>
-          <Card.Content className="text-foreground-success px-6">
+          <Card.Content className="text-foreground-success px-6 pb-3">
             Welcome to the dashboard. This is a great place to start.
           </Card.Content>
         </Card>
@@ -107,7 +107,7 @@ const Dashboard = () => {
           <Card.Header>
             <Card.Title>Dashboard</Card.Title>
           </Card.Header>
-          <Card.Content className="text-foreground-error px-6">
+          <Card.Content className="text-foreground-error px-6 pb-3">
             Welcome to the dashboard. This is a great place to start.
           </Card.Content>
         </Card>
@@ -121,7 +121,7 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      <div className="flex gap-2 flex-col md:flex-row">
+      <div className="flex gap-5 flex-col md:flex-row">
         <div className="basis-0 grow-[2]">
           <DataTable
             loading={false}
