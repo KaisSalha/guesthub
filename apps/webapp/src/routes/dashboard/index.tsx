@@ -69,13 +69,13 @@ const Dashboard = () => {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink>
+            <BreadcrumbLink asChild>
               <Link href="/">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink>
+            <BreadcrumbLink asChild>
               <Link href="/components">Components</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
@@ -121,7 +121,7 @@ const Dashboard = () => {
         </Card>
       </div>
 
-      <div className="flex gap-8 md:gap-5 flex-col md:flex-row">
+      <div className="flex gap-5 flex-col md:flex-row">
         <div className="basis-0 grow-[2]">
           <DataTable
             loading={false}

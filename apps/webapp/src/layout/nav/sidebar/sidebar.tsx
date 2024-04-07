@@ -2,8 +2,8 @@ import {
   Dribbble,
   ChevronRight,
   ChevronLeft,
-  Settings,
   Home,
+  CircleUser,
 } from "lucide-react";
 import { Nav, NavProps } from "./nav";
 import { cn } from "@guesthub/ui/lib";
@@ -53,7 +53,7 @@ export const Sidebar = () => {
       >
         <div
           className={cn(
-            "w-full flex flex-row items-center gap-1.5 mb-4",
+            "w-full flex flex-row items-center gap-2 mb-4",
             isCollapsed && "justify-center",
             !isCollapsed && "mx-5"
           )}
@@ -71,8 +71,8 @@ export const Sidebar = () => {
             isCollapsed={isCollapsed}
             links={[
               {
-                title: "Settings",
-                icon: Settings,
+                title: "Profile",
+                icon: CircleUser,
                 selected: false,
                 onClick: () =>
                   router.navigate({

@@ -6,7 +6,6 @@ export interface NavProps {
   isCollapsed: boolean;
   links: {
     title: string;
-    label?: string;
     icon: LucideIcon;
     selected: boolean;
     onClick: () => void;
@@ -26,7 +25,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
               <TooltipTrigger asChild>
                 <div
                   className={cn(
-                    "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-xs hover:cursor-pointer hover:bg-background-emphasis rounded-lg px-2 mx-2 text-foreground-subtle",
+                    "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-sm hover:cursor-pointer hover:bg-background-emphasis rounded-lg px-2 mx-2 text-foreground-subtle",
                     link.selected && "bg-background-muted/85 text-foreground"
                   )}
                   onClick={link.onClick}
@@ -37,9 +36,6 @@ export function Nav({ links, isCollapsed }: NavProps) {
               </TooltipTrigger>
               <TooltipContent side="right" className="flex items-center gap-4">
                 {link.title}
-                {link.label && (
-                  <span className="ml-auto text-white">{link.label}</span>
-                )}
               </TooltipContent>
             </Tooltip>
           ) : (
@@ -47,7 +43,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
               <div
                 key={index}
                 className={cn(
-                  "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2 text-xs hover:cursor-pointer hover:bg-background-muted w-full rounded-md text-foreground-subtle",
+                  "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2.5 text-sm hover:cursor-pointer hover:bg-background-muted w-full rounded-md text-foreground-subtle",
                   link.selected && "bg-background-muted/85 text-foreground"
                 )}
                 onClick={link.onClick}
