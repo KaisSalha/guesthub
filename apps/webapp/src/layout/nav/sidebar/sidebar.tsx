@@ -4,8 +4,14 @@ import {
   ChevronLeft,
   Home,
   CircleUser,
+  Calendar,
+  Ticket,
+  Users,
+  UsersRound,
+  ConciergeBell,
+  LineChart,
 } from "lucide-react";
-import { Nav, NavProps } from "./nav";
+import { NavItem, NavProps } from "./nav-item";
 import { cn } from "@guesthub/ui/lib";
 import { Fragment, useCallback, useMemo, useRef, useState } from "react";
 import { useRouter, useRouterState } from "@tanstack/react-router";
@@ -23,6 +29,51 @@ export const Sidebar = () => {
           title: "Home",
           icon: Home,
           selected: routerState.location.pathname === "/dashboard",
+          onClick: () =>
+            router.navigate({
+              to: "/dashboard",
+            }),
+        },
+        {
+          title: "Events",
+          icon: Ticket,
+          selected: routerState.location.pathname === "/events",
+          onClick: () =>
+            router.navigate({
+              to: "/dashboard",
+            }),
+        },
+        {
+          title: "Calendar",
+          icon: Calendar,
+          selected: routerState.location.pathname === "/calendar",
+          onClick: () =>
+            router.navigate({
+              to: "/dashboard",
+            }),
+        },
+        {
+          title: "Requests",
+          icon: ConciergeBell,
+          selected: routerState.location.pathname === "/requests",
+          onClick: () =>
+            router.navigate({
+              to: "/dashboard",
+            }),
+        },
+        {
+          title: "Guests",
+          icon: UsersRound,
+          selected: routerState.location.pathname === "/guests",
+          onClick: () =>
+            router.navigate({
+              to: "/dashboard",
+            }),
+        },
+        {
+          title: "Reports",
+          icon: LineChart,
+          selected: routerState.location.pathname === "/reports",
           onClick: () =>
             router.navigate({
               to: "/dashboard",
@@ -63,13 +114,22 @@ export const Sidebar = () => {
         </div>
         {sections.map((section, index) => (
           <Fragment key={index}>
-            <Nav isCollapsed={isCollapsed} links={section} />
+            <NavItem isCollapsed={isCollapsed} links={section} />
           </Fragment>
         ))}
         <div className="mt-auto">
-          <Nav
+          <NavItem
             isCollapsed={isCollapsed}
             links={[
+              {
+                title: "Team",
+                icon: Users,
+                selected: routerState.location.pathname === "/team",
+                onClick: () =>
+                  router.navigate({
+                    to: "/dashboard",
+                  }),
+              },
               {
                 title: "Profile",
                 icon: CircleUser,
@@ -82,7 +142,7 @@ export const Sidebar = () => {
             ]}
           />
 
-          <Nav
+          <NavItem
             isCollapsed={isCollapsed}
             links={[
               {

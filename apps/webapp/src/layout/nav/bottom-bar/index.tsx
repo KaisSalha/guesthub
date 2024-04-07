@@ -1,7 +1,13 @@
 import React, { useMemo } from "react";
 import { NavItem, NavItemProp } from "./nav-item";
 import { useRouter, useRouterState } from "@tanstack/react-router";
-import { Calendar, Home, LayoutGrid, Ticket, Users } from "lucide-react";
+import {
+  Calendar,
+  ConciergeBell,
+  Home,
+  LayoutGrid,
+  Ticket,
+} from "lucide-react";
 
 export const BottomBar = () => {
   const router = useRouter();
@@ -19,15 +25,6 @@ export const BottomBar = () => {
           }),
       },
       {
-        title: "Calendar",
-        icon: Calendar,
-        selected: routerState.location.pathname === "/calendar",
-        onClick: () =>
-          router.navigate({
-            to: "/dashboard",
-          }),
-      },
-      {
         title: "Events",
         icon: Ticket,
         selected: routerState.location.pathname === "/events",
@@ -37,9 +34,18 @@ export const BottomBar = () => {
           }),
       },
       {
-        title: "Guests",
-        icon: Users,
-        selected: routerState.location.pathname === "/guests",
+        title: "Calendar",
+        icon: Calendar,
+        selected: routerState.location.pathname === "/calendar",
+        onClick: () =>
+          router.navigate({
+            to: "/dashboard",
+          }),
+      },
+      {
+        title: "Requests",
+        icon: ConciergeBell,
+        selected: routerState.location.pathname === "/requests",
         onClick: () =>
           router.navigate({
             to: "/dashboard",

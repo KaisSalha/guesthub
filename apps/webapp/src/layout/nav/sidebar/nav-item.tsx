@@ -12,7 +12,7 @@ export interface NavProps {
   }[];
 }
 
-export function Nav({ links, isCollapsed }: NavProps) {
+export function NavItem({ links, isCollapsed }: NavProps) {
   return (
     <div
       data-collapsed={isCollapsed}
@@ -34,9 +34,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
                   <span className="sr-only">{link.title}</span>
                 </div>
               </TooltipTrigger>
-              <TooltipContent side="right" className="flex items-center gap-4">
-                {link.title}
-              </TooltipContent>
+              <TooltipContent side="right">{link.title}</TooltipContent>
             </Tooltip>
           ) : (
             <div key={index} className="px-4">

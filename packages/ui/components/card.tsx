@@ -3,20 +3,23 @@ import * as React from "react";
 import { cn } from "../lib";
 import { VariantProps, cva } from "class-variance-authority";
 
-const cardVariants = cva("rounded-xl border border-border-subtle shadow-sm", {
-  variants: {
-    variant: {
-      default: "",
-      info: "bg-background-info border-none",
-      success: "bg-background-success border-none",
-      attention: "bg-background-attention border-none",
-      error: "bg-background-error border-none",
+const cardVariants = cva(
+  "rounded-xl border border-border-subtle shadow-sm w-full",
+  {
+    variants: {
+      variant: {
+        default: "",
+        info: "bg-background-info border-none",
+        success: "bg-background-success border-none",
+        attention: "bg-background-attention border-none",
+        error: "bg-background-error border-none",
+      },
     },
-  },
-  defaultVariants: {
-    variant: "default",
-  },
-});
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
 
 export interface CardProps
   extends React.HTMLAttributes<HTMLDivElement>,
