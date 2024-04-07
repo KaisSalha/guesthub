@@ -24,17 +24,15 @@ export function Nav({ links, isCollapsed }: NavProps) {
           isCollapsed ? (
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
-                <div className={cn("")}>
-                  <div
-                    className={cn(
-                      "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-xs hover:cursor-pointer hover:bg-background-emphasis rounded-lg px-2 mx-2 text-foreground-subtle",
-                      link.selected && "bg-background-muted/85 text-foreground"
-                    )}
-                    onClick={link.onClick}
-                  >
-                    <link.icon className={cn("h-4 w-4")} />
-                    <span className="sr-only">{link.title}</span>
-                  </div>
+                <div
+                  className={cn(
+                    "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-xs hover:cursor-pointer hover:bg-background-emphasis rounded-lg px-2 mx-2 text-foreground-subtle",
+                    link.selected && "bg-background-muted/85 text-foreground"
+                  )}
+                  onClick={link.onClick}
+                >
+                  <link.icon className={cn("h-4 w-4")} />
+                  <span className="sr-only">{link.title}</span>
                 </div>
               </TooltipTrigger>
               <TooltipContent side="right" className="flex items-center gap-4">
@@ -45,7 +43,7 @@ export function Nav({ links, isCollapsed }: NavProps) {
               </TooltipContent>
             </Tooltip>
           ) : (
-            <div key={index} className={cn("px-4")}>
+            <div key={index} className="px-4">
               <div
                 key={index}
                 className={cn(

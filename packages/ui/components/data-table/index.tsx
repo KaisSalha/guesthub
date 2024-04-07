@@ -103,7 +103,7 @@ const DataTable = <TData, TValue>({
       loading
         ? columns.map((column) => ({
             ...column,
-            cell: () => <Skeleton className="w-40 h-8" />,
+            cell: () => <Skeleton className="min-w-20 h-8" />,
           }))
         : columns,
     [loading, columns]
