@@ -20,6 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@guesthub/ui/dropdown-menu";
 import { toast } from "sonner";
+import { Badge } from "@guesthub/ui/badge";
 
 export type Payment = {
   id: string;
@@ -38,7 +39,7 @@ const data: Payment[] = [
   {
     id: "3u1reuv4",
     amount: 242,
-    status: "success",
+    status: "pending",
     email: "Abe45@gmail.com",
   },
   {
@@ -64,7 +65,7 @@ const data: Payment[] = [
 const Dashboard = () => {
   return (
     <div className="flex flex-col gap-8 mb-4">
-      <Breadcrumb>
+      <Breadcrumb className="hidden md:flex">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbPage>Home</BreadcrumbPage>
@@ -141,9 +142,20 @@ const Dashboard = () => {
               {
                 accessorKey: "status",
                 header: "Status",
-                cell: ({ row }) => (
-                  <div className="capitalize">{row.getValue("status")}</div>
-                ),
+                cell: ({ row }) => {
+                  switch (row.getValue("status")) {
+                    case "success":
+                      return <Badge variant="success">Success</Badge>;
+                    case "processing":
+                      return <Badge variant="info">Processing</Badge>;
+                    case "failed":
+                      return <Badge variant="destructive">Failed</Badge>;
+                    case "pending":
+                      return <Badge variant="attention">Pending</Badge>;
+                    default:
+                      return null;
+                  }
+                },
               },
               {
                 accessorKey: "email",

@@ -34,14 +34,21 @@ export default {
           muted: "hsl(var(--bg-muted))",
           emphasis: "hsl(var(--bg-emphasis))",
           inverted: "hsl(var(--bg-inverted))",
-          popover: "hsl(var(--bg-background-popover))",
 
-          info: "hsl(var(--bg-info))",
-          success: "hsl(var(--bg-success))",
-          attention: "hsl(var(--bg-attention))",
-          destructive: "hsl(var(--bg-destructive))",
+          info: {
+            DEFAULT: "hsl(var(--bg-info))",
+            dark: "hsl(var(--bg-info-dark))",
+          },
+          success: {
+            DEFAULT: "hsl(var(--bg-success))",
+            dark: "hsl(var(--bg-success-dark))",
+          },
+          attention: {
+            DEFAULT: "hsl(var(--bg-attention))",
+            dark: "hsl(var(--bg-attention-dark))",
+          },
           error: "hsl(var(--bg-error))",
-          darkerror: "hsl(var(--bg-dark-error))",
+          destructive: "hsl(var(--bg-destructive))",
         },
         border: {
           DEFAULT: "hsl(var(--border))",

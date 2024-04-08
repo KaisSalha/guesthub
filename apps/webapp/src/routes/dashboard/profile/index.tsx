@@ -12,7 +12,7 @@ import {
 const Profile = () => {
   return (
     <div className="flex flex-col gap-8 mb-4">
-      <Breadcrumb>
+      <Breadcrumb className="hidden md:flex">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>

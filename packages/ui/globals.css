@@ -24,12 +24,13 @@
 
     /* background -> components*/
     --bg-info: 218 83% 98%;
+    --bg-info-dark: 222 90% 57%;
     --bg-success: 134 76% 94%;
+    --bg-success-dark: 141 35% 39%;
     --bg-attention: 37 86% 92%;
-    --bg-destructive: 0 84.2 60.2%;
+    --bg-attention-dark: 43 91% 45%;
     --bg-error: 3 66% 93%;
-    --bg-dark-error: 2 55% 30%;
-    --bg-background-popover: 0 0 100%;
+    --bg-destructive: 0 84.2 60.2%;
 
     /* Borders */
     --border: 0 0% 87%;
@@ -72,15 +73,16 @@
     --bg-muted: 0 0 21%;
     --bg-emphasis: 0 0 26%;
     --bg-inverted: 0 0 96%;
-    --bg-background-popover: 0 0 12%;
 
     /* background -> components*/
     --bg-info: 228 56 33%;
+    --bg-info-dark: 228 56 33%;
     --bg-success: 133 34 24%;
+    --bg-success-dark: 133 34 24%;
     --bg-attention: 16 62 28%;
-    --bg-destructive: 0 62.8 40.6%;
+    --bg-attention-dark: 43 91% 30%;
     --bg-error: 2 55 30%;
-    --bg-dark-error: 2 55 30%;
+    --bg-destructive: 0 62.8 40.6%;
 
     /* Borders */
     --border: 0 0 22%;
