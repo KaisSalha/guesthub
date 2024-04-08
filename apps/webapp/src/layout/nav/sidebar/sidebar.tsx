@@ -13,12 +13,16 @@ import {
 } from "lucide-react";
 import { NavItem, NavProps } from "./nav-item";
 import { cn } from "@guesthub/ui/lib";
-import { Fragment, useCallback, useMemo, useRef, useState } from "react";
+import { Fragment, useCallback, useMemo, useRef } from "react";
 import { useRouter, useRouterState } from "@tanstack/react-router";
+import { atomWithStorage } from "jotai/utils";
+import { useAtom } from "jotai";
+
+const sidebarCollapsedAtom = atomWithStorage("sidebar-collapsed", false);
 
 export const Sidebar = () => {
   const panelRef = useRef<HTMLDivElement>(null);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useAtom(sidebarCollapsedAtom);
   const router = useRouter();
   const routerState = useRouterState();
 

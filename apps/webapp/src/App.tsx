@@ -56,7 +56,7 @@ function App() {
       <Suspense fallback={null}>
         <Provider store={jotaiStore}>
           <ApolloProvider client={client}>
-            <ThemeProvider attribute="class">
+            <ThemeProvider attribute="class" disableTransitionOnChange>
               <TooltipProvider delayDuration={0}>
                 <RouterProvider router={router} />
               </TooltipProvider>
