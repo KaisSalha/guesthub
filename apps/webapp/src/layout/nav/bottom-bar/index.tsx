@@ -27,34 +27,38 @@ export const BottomBar = () => {
       {
         title: "Events",
         icon: Ticket,
-        selected: routerState.location.pathname === "/events",
+        selected: routerState.location.pathname.startsWith("/dashboard/events"),
         onClick: () =>
           router.navigate({
-            to: "/dashboard",
+            to: "/dashboard/events",
           }),
       },
       {
         title: "Calendar",
         icon: Calendar,
-        selected: routerState.location.pathname === "/calendar",
+        selected: routerState.location.pathname.startsWith(
+          "/dashboard/calendar"
+        ),
         onClick: () =>
           router.navigate({
-            to: "/dashboard",
+            to: "/dashboard/calendar",
           }),
       },
       {
         title: "Requests",
         icon: ConciergeBell,
-        selected: routerState.location.pathname === "/requests",
+        selected: routerState.location.pathname.startsWith(
+          "/dashboard/requests"
+        ),
         onClick: () =>
           router.navigate({
-            to: "/dashboard",
+            to: "/dashboard/requests",
           }),
       },
       {
         title: "More",
         icon: LayoutGrid,
-        selected: routerState.location.pathname === "/more",
+        selected: routerState.location.pathname.startsWith("/dashboard/more"),
         onClick: () =>
           router.navigate({
             to: "/dashboard",

@@ -25,8 +25,8 @@ export function NavItem({ links, isCollapsed }: NavProps) {
               <TooltipTrigger asChild>
                 <div
                   className={cn(
-                    "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-sm hover:cursor-pointer hover:bg-background-emphasis rounded-lg px-2 mx-2 text-foreground-subtle",
-                    link.selected && "bg-background-muted/85 text-foreground"
+                    "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-sm hover:cursor-pointer hover:bg-background-emphasis rounded-lg px-2 mx-2 text-foreground-subtle/80",
+                    link.selected && "bg-background-muted/90 text-foreground"
                   )}
                   onClick={link.onClick}
                 >
@@ -41,8 +41,8 @@ export function NavItem({ links, isCollapsed }: NavProps) {
               <div
                 key={index}
                 className={cn(
-                  "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2.5 text-sm hover:cursor-pointer hover:bg-background-muted w-full rounded-md text-foreground-subtle",
-                  link.selected && "bg-background-muted/85 text-foreground"
+                  "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2.5 text-sm hover:cursor-pointer hover:bg-background-muted w-full rounded-md text-foreground-subtle/80",
+                  link.selected && "bg-background-muted/90 text-foreground"
                 )}
                 onClick={link.onClick}
               >

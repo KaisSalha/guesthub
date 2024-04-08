@@ -15,6 +15,13 @@ import { Route as DashboardImport } from './routes/dashboard'
 import { Route as IndexImport } from './routes/index'
 import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as DashboardTeamIndexImport } from './routes/dashboard/team/index'
+import { Route as DashboardRequestsIndexImport } from './routes/dashboard/requests/index'
+import { Route as DashboardReportsIndexImport } from './routes/dashboard/reports/index'
+import { Route as DashboardProfileIndexImport } from './routes/dashboard/profile/index'
+import { Route as DashboardGuestsIndexImport } from './routes/dashboard/guests/index'
+import { Route as DashboardEventsIndexImport } from './routes/dashboard/events/index'
+import { Route as DashboardCalendarIndexImport } from './routes/dashboard/calendar/index'
 
 // Create/Update Routes
 
@@ -38,6 +45,41 @@ const DashboardIndexRoute = DashboardIndexImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
+const DashboardTeamIndexRoute = DashboardTeamIndexImport.update({
+  path: '/team/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardRequestsIndexRoute = DashboardRequestsIndexImport.update({
+  path: '/requests/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardReportsIndexRoute = DashboardReportsIndexImport.update({
+  path: '/reports/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardProfileIndexRoute = DashboardProfileIndexImport.update({
+  path: '/profile/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardGuestsIndexRoute = DashboardGuestsIndexImport.update({
+  path: '/guests/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardEventsIndexRoute = DashboardEventsIndexImport.update({
+  path: '/events/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardCalendarIndexRoute = DashboardCalendarIndexImport.update({
+  path: '/calendar/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -58,6 +100,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginIndexImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/calendar/': {
+      preLoaderRoute: typeof DashboardCalendarIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/events/': {
+      preLoaderRoute: typeof DashboardEventsIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/guests/': {
+      preLoaderRoute: typeof DashboardGuestsIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/profile/': {
+      preLoaderRoute: typeof DashboardProfileIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/reports/': {
+      preLoaderRoute: typeof DashboardReportsIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/requests/': {
+      preLoaderRoute: typeof DashboardRequestsIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/team/': {
+      preLoaderRoute: typeof DashboardTeamIndexImport
+      parentRoute: typeof DashboardImport
+    }
   }
 }
 
@@ -65,7 +135,16 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  DashboardRoute.addChildren([DashboardIndexRoute]),
+  DashboardRoute.addChildren([
+    DashboardIndexRoute,
+    DashboardCalendarIndexRoute,
+    DashboardEventsIndexRoute,
+    DashboardGuestsIndexRoute,
+    DashboardProfileIndexRoute,
+    DashboardReportsIndexRoute,
+    DashboardRequestsIndexRoute,
+    DashboardTeamIndexRoute,
+  ]),
   LoginIndexRoute,
 ])
 

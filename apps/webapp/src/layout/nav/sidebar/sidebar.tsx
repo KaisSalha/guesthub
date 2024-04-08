@@ -37,46 +37,53 @@ export const Sidebar = () => {
         {
           title: "Events",
           icon: Ticket,
-          selected: routerState.location.pathname === "/events",
+          selected:
+            routerState.location.pathname.startsWith("/dashboard/events"),
           onClick: () =>
             router.navigate({
-              to: "/dashboard",
+              to: "/dashboard/events",
             }),
         },
         {
           title: "Calendar",
           icon: Calendar,
-          selected: routerState.location.pathname === "/calendar",
+          selected: routerState.location.pathname.startsWith(
+            "/dashboard/calendar"
+          ),
           onClick: () =>
             router.navigate({
-              to: "/dashboard",
+              to: "/dashboard/calendar",
             }),
         },
         {
           title: "Requests",
           icon: ConciergeBell,
-          selected: routerState.location.pathname === "/requests",
+          selected: routerState.location.pathname.startsWith(
+            "/dashboard/requests"
+          ),
           onClick: () =>
             router.navigate({
-              to: "/dashboard",
+              to: "/dashboard/requests",
             }),
         },
         {
           title: "Guests",
           icon: UsersRound,
-          selected: routerState.location.pathname === "/guests",
+          selected:
+            routerState.location.pathname.startsWith("/dashboard/guests"),
           onClick: () =>
             router.navigate({
-              to: "/dashboard",
+              to: "/dashboard/guests",
             }),
         },
         {
           title: "Reports",
           icon: LineChart,
-          selected: routerState.location.pathname === "/reports",
+          selected:
+            routerState.location.pathname.startsWith("/dashboard/reports"),
           onClick: () =>
             router.navigate({
-              to: "/dashboard",
+              to: "/dashboard/reports",
             }),
         },
       ],
@@ -124,19 +131,23 @@ export const Sidebar = () => {
               {
                 title: "Team",
                 icon: Users,
-                selected: routerState.location.pathname === "/team",
+                selected:
+                  routerState.location.pathname.startsWith("/dashboard/team"),
                 onClick: () =>
                   router.navigate({
-                    to: "/dashboard",
+                    to: "/dashboard/team",
                   }),
               },
               {
                 title: "Profile",
                 icon: CircleUser,
-                selected: false,
+                selected:
+                  routerState.location.pathname.startsWith(
+                    "/dashboard/profile"
+                  ),
                 onClick: () =>
                   router.navigate({
-                    to: "/dashboard",
+                    to: "/dashboard/profile",
                   }),
               },
             ]}
