@@ -145,7 +145,7 @@ const DataTable = <TData, TValue>({
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow
                   key={headerGroup.id}
-                  className="bg-background-muted/40"
+                  className="bg-background-surface"
                 >
                   {headerGroup.headers.map((header) => {
                     return (

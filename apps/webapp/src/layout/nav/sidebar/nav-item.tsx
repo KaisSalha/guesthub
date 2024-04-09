@@ -22,9 +22,9 @@ export function NavItem({ links, isCollapsed }: NavProps) {
               <TooltipTrigger asChild>
                 <div
                   className={cn(
-                    "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-sm hover:cursor-pointer hover:bg-background-muted/80 rounded-lg px-2 mx-2 text-foreground-subtle/75 border border-border/0",
+                    "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 text-sm hover:cursor-pointer hover:bg-background-muted/80 rounded-lg px-2 mx-2 text-foreground-subtle/70 border border-border/0",
                     link.selected &&
-                      "bg-background-muted/90 text-foreground border-border/100",
+                      "bg-background-subtle text-foreground border-border/100",
                     !link.selected && "hover:text-foreground-subtle/90"
                   )}
                   onClick={link.onClick}
@@ -40,9 +40,9 @@ export function NavItem({ links, isCollapsed }: NavProps) {
               <div
                 key={index}
                 className={cn(
-                  "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2.5 text-sm hover:cursor-pointer hover:bg-background-muted/80 w-full rounded-md text-foreground-subtle/75 border border-border/0",
+                  "inline-flex items-center whitespace-nowrap font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2.5 text-sm hover:cursor-pointer hover:bg-background-muted/80 w-full rounded-md text-foreground-subtle/70 border border-border/0",
                   link.selected &&
-                    "bg-background-muted/90 text-foreground border-border/100",
+                    "bg-background-subtle text-foreground border-border/100",
                   !link.selected && "hover:text-foreground-subtle/90"
                 )}
                 onClick={link.onClick}
