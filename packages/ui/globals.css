@@ -67,12 +67,12 @@
   [data-theme="dark"] {
     /* background */
 
-    --bg: 0 0 10%;
-    --bg-surface: 0 0 12%;
-    --bg-subtle: 0 0 18%;
-    --bg-muted: 0 0 21%;
-    --bg-emphasis: 0 0 26%;
-    --bg-inverted: 0 0 96%;
+    --bg: 230 10 10%;
+    --bg-surface: 230 10 12%;
+    --bg-subtle: 230 10 18%;
+    --bg-muted: 230 10 21%;
+    --bg-emphasis: 230 10 26%;
+    --bg-inverted: 230 10 93%;
 
     /* background -> components*/
     --bg-info: 228 56 33%;

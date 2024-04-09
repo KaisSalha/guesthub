@@ -102,15 +102,15 @@ export const Sidebar = () => {
   return (
     <div
       className={cn(
-        "hidden md:flex flex-col bg-background-surface w-48",
-        isCollapsed && "w-12"
+        "hidden md:flex flex-col bg-background w-48",
+        isCollapsed && "w-14"
       )}
     >
       <div
         ref={panelRef}
         className={cn(
           "hidden md:flex flex-col bg-background-surface w-48 min-h-screen fixed border-r border-border-subtle pt-4",
-          isCollapsed && "w-12"
+          isCollapsed && "w-auto"
         )}
       >
         <div
