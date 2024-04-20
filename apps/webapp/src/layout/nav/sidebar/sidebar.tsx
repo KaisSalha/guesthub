@@ -109,7 +109,7 @@ export const Sidebar = () => {
       <div
         ref={panelRef}
         className={cn(
-          "hidden md:flex flex-col bg-background-surface w-48 min-h-screen fixed border-r border-border-subtle pt-4",
+          "hidden md:flex flex-col bg-background-surface w-48 min-h-screen fixed border-r border-border-subtle pt-5",
           isCollapsed && "w-auto"
         )}
       >
@@ -120,7 +120,7 @@ export const Sidebar = () => {
             !isCollapsed && "mx-5"
           )}
         >
-          <Dribbble className="h-5 w-5 text-brand" />
+          <Dribbble size={22} className="text-brand" />
           {!isCollapsed && <p className="font-bold tracking-wider">GuestHub</p>}
         </div>
         {sections.map((section, index) => (

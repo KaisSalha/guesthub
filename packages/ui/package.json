@@ -31,6 +31,7 @@
     "./globals.css": "./globals.css",
     "./hover-card": "./components/hover-card.tsx",
     "./input": "./components/input.tsx",
+    "./kbd": "./components/kbd.tsx",
     "./label": "./components/label.tsx",
     "./menubar": "./components/menubar.tsx",
     "./pagination": "./components/pagination.tsx",
@@ -106,7 +107,8 @@
     "tailwindcss-animate": "^1.0.7",
     "usehooks-ts": "^3.1.0",
     "vaul": "^0.9.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "lucide-react": "^0.365.0"
   },
   "devDependencies": {
     "@guesthub/tsconfig": "workspace:*",

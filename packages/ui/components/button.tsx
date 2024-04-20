@@ -13,7 +13,7 @@ const buttonVariants = cva(
           "bg-background-inverted text-foreground-inverted shadow hover:bg-background-inverted/90",
         destructive:
           "bg-background-destructive text-white shadow-sm hover:bg-background-destructive/90",
-        outline: "border bg-background shadow-sm hover:bg-background-muted",
+        outline: "border bg-background shadow-sm hover:bg-background-subtle/80",
         secondary: "bg-background-muted shadow-sm hover:bg-background-muted/80",
         ghost: "hover:bg-background-muted",
         link: "underline-offset-4 hover:underline",
