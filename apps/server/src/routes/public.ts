@@ -1,10 +1,11 @@
+import { User, UserInsert } from "@/db/schemas/users";
 import { login, signup } from "@/services/auth";
 import { FastifyInstance } from "fastify";
 import { FastifyRequest } from "fastify/types/request";
 
 export const publicRoutes = async (app: FastifyInstance) => {
 	await app.register(import("@fastify/rate-limit"), {
-		max: 15,
+		max: 10,
 		timeWindow: 1000 * 60 * 5,
 	});
 
@@ -12,13 +13,32 @@ export const publicRoutes = async (app: FastifyInstance) => {
 		"/signup",
 		async (
 			req: FastifyRequest<{
-				Body: { email: string; password: string };
-			}>
+				Body: Pick<UserInsert, "email" | "password" | "type">;
+			}>,
+			reply
 		) => {
-			return await signup({
-				email: req.body.email,
-				password: req.body.password,
-			});
+			try {
+				const cookie = await signup({
+					email: req.body.email,
+					password: req.body.password,
+					type: req.body.type,
+				});
+
+				reply.header("Set-Cookie", cookie.serialize());
+
+				return;
+			} catch (error) {
+				reply.status(400);
+
+				if (error instanceof Error)
+					return {
+						error: error.message,
+					};
+
+				return {
+					error: "SOMETHING_WENT_WRONG",
+				};
+			}
 		}
 	);
 
@@ -26,13 +46,31 @@ export const publicRoutes = async (app: FastifyInstance) => {
 		"/login",
 		async (
 			req: FastifyRequest<{
-				Body: { email: string; password: string };
-			}>
+				Body: Pick<User, "email" | "password">;
+			}>,
+			reply
 		) => {
-			return await login({
-				email: req.body.email,
-				password: req.body.password,
-			});
+			try {
+				const cookie = await login({
+					email: req.body.email,
+					password: req.body.password,
+				});
+
+				reply.header("Set-Cookie", cookie.serialize());
+
+				return;
+			} catch (error) {
+				reply.status(400);
+
+				if (error instanceof Error)
+					return {
+						error: error.message,
+					};
+
+				return {
+					error: "SOMETHING_WENT_WRONG",
+				};
+			}
 		}
 	);
 };

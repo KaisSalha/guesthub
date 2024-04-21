@@ -1,9 +1,51 @@
 {
-  "id": "5b5b08af-aa6f-4d28-97b9-dcfbd12c2892",
+  "id": "ac9c6483-5397-45c9-913a-f2b15ac9b866",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
+    "sessions": {
+      "name": "sessions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sessions_user_id_users_id_fk": {
+          "name": "sessions_user_id_users_id_fk",
+          "tableFrom": "sessions",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "users": {
       "name": "users",
       "schema": "",
@@ -39,12 +81,11 @@
           "primaryKey": false,
           "notNull": false
         },
-        "role": {
-          "name": "role",
-          "type": "user_role",
+        "user_type": {
+          "name": "user_type",
+          "type": "user_type",
           "primaryKey": false,
-          "notNull": true,
-          "default": "'user'"
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -61,11 +102,11 @@
     }
   },
   "enums": {
-    "user_role": {
-      "name": "user_role",
+    "user_type": {
+      "name": "user_type",
       "values": {
-        "admin": "admin",
-        "user": "user"
+        "org": "org",
+        "guest": "guest"
       }
     }
   },

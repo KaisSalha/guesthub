@@ -3,18 +3,14 @@ import RelayPlugin from "@pothos/plugin-relay";
 import DataloaderPlugin from "@pothos/plugin-dataloader";
 import { ContextType } from "./context";
 import ComplexityPlugin from "@pothos/plugin-complexity";
-import ScopeAuthPlugin from "@pothos/plugin-scope-auth";
 
 const builder = new SchemaBuilder<{
 	Connection: {
 		totalCount: number;
 	};
 	Context: ContextType;
-	AuthScopes: {
-		admin: boolean;
-	};
 }>({
-	plugins: [DataloaderPlugin, RelayPlugin, ScopeAuthPlugin, ComplexityPlugin],
+	plugins: [DataloaderPlugin, RelayPlugin, ComplexityPlugin],
 	relayOptions: {
 		clientMutationId: "omit",
 		cursorType: "String",
@@ -28,9 +24,6 @@ const builder = new SchemaBuilder<{
 			breadth: 50,
 		}),
 	},
-	authScopes: async (context: ContextType) => ({
-		admin: context.isAdmin ?? false,
-	}),
 });
 
 builder.globalConnectionField("totalCount", (t) =>

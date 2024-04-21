@@ -1,35 +1,40 @@
-import { verifyToken } from "@/services/auth";
+import { lucia } from "@/lib/auth";
 import { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 
 const plugin = async function (app: FastifyInstance): Promise<void> {
-	app.decorate("userToken", null);
+	app.decorate("user", null);
 
 	app.addHook("onRequest", async (request, reply) => {
-		const authorizationHeader = request.headers.authorization;
+		if (!request.headers.cookie) return;
 
-		if (!authorizationHeader) {
+		const sessionId = lucia.readSessionCookie(request.headers.cookie);
+
+		if (!sessionId) {
 			reply.code(401).send({ error: "Unauthorized" });
 			return;
 		}
 
-		const token = authorizationHeader.split(" ")[1];
+		const { session, user } = await lucia.validateSession(sessionId);
 
-		if (!token) {
+		if (!user) {
 			reply.code(401).send({ error: "Unauthorized" });
 			return;
 		}
 
-		let tokenPayload;
+		if (session && session.fresh)
+			reply.header(
+				"Set-Cookie",
+				lucia.createSessionCookie(session.id).serialize()
+			);
 
-		try {
-			tokenPayload = verifyToken(token);
-		} catch (err) {
-			reply.code(401).send({ error: "Unauthorized" });
-			return;
-		}
+		if (!session)
+			reply.header(
+				"Set-Cookie",
+				lucia.createBlankSessionCookie().serialize()
+			);
 
-		request.userToken = tokenPayload;
+		request.user = user;
 	});
 };
 

@@ -25,10 +25,6 @@ if (
 	throw new Error("S3_KEYS_NOT_SET");
 }
 
-if (!process.env.JWT_SECRET) {
-	throw new Error("JWT_SECRET_NOT_SET");
-}
-
 if (!process.env.OPENAI_API_KEY) {
 	throw new Error("OPENAI_API_KEY_NOT_SET");
 }
@@ -61,6 +57,5 @@ export const config = {
 		BUCKET_NAME: process.env.S3_BUCKET_NAME,
 		REGION: process.env.S3_REGION,
 	},
-	JWT_SECRET: process.env.JWT_SECRET,
 	OPENAI_API_KEY: process.env.OPENAI_API_KEY,
 };

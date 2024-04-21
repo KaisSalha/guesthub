@@ -1,7 +1,7 @@
-import { TokenPayload } from "../services/auth";
+import { User } from "lucia";
 
 declare module "fastify" {
 	export interface FastifyRequest {
-		userToken?: TokenPayload | undefined;
+		user: User;
 	}
 }

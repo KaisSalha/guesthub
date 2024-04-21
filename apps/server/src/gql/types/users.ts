@@ -28,7 +28,7 @@ UsersNode.implement({
 		email: t.exposeString("email"),
 		first_name: t.exposeString("first_name", { nullable: true }),
 		last_name: t.exposeString("last_name", { nullable: true }),
-		role: t.exposeString("role"),
+		type: t.exposeString("type"),
 		created_at: t.string({
 			nullable: true,
 			resolve: (parent) => parent.created_at.toISOString(),
@@ -48,9 +48,6 @@ builder.queryFields((t) => ({
 	users: t.field({
 		type: [UsersNode],
 		nullable: true,
-		authScopes: {
-			admin: true,
-		},
 		args: {
 			ids: t.arg.globalIDList({ required: false }),
 		},

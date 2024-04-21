@@ -1,5 +1,5 @@
 {
-	"extends": "@guesthub/tsconfig/base.json",
+	"extends": "@guesthub/tsconfig/node.json",
 	"compilerOptions": {
 		"rootDir": ".",
 		"baseUrl": ".",

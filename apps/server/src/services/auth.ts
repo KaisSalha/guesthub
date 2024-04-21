@@ -1,89 +1,33 @@
-import { config } from "@/config";
-import { db } from "@/db";
-import { User, users } from "@/db/schemas/users";
-import argon2 from "argon2";
-import { createSigner, createVerifier } from "fast-jwt";
+import { db } from "@/db/index.js";
+import { lucia } from "../lib/auth.js";
+import { Argon2id } from "oslo/password";
+import { users, UserInsert } from "@/db/schemas/users.js";
 
-export interface TokenPayload {
-	id: string;
-	first_name: string | null;
-	last_name: string | null;
-	email: string;
-	role: string;
-	exp: number;
-}
-
-const signSync = createSigner({ key: config.JWT_SECRET });
-const verifySync = createVerifier({ key: config.JWT_SECRET });
-
-const generateToken = (user: User) => {
-	const today = new Date();
-	const exp = new Date(today);
-	exp.setDate(today.getDate() + 60);
-
-	const payload: TokenPayload = {
-		id: user.id,
-		first_name: user.first_name,
-		last_name: user.last_name,
-		email: user.email,
-		role: user.role,
-		exp: exp.getTime(),
-	};
-
-	return signSync(payload);
-};
-
-export const verifyToken = (token: string) => {
-	try {
-		const payload: TokenPayload = verifySync(token);
-
-		// Check expiry
-		if (payload.exp < Date.now()) {
-			throw new Error("TOKEN_EXPIRED");
-		}
-
-		return payload;
-	} catch (err) {
-		throw new Error("TOKEN_INVALID");
-	}
-};
-
-export const signup = async ({
-	email,
-	password,
-}: {
-	email: string;
-	password: string;
-}) => {
-	const hashedPassword = await argon2.hash(password);
+export const signup = async ({ email, password, type }: UserInsert) => {
+	const hashedPassword = await new Argon2id().hash(password);
 
 	const [user] = await db
 		.insert(users)
 		.values({
 			email,
 			password: hashedPassword,
+			type,
 		})
 		.returning()
 		.execute();
 
 	if (!user) {
-		throw new Error("Something went wrong");
+		throw new Error("SOMETHING_WENT_WRONG");
 	}
 
-	const token = generateToken(user);
-
-	const returnUser: Partial<User> = {
-		id: user.id,
+	const session = await lucia.createSession(user.id, {
+		email: user.email,
 		first_name: user.first_name,
 		last_name: user.last_name,
-		email: user.email,
-		role: user.role,
-	};
+		type: user.type,
+	});
 
-	return {
-		user: returnUser,
-		token,
-	};
+	return lucia.createSessionCookie(session.id);
 };
 
 export const login = async ({
@@ -101,24 +45,28 @@ export const login = async ({
 		throw new Error("INVALID_EMAIL_OR_PASSWORD");
 	}
 
-	const validPassword = await argon2.verify(user.password, password);
+	const validPassword = await new Argon2id().verify(user.password, password);
 
 	if (!validPassword) {
 		throw new Error("INVALID_EMAIL_OR_PASSWORD");
 	}
 
-	const token = generateToken(user);
-
-	const returnUser: Partial<User> = {
-		id: user.id,
+	const session = await lucia.createSession(user.id, {
+		email: user.email,
 		first_name: user.first_name,
 		last_name: user.last_name,
-		email: user.email,
-		role: user.role,
-	};
+		type: user.type,
+	});
 
-	return {
-		user: returnUser,
-		token,
-	};
+	return lucia.createSessionCookie(session.id);
+};
+
+export const logout = async (cookie: string | undefined) => {
+	if (cookie) {
+		const sessionId = lucia.readSessionCookie(cookie);
+
+		if (sessionId) await lucia.invalidateSession(sessionId);
+	}
+
+	return lucia.createBlankSessionCookie();
 };
