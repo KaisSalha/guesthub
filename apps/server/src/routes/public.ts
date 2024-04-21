@@ -4,10 +4,10 @@ import { FastifyInstance } from "fastify";
 import { FastifyRequest } from "fastify/types/request";
 
 export const publicRoutes = async (app: FastifyInstance) => {
-	await app.register(import("@fastify/rate-limit"), {
-		max: 10,
-		timeWindow: 1000 * 60 * 5,
-	});
+	// await app.register(import("@fastify/rate-limit"), {
+	// 	max: 10,
+	// 	timeWindow: 1000 * 60 * 5,
+	// });
 
 	app.post(
 		"/signup",
@@ -26,7 +26,9 @@ export const publicRoutes = async (app: FastifyInstance) => {
 
 				reply.header("Set-Cookie", cookie.serialize());
 
-				return;
+				return {
+					message: "User created successfully",
+				};
 			} catch (error) {
 				reply.status(400);
 
@@ -58,7 +60,9 @@ export const publicRoutes = async (app: FastifyInstance) => {
 
 				reply.header("Set-Cookie", cookie.serialize());
 
-				return;
+				return {
+					message: "Logged in successfully",
+				};
 			} catch (error) {
 				reply.status(400);
 

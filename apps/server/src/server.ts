@@ -9,7 +9,26 @@ export const buildServer = async (opts = {}) => {
 
 	if (!config.isDev) app.register(import("@fastify/helmet"));
 	app.register(import("@fastify/cors"), {
-		origin: "*",
+		origin: (origin, cb) => {
+			if (!origin) {
+				// Request without origin will pass
+				cb(null, true);
+				return;
+			}
+
+			const hostname = new URL(origin).hostname;
+
+			if (hostname === "localhost") {
+				//  Request from localhost will pass
+				cb(null, true);
+				return;
+			}
+
+			// Generate an error on other origins, disabling access
+			cb(new Error("Not allowed"), false);
+		},
+		methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+		credentials: true,
 	});
 	app.register(import("@fastify/compress"), { customTypes: /x-protobuf$/ });
 	app.register(import("fastify-healthcheck"));

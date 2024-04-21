@@ -6,7 +6,10 @@ const plugin = async function (app: FastifyInstance): Promise<void> {
 	app.decorate("user", null);
 
 	app.addHook("onRequest", async (request, reply) => {
-		if (!request.headers.cookie) return;
+		if (!request.headers.cookie) {
+			reply.code(401).send({ error: "Unauthorized" });
+			return;
+		}
 
 		const sessionId = lucia.readSessionCookie(request.headers.cookie);
 

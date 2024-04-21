@@ -11,26 +11,17 @@ import {
 } from "@apollo/client";
 import { Provider } from "jotai";
 import { jotaiStore } from "./lib/jotai-store";
-import { setContext } from "@apollo/client/link/context";
-import { authAtom } from "./atoms/auth";
 import { ThemeProvider } from "next-themes";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./lib/react-query";
 
 const httpLink = createHttpLink({
   uri: `${import.meta.env.VITE_API_ENDPOINT}/graphql`,
-});
-
-const authLink = setContext((_, { headers }) => {
-  const token = jotaiStore.get(authAtom).token;
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    },
-  };
+  credentials: "include",
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: httpLink,
   cache: new InMemoryCache(),
 });
 
@@ -55,13 +46,15 @@ function App() {
     <>
       <Suspense fallback={null}>
         <Provider store={jotaiStore}>
-          <ApolloProvider client={client}>
-            <ThemeProvider attribute="class" disableTransitionOnChange>
-              <TooltipProvider delayDuration={0}>
-                <RouterProvider router={router} />
-              </TooltipProvider>
-            </ThemeProvider>
-          </ApolloProvider>
+          <QueryClientProvider client={queryClient}>
+            <ApolloProvider client={client}>
+              <ThemeProvider attribute="class" disableTransitionOnChange>
+                <TooltipProvider delayDuration={0}>
+                  <RouterProvider router={router} />
+                </TooltipProvider>
+              </ThemeProvider>
+            </ApolloProvider>
+          </QueryClientProvider>
         </Provider>
       </Suspense>
       <Toaster />

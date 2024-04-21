@@ -16,6 +16,10 @@ export const privateRoutes = async (app: FastifyInstance) => {
 		timeWindow: 1000 * 60 * 1,
 	});
 
+	app.get("/me", async (request: FastifyRequest) => {
+		return request.user;
+	});
+
 	app.post(
 		"/generate-file-upload-presigned-url",
 		async (

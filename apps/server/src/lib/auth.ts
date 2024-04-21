@@ -1,3 +1,4 @@
+import { config } from "@/config";
 import { db } from "@/db";
 import { sessions } from "@/db/schemas/sessions";
 import { users, User } from "@/db/schemas/users";
@@ -8,8 +9,11 @@ const adapter = new DrizzlePostgreSQLAdapter(db, sessions, users);
 
 export const lucia = new Lucia(adapter, {
 	sessionCookie: {
+		expires: false,
 		attributes: {
-			secure: process.env.NODE_ENV === "production",
+			secure: true,
+			// @ts-expect-error only "none" works but is not included in the interface
+			sameSite: config.isProd ? "strict" : "none",
 		},
 	},
 	getUserAttributes: (attributes) => {

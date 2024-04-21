@@ -36,6 +36,7 @@ export const config = {
 	PORT: process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
 	ENV: process.env.NODE_ENV,
 	isDev: process.env.NODE_ENV === "development",
+	isProd: process.env.NODE_ENV === "production",
 	DB: {
 		host: process.env.DATABASE_HOST,
 		port: parseInt(process.env.DATABASE_PORT, 10),

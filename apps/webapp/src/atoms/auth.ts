@@ -1,23 +1,37 @@
-import { useAtom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
+import { QUERY_KEYS } from "@/lib/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { toast } from "sonner";
 
-export const authAtom = atomWithStorage(
-  "auth",
-  {
-    token: null,
-    user: null,
-  },
-  undefined,
-  {
-    getOnInit: true,
-  }
-);
-
 export const useAuth = () => {
-  const [auth, setAuth] = useAtom(authAtom);
+  const { data, error, refetch } = useQuery({
+    queryKey: [QUERY_KEYS.ME],
+    queryFn: async () => {
+      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/me`, {
+        method: "GET",
+        credentials: "include",
+      });
 
-  const isAuthenticated = auth.token !== null;
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      return response.json();
+    },
+  });
+  const navigate = useNavigate();
+  const routerState = useRouterState();
+
+  const isAuthenticated = !!data;
+
+  useEffect(() => {
+    if (error && routerState.location.pathname.startsWith("/dashboard")) {
+      navigate({
+        to: "/login",
+      });
+    }
+  }, [error]);
 
   const login = async ({
     email,
@@ -28,6 +42,7 @@ export const useAuth = () => {
   }) => {
     const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/login`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -40,18 +55,29 @@ export const useAuth = () => {
       return;
     }
 
-    const data = await response.json();
-
-    setAuth(data);
+    refetch();
   };
 
-  const logout = () => {
-    setAuth({ token: null, user: null });
+  const logout = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_ENDPOINT}/logout`,
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
+
+    if (!response.ok) {
+      toast.error("Failed to logout");
+
+      return;
+    }
+
+    refetch();
   };
 
   return {
-    token: auth.token,
-    user: auth.user,
+    me: data,
     isAuthenticated,
     login,
     logout,
