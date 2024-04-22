@@ -3,24 +3,24 @@ import { useAuth } from "@/atoms/auth";
 import { useEffect } from "react";
 
 const Main = () => {
-	const { isAuthenticated } = useAuth();
-	const navigate = useNavigate();
+  const { isAuthenticated, isLoading } = useAuth();
+  const navigate = useNavigate();
 
-	useEffect(() => {
-		if (isAuthenticated) {
-			navigate({
-				to: "/dashboard",
-			});
-		} else {
-			navigate({
-				to: "/login",
-			});
-		}
-	}, [isAuthenticated, navigate]);
+  useEffect(() => {
+    if (isAuthenticated && !isLoading) {
+      navigate({
+        to: "/dashboard",
+      });
+    } else {
+      navigate({
+        to: "/login",
+      });
+    }
+  }, [isAuthenticated, isLoading, navigate]);
 
-	return <></>;
+  return <></>;
 };
 
 export const Route = createFileRoute("/")({
-	component: Main,
+  component: Main,
 });

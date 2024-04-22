@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 export const useAuth = () => {
-  const { data, error, refetch } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: [QUERY_KEYS.ME],
     queryFn: async () => {
       const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/me`, {
@@ -78,6 +78,7 @@ export const useAuth = () => {
 
   return {
     me: data,
+    isLoading,
     isAuthenticated,
     login,
     logout,

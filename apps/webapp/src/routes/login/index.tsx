@@ -5,16 +5,16 @@ import { useAuth } from "@/atoms/auth";
 import { useEffect } from "react";
 
 const Login = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && !isLoading) {
       navigate({
         to: "/dashboard",
       });
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, isLoading, navigate]);
 
   return (
     <div className="h-full min-h-screen items-stretch flex flex-row">
