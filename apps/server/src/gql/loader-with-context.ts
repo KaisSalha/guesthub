@@ -1,5 +1,5 @@
 import DataLoader from "dataloader";
-import { ContextType } from "./context";
+import { ContextType } from "./context.js";
 
 export const loaderWithContext = (batchFunc: any, opts = {}) => {
 	const store = new WeakMap();

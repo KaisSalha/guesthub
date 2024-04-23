@@ -1,15 +1,17 @@
 import Fastify from "fastify";
-import { config } from "@/config/index.js";
 import { jsonSchemaTransform } from "fastify-type-provider-zod";
-import { publicRoutes } from "@/routes/public.js";
-import { privateRoutes } from "./routes/private";
+import { config } from "./config/index.js";
+import { publicRoutes } from "./routes/public.js";
+import { privateRoutes } from "./routes/private.js";
 
 export const buildServer = async (opts = {}) => {
 	const app = Fastify(opts);
 
 	if (!config.isDev) app.register(import("@fastify/helmet"));
 	app.register(import("@fastify/cors"), {
-		origin: "*",
+		origin: config.isDev
+			? /https?:\/\/(\w+\.)*guesthub\.(local)(:\d+)?(\/.*)?$/
+			: /https?:\/\/(\w+\.)*guesthub\.(ai)(:\d+)?(\/.*)?$/,
 		methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 		credentials: true,
 	});

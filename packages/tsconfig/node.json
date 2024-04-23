@@ -4,9 +4,6 @@
   "extends": "./base.json",
   "compilerOptions": {
     "noEmit": false,
-    "outDir": "./dist",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "outDir": "./dist"
   }
 }

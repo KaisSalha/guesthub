@@ -1,8 +1,8 @@
 import SchemaBuilder from "@pothos/core";
 import RelayPlugin from "@pothos/plugin-relay";
 import DataloaderPlugin from "@pothos/plugin-dataloader";
-import { ContextType } from "./context";
 import ComplexityPlugin from "@pothos/plugin-complexity";
+import { ContextType } from "./context.js";
 
 const builder = new SchemaBuilder<{
 	Connection: {

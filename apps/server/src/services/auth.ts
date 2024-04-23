@@ -1,7 +1,7 @@
-import { db } from "@/db/index.js";
-import { lucia } from "../lib/auth.js";
 import { Argon2id } from "oslo/password";
-import { users, UserInsert } from "@/db/schemas/users.js";
+import { users, UserInsert } from "../db/schemas/users.js";
+import { db } from "../db/index.js";
+import { lucia } from "../lib/auth.js";
 
 export const signup = async ({ email, password, type }: UserInsert) => {
 	const hashedPassword = await new Argon2id().hash(password);

@@ -7,8 +7,8 @@
 	"scripts": {
 		"prebuild": "npm run lint",
 		"build": "tsc -p tsconfig.json",
-		"start": "node dist/src/index.js",
-		"dev": "tsx watch ./src/index.ts",
+		"start": "NODE_ENV=production node dist/src/index.js",
+		"dev": "vite",
 		"lint": "eslint --ext .ts src",
 		"typecheck": "tsc --noEmit -p . --skipLibCheck",
 		"migrate": "tsc -p tsconfig.json && drizzle-kit generate:pg && drizzle-kit push:pg"
@@ -84,6 +84,9 @@
 		"ts-node": "^10.9.2",
 		"tsx": "^4.7.1",
 		"typescript": "^5.4.3",
+		"vite": "^5.2.8",
+		"vite-plugin-mkcert": "^1.17.5",
+		"vite-plugin-node": "^3.1.0",
 		"zod-to-json-schema": "^3.22.5"
 	}
 }

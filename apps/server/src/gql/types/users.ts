@@ -1,6 +1,6 @@
-import { builder } from "@/gql/builder.js";
-import { db } from "@/db/index.js";
-import { User as UserType } from "@/db/schemas/users.js";
+import { builder } from "../../gql/builder.js";
+import { db } from "../../db/index.js";
+import { User as UserType } from "../../db/schemas/users.js";
 
 export const UsersNode = builder.loadableNodeRef("User", {
 	id: {

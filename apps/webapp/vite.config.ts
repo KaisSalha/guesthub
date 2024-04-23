@@ -8,8 +8,9 @@ import mkcert from "vite-plugin-mkcert";
 export default defineConfig({
   plugins: [
     mkcert({
-      savePath: "./.certs",
-      hosts: ["guesthub.local"],
+      savePath: "../../.certs",
+      force: false,
+      hosts: ["guesthub.local", "api.guesthub.local"],
     }),
     react(),
     TanStackRouterVite(),

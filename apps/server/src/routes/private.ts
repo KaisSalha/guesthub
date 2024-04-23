@@ -1,12 +1,12 @@
 import { FastifyInstance } from "fastify";
 import { FastifyRequest } from "fastify/types/request";
 import mercurius from "mercurius";
-import { schema } from "@/gql/index.js";
-import { createContext } from "@/gql/context.js";
-import { generateFileUploadPresignedUrl } from "@/lib/s3.js";
-import { config } from "@/config/index.js";
-import authenticate from "@/plugins/authenticate";
-import { logout } from "@/services/auth";
+import { schema } from "../gql/index.js";
+import { createContext } from "../gql/context.js";
+import { generateFileUploadPresignedUrl } from "../lib/s3.js";
+import { config } from "../config/index.js";
+import authenticate from "../plugins/authenticate.js";
+import { logout } from "../services/auth.js";
 
 export const privateRoutes = async (app: FastifyInstance) => {
 	app.register(authenticate);

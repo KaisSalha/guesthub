@@ -1,6 +1,6 @@
-import { lucia } from "@/lib/auth";
 import { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
+import { lucia } from "../lib/auth.js";
 
 const plugin = async function (app: FastifyInstance): Promise<void> {
 	app.decorate("user", null);

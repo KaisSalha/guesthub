@@ -1,13 +1,13 @@
-import { User, UserInsert } from "@/db/schemas/users";
-import { login, signup } from "@/services/auth";
 import { FastifyInstance } from "fastify";
 import { FastifyRequest } from "fastify/types/request";
+import { User, UserInsert } from "../db/schemas/users.js";
+import { login, signup } from "../services/auth.js";
 
 export const publicRoutes = async (app: FastifyInstance) => {
-	// await app.register(import("@fastify/rate-limit"), {
-	// 	max: 10,
-	// 	timeWindow: 1000 * 60 * 5,
-	// });
+	await app.register(import("@fastify/rate-limit"), {
+		max: 10,
+		timeWindow: 1000 * 60 * 5,
+	});
 
 	app.post(
 		"/signup",
