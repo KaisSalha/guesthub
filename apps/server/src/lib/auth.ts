@@ -1,6 +1,5 @@
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import { Lucia } from "lucia";
-import { config } from "../config/index.js";
 import { db } from "../db/index.js";
 import { sessions } from "../db/schemas/sessions.js";
 import { users, User } from "../db/schemas/users.js";
@@ -12,8 +11,7 @@ export const lucia = new Lucia(adapter, {
 		expires: false,
 		attributes: {
 			secure: true,
-			// @ts-expect-error only "none" works but is not included in the interface
-			sameSite: config.isProd ? "strict" : "none",
+			sameSite: "strict",
 		},
 	},
 	getUserAttributes: (attributes) => {
