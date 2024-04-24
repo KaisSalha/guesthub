@@ -10,7 +10,7 @@ export default defineConfig({
     mkcert({
       savePath: "../../.certs",
       force: false,
-      hosts: ["guesthub.local", "api.guesthub.local"],
+      hosts: ["guesthub.internal", "api.guesthub.internal"],
       keyFileName: "localhost-key.pem",
       certFileName: "localhost.pem",
     }),
@@ -20,7 +20,7 @@ export default defineConfig({
   server: {
     port: 3001,
     strictPort: true,
-    host: "guesthub.local",
+    host: "guesthub.internal",
   },
   resolve: {
     alias: {

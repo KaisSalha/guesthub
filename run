@@ -23,8 +23,8 @@ UsageMessage
 updateHosts() {
     # Define the entries to be added if missing
     local entries=(
-        "127.0.0.1 guesthub.local"
-        "127.0.0.1 api.guesthub.local"
+        "127.0.0.1 guesthub.internal"
+        "127.0.0.1 api.guesthub.internal"
     )
 
     # Check and add each entry if it does not exist
