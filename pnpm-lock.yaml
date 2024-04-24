@@ -222,15 +222,6 @@ importers:
       typescript:
         specifier: ^5.4.3
         version: 5.4.3
-      vite:
-        specifier: ^5.2.8
-        version: 5.2.8(@types/node@20.12.2)
-      vite-plugin-mkcert:
-        specifier: ^1.17.5
-        version: 1.17.5(vite@5.2.8)
-      vite-plugin-node:
-        specifier: ^3.1.0
-        version: 3.1.0(@swc/core@1.4.11)(vite@5.2.8)
       zod-to-json-schema:
         specifier: ^3.22.5
         version: 3.22.5(zod@3.22.4)
@@ -6202,14 +6193,6 @@ packages:
   /@repeaterjs/repeater@3.0.5:
     resolution: {integrity: sha512-l3YHBLAol6d/IKnB9LhpD0cEZWAoe3eFKUyTYWmFmCO2Q/WOckxLQAUyMZWwZV2M/m3+4vgRoaolFqaII82/TA==}
 
-  /@rollup/pluginutils@4.2.1:
-    resolution: {integrity: sha512-iKnFXr7NkdZAIHiIWE+BX5ULi/ucVFYWD6TbAV+rZctiRTY2PL6tsIKhoIOaoskiWAkgu+VsbXgUVDNLHf+InQ==}
-    engines: {node: '>= 8.0.0'}
-    dependencies:
-      estree-walker: 2.0.2
-      picomatch: 2.3.1
-    dev: true
-
   /@rollup/rollup-android-arm-eabi@4.13.2:
     resolution: {integrity: sha512-3XFIDKWMFZrMnao1mJhnOT1h2g0169Os848NhhmGweEcfJ4rCi+3yMCOLG4zA61rbJdkcrM/DjVZm9Hg5p5w7g==}
     cpu: [arm]
@@ -9721,10 +9704,6 @@ packages:
   /estraverse@5.3.0:
     resolution: {integrity: sha512-MMdARuVEQziNTeJD8DgMqmhwR11BRQ/cBP+pLtYdSTnf3MIO8fFeiINEbX36ZdNlfU/7A9f3gUw49B3oQsvwBA==}
     engines: {node: '>=4.0'}
-
-  /estree-walker@2.0.2:
-    resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
-    dev: true
 
   /esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
@@ -13872,24 +13851,6 @@ packages:
       axios: 1.6.8(debug@4.3.4)
       debug: 4.3.4(supports-color@5.5.0)
       picocolors: 1.0.0
-      vite: 5.2.8(@types/node@20.12.2)
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
-  /vite-plugin-node@3.1.0(@swc/core@1.4.11)(vite@5.2.8):
-    resolution: {integrity: sha512-LN9byKedZaokEWcH+DTdeV7YLN34dWH7Em2ldHZ77oVGvC/uxHnK43AGPrV9+9CoOh1x9X3Yc55vW/OQYssFDQ==}
-    peerDependencies:
-      '@swc/core': ^1.2.153
-      vite: ^4.0.0
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 4.2.1
-      '@swc/core': 1.4.11
-      chalk: 4.1.2
-      debug: 4.3.4(supports-color@5.5.0)
       vite: 5.2.8(@types/node@20.12.2)
     transitivePeerDependencies:
       - supports-color

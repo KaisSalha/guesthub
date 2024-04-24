@@ -11,6 +11,8 @@ export default defineConfig({
       savePath: "../../.certs",
       force: false,
       hosts: ["guesthub.local", "api.guesthub.local"],
+      keyFileName: "localhost-key.pem",
+      certFileName: "localhost.pem",
     }),
     react(),
     TanStackRouterVite(),

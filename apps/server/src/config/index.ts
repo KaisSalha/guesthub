@@ -1,4 +1,7 @@
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
 
 const envFound = dotenv.config();
 if (envFound.error) {
@@ -34,6 +37,7 @@ process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
 
 export const config = {
 	PORT: process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
+	HOST: process.env.HOST || "127.0.0.1",
 	ENV: process.env.NODE_ENV,
 	isDev: process.env.NODE_ENV === "development",
 	isProd: process.env.NODE_ENV === "production",
@@ -59,4 +63,27 @@ export const config = {
 		REGION: process.env.S3_REGION,
 	},
 	OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+};
+
+export const SERVER_CONFIG = {
+	dev: {
+		https: {
+			key: fs.readFileSync(
+				path.join(
+					path.dirname(fileURLToPath(import.meta.url)),
+					"../../../../.certs/localhost-key.pem"
+				)
+			),
+			cert: fs.readFileSync(
+				path.join(
+					path.dirname(fileURLToPath(import.meta.url)),
+					"../../../../.certs/localhost.pem"
+				)
+			),
+		},
+		logger: config.LOGGER,
+	},
+	prod: {
+		logger: config.LOGGER,
+	},
 };
