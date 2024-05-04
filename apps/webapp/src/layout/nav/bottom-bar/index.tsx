@@ -69,7 +69,7 @@ export const BottomBar = () => {
   );
 
   return (
-    <div className="border-subtle fixed bottom-0 left-0 z-30 flex w-full border-t bg-background-surface md:hidden px-3">
+    <div className="border-border-subtle fixed bottom-0 left-0 z-30 flex w-full border-t bg-background-surface md:hidden px-3">
       <div className="flex justify-between w-full">
         {sections.map((section, index) => (
           <NavItem key={index} {...section} />

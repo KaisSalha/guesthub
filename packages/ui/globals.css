@@ -23,19 +23,19 @@
     --bg-inverted: 0 0% 18%;
 
     /* background -> components*/
-    --bg-info: 218 83% 98%;
+    --bg-info: 210 79% 87%;
     --bg-info-dark: 222 90% 57%;
-    --bg-success: 134 76% 94%;
+    --bg-success: 139 41% 86%;
     --bg-success-dark: 141 35% 39%;
-    --bg-attention: 37 86% 92%;
+    --bg-attention: 25 66% 82%;
     --bg-attention-dark: 43 91% 45%;
+    --bg-destructive: 2 74 90%;
     --bg-error: 3 66% 93%;
-    --bg-destructive: 0 84.2 60.2%;
 
     /* Borders */
     --border: 0 0% 87%;
     --border-emphasis: 0 0% 65%;
-    --border-subtle: 0 0% 92%;
+    --border-subtle: 300 0% 94%;
     --border-muted: 0 0% 96%;
     --border-error: 0 0% 41%;
 
@@ -47,10 +47,10 @@
     --foreground-inverted: 0 0% 100%;
 
     /* Content/Text -> components */
-    --foreground-info: 228 56% 33%;
-    --foreground-success: 133 34% 24%;
-    --foreground-attention: 16 62% 28%;
-    --foreground-destructive: 0 84.2 60.2%;
+    --foreground-info: 212 48% 47%;
+    --foreground-success: 152 43% 27%;
+    --foreground-attention: 36 10% 30%;
+    --foreground-destructive: 359 22 50%;
     --foreground-error: 2 55% 30%;
 
     /* Brand */

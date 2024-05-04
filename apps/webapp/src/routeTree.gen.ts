@@ -19,6 +19,7 @@ import { Route as DashboardTeamIndexImport } from './routes/dashboard/team/index
 import { Route as DashboardRequestsIndexImport } from './routes/dashboard/requests/index'
 import { Route as DashboardReportsIndexImport } from './routes/dashboard/reports/index'
 import { Route as DashboardProfileIndexImport } from './routes/dashboard/profile/index'
+import { Route as DashboardHelpIndexImport } from './routes/dashboard/help/index'
 import { Route as DashboardGuestsIndexImport } from './routes/dashboard/guests/index'
 import { Route as DashboardEventsIndexImport } from './routes/dashboard/events/index'
 import { Route as DashboardCalendarIndexImport } from './routes/dashboard/calendar/index'
@@ -62,6 +63,11 @@ const DashboardReportsIndexRoute = DashboardReportsIndexImport.update({
 
 const DashboardProfileIndexRoute = DashboardProfileIndexImport.update({
   path: '/profile/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardHelpIndexRoute = DashboardHelpIndexImport.update({
+  path: '/help/',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -112,6 +118,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardGuestsIndexImport
       parentRoute: typeof DashboardImport
     }
+    '/dashboard/help/': {
+      preLoaderRoute: typeof DashboardHelpIndexImport
+      parentRoute: typeof DashboardImport
+    }
     '/dashboard/profile/': {
       preLoaderRoute: typeof DashboardProfileIndexImport
       parentRoute: typeof DashboardImport
@@ -140,6 +150,7 @@ export const routeTree = rootRoute.addChildren([
     DashboardCalendarIndexRoute,
     DashboardEventsIndexRoute,
     DashboardGuestsIndexRoute,
+    DashboardHelpIndexRoute,
     DashboardProfileIndexRoute,
     DashboardReportsIndexRoute,
     DashboardRequestsIndexRoute,
