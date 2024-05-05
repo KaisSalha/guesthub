@@ -104,14 +104,14 @@ export const Sidebar = () => {
   return (
     <div
       className={cn(
-        "hidden md:flex flex-col bg-background w-60",
+        "hidden md:flex flex-col bg-background w-56",
         isCollapsed && "w-14"
       )}
     >
       <div
         ref={panelRef}
         className={cn(
-          "hidden md:flex flex-col gap-3.5 bg-background-surface w-60 min-h-screen fixed border-r border-border-subtle py-4",
+          "hidden md:flex flex-col gap-3.5 bg-background-surface w-56 min-h-screen fixed border-r border-border-subtle py-4",
           isCollapsed && "w-auto"
         )}
       >
@@ -119,7 +119,7 @@ export const Sidebar = () => {
           className={cn(
             "w-full flex flex-row items-center gap-2",
             isCollapsed && "justify-center",
-            !isCollapsed && "px-3"
+            !isCollapsed && "mx-4"
           )}
         >
           <Dribbble size={22} className="text-brand" />

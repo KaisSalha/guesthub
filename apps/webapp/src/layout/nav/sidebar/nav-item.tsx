@@ -24,7 +24,7 @@ export function NavItem({ links, isCollapsed }: NavProps) {
                   className={cn(
                     "inline-flex items-center whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 hover:cursor-pointer hover:bg-background-muted/80 rounded-lg px-2 mx-2 border border-border/0 font-medium text-foreground-subtle",
                     link.selected &&
-                      "bg-background-subtle text-foreground border-border-subtle"
+                      "bg-background-subtle text-foreground border-border"
                   )}
                   onClick={link.onClick}
                 >
@@ -35,13 +35,13 @@ export function NavItem({ links, isCollapsed }: NavProps) {
               <TooltipContent side="right">{link.title}</TooltipContent>
             </Tooltip>
           ) : (
-            <div key={index} className="px-2">
+            <div key={index} className="mx-2.5">
               <div
                 key={index}
                 className={cn(
                   "inline-flex items-center whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-8 px-2 hover:cursor-pointer hover:bg-background-muted/80 w-full rounded-md border border-border/0 font-medium text-foreground-subtle text-sm",
                   link.selected &&
-                    "bg-background-subtle text-foreground border-border-subtle"
+                    "bg-background-subtle text-foreground border-border"
                 )}
                 onClick={link.onClick}
               >
