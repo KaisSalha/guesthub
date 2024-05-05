@@ -13,7 +13,10 @@ export const SearchBar = ({ isCollapsed = false }: SearchBarProps) => {
     return (
       <Tooltip delayDuration={0}>
         <TooltipTrigger asChild>
-          <Search size={17} className="hover:cursor-pointer" />
+          <Search
+            size={17}
+            className="hover:cursor-pointer text-foreground-subtle"
+          />
         </TooltipTrigger>
         <TooltipContent side="right">Search</TooltipContent>
       </Tooltip>

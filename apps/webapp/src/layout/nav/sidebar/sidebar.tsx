@@ -3,7 +3,6 @@ import {
   ChevronRight,
   ChevronLeft,
   Home,
-  CircleUser,
   Calendar,
   Ticket,
   Users,
@@ -155,18 +154,6 @@ export const Sidebar = () => {
                 onClick: () =>
                   router.navigate({
                     to: "/dashboard/team",
-                  }),
-              },
-              {
-                title: "Profile",
-                icon: CircleUser,
-                selected:
-                  routerState.location.pathname.startsWith(
-                    "/dashboard/profile"
-                  ),
-                onClick: () =>
-                  router.navigate({
-                    to: "/dashboard/profile",
                   }),
               },
               {
