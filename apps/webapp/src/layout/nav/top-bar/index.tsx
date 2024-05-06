@@ -14,10 +14,10 @@ export const TopBar = () => {
           <p className="font-bold tracking-wider text-lg">GuestHub</p>
         </div>
         <div className="flex flex-row gap-5 items-center">
-          <Search size={18} />
-          <Bell size={18} />
+          <Search className="cursor-pointer h-5 w-5" />
+          <Bell className="cursor-pointer h-5 w-5" />
           <Avatar
-            className="cursor-pointer w-fit h-fit"
+            className="cursor-pointer h-fit w-fit"
             onClick={() =>
               router.navigate({
                 to: "/dashboard/profile",
@@ -26,10 +26,10 @@ export const TopBar = () => {
           >
             <AvatarImage
               src="https://github.com/shadcn.png"
-              className="h-5 w-5"
+              className="h-6 w-6"
             />
             <AvatarFallback className="bg-transparent">
-              <CircleUser size={18} />
+              <CircleUser className="h-5 w-5" />
             </AvatarFallback>
           </Avatar>
         </div>
