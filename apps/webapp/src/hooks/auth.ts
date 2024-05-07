@@ -1,32 +1,32 @@
-import { QUERY_KEYS } from "@/lib/react-query";
-import { useQuery } from "@tanstack/react-query";
+import { graphql } from "@/gql";
+import { useQuery } from "@apollo/client";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
+const getMe = graphql(/* GraphQL */ `
+  query GetMe {
+    me {
+      id
+      email
+      first_name
+      last_name
+      type
+      created_at
+    }
+  }
+`);
+
 export const useAuth = () => {
-  const { data, error, isLoading, refetch } = useQuery({
-    queryKey: [QUERY_KEYS.ME],
-    queryFn: async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/me`, {
-        method: "GET",
-        credentials: "include",
-      });
+  const { data, loading, error, refetch } = useQuery(getMe);
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      return response.json();
-    },
-  });
   const navigate = useNavigate();
   const routerState = useRouterState();
 
-  const isAuthenticated = !!data;
+  const isAuthenticated = !!data?.me;
 
   useEffect(() => {
-    if (error && routerState.location.pathname.startsWith("/dashboard")) {
+    if (!!error && routerState.location.pathname.startsWith("/dashboard")) {
       navigate({
         to: "/login",
       });
@@ -78,7 +78,7 @@ export const useAuth = () => {
 
   return {
     me: data,
-    isLoading,
+    isLoading: loading,
     isAuthenticated,
     login,
     logout,

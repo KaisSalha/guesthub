@@ -59,4 +59,11 @@ builder.queryFields((t) => ({
 			return await db.query.users.findMany();
 		},
 	}),
+	me: t.field({
+		type: UsersNode,
+		nullable: true,
+		resolve: (_parent, _args, { user }) => {
+			return user;
+		},
+	}),
 }));

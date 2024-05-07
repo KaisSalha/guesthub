@@ -9,8 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.ts\"",
     "router": "tsr watch",
-    "codegen": "graphql-codegen",
-    "codegen:watch": "graphql-codegen --watch",
+    "codegen": "NODE_TLS_REJECT_UNAUTHORIZED=0 graphql-codegen",
+    "codegen:watch": "NODE_TLS_REJECT_UNAUTHORIZED=0 graphql-codegen --watch",
     "cert": "rm -rf .cert && mkdir -p .cert && mkcert -key-file ./.cert/key.pem -cert-file ./.cert/cert.pem 'localhost'"
   },
   "dependencies": {
@@ -19,7 +19,6 @@
     "@guesthub/ui": "workspace:*",
     "@hookform/resolvers": "^3.3.4",
     "@parcel/watcher": "^2.4.1",
-    "@tanstack/react-query": "^5.32.0",
     "@tanstack/react-router": "^1.31.1",
     "@tanstack/react-table": "^8.16.0",
     "@tanstack/router-cli": "^1.30.0",

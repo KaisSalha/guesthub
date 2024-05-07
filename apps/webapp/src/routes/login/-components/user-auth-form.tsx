@@ -1,4 +1,4 @@
-import { useAuth } from "@/atoms/auth";
+import { useAuth } from "@/hooks/auth";
 import { Button } from "@guesthub/ui/button";
 import { Input } from "@guesthub/ui/input";
 import {

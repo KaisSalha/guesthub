@@ -12,8 +12,6 @@ import {
 import { Provider } from "jotai";
 import { jotaiStore } from "./lib/jotai-store";
 import { ThemeProvider } from "next-themes";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./lib/react-query";
 
 const httpLink = createHttpLink({
   uri: `${import.meta.env.VITE_API_ENDPOINT}/graphql`,
@@ -46,15 +44,13 @@ function App() {
     <>
       <Suspense fallback={null}>
         <Provider store={jotaiStore}>
-          <QueryClientProvider client={queryClient}>
-            <ApolloProvider client={client}>
-              <ThemeProvider attribute="class" disableTransitionOnChange>
-                <TooltipProvider delayDuration={0}>
-                  <RouterProvider router={router} />
-                </TooltipProvider>
-              </ThemeProvider>
-            </ApolloProvider>
-          </QueryClientProvider>
+          <ApolloProvider client={client}>
+            <ThemeProvider attribute="class" disableTransitionOnChange>
+              <TooltipProvider delayDuration={0}>
+                <RouterProvider router={router} />
+              </TooltipProvider>
+            </ThemeProvider>
+          </ApolloProvider>
         </Provider>
       </Suspense>
       <Toaster />

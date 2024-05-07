@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useAuth } from "@/atoms/auth";
+import { useAuth } from "@/hooks/auth";
 import { useEffect } from "react";
 
 const Main = () => {

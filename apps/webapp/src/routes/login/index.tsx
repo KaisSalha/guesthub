@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Dribbble } from "lucide-react";
 import { UserAuthForm } from "./-components/user-auth-form";
-import { useAuth } from "@/atoms/auth";
+import { useAuth } from "@/hooks/auth";
 import { useEffect } from "react";
 
 const Login = () => {
