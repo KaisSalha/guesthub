@@ -1,8 +1,8 @@
-import { builder } from "../../gql/builder.js";
+import { builder } from "../builder.js";
 import { db } from "../../db/index.js";
 import { User as UserType } from "../../db/schemas/users.js";
 
-export const UsersNode = builder.loadableNodeRef("User", {
+export const User = builder.loadableNodeRef("User", {
 	id: {
 		resolve: (user) => user.id,
 	},
@@ -22,7 +22,7 @@ export const UsersNode = builder.loadableNodeRef("User", {
 	},
 });
 
-UsersNode.implement({
+User.implement({
 	isTypeOf: (user) => (user as UserType).id !== undefined,
 	fields: (t) => ({
 		email: t.exposeString("email"),
@@ -38,7 +38,7 @@ UsersNode.implement({
 
 builder.queryFields((t) => ({
 	user: t.field({
-		type: UsersNode,
+		type: User,
 		nullable: true,
 		args: {
 			id: t.arg.globalID({ required: true }),
@@ -46,7 +46,7 @@ builder.queryFields((t) => ({
 		resolve: (_root, args) => args.id.id,
 	}),
 	users: t.field({
-		type: [UsersNode],
+		type: [User],
 		nullable: true,
 		args: {
 			ids: t.arg.globalIDList({ required: false }),
@@ -60,7 +60,7 @@ builder.queryFields((t) => ({
 		},
 	}),
 	me: t.field({
-		type: UsersNode,
+		type: User,
 		nullable: true,
 		resolve: (_parent, _args, { user }) => {
 			return user;
