@@ -4,7 +4,19 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": {
+          "url": "https://guesthub.internal:3000/graphql",
+          "headers": {
+            "x-debug-user": "kaiss.salha@gmail.com"
+          },
+          "tadaOutputLocation": "./src/gql/graphql-env.d.ts"
+        }
+      }
+    ]
   },
   "include": ["src"]
 }

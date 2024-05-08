@@ -1,4 +1,5 @@
-import { graphql } from "@/gql";
+import { graphql } from "gql.tada";
+import { GetMeQuery } from "@/gql/graphql";
 import { useQuery } from "@apollo/client";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
@@ -18,7 +19,7 @@ const getMe = graphql(/* GraphQL */ `
 `);
 
 export const useAuth = () => {
-  const { data, loading, error, refetch } = useQuery(getMe);
+  const { data, loading, error, refetch } = useQuery<GetMeQuery>(getMe);
 
   const navigate = useNavigate();
   const routerState = useRouterState();
