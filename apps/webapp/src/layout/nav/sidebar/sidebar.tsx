@@ -98,7 +98,7 @@ export const Sidebar = () => {
 
   const toggleSize = useCallback(() => {
     setIsCollapsed((isCollapsed) => !isCollapsed);
-  }, []);
+  }, [setIsCollapsed]);
 
   return (
     <div

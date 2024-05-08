@@ -60,7 +60,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"**/*.ts\""
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -112,7 +112,7 @@
   },
   "devDependencies": {
     "@guesthub/tsconfig": "workspace:*",
-    "@repo/eslint-config": "workspace:*",
+    "@guesthub/eslint-config": "workspace:*",
     "@types/node": "^20.12.5",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",

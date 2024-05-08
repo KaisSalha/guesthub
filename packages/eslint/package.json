@@ -1,0 +1,21 @@
+{
+  "name": "@guesthub/eslint-config",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "prettier": "^3.2.5",
+    "eslint-plugin-react-hooks": "^4.6.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -31,7 +31,7 @@ export const useAuth = () => {
         to: "/login",
       });
     }
-  }, [error]);
+  }, [error, navigate, routerState.location.pathname]);
 
   const login = async ({
     email,
