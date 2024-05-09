@@ -1,10 +1,8 @@
 {
-  "id": "ac9c6483-5397-45c9-913a-f2b15ac9b866",
-  "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "sessions": {
+    "public.sessions": {
       "name": "sessions",
       "schema": "",
       "columns": {
@@ -32,21 +30,21 @@
         "sessions_user_id_users_id_fk": {
           "name": "sessions_user_id_users_id_fk",
           "tableFrom": "sessions",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "users": {
+    "public.users": {
       "name": "users",
       "schema": "",
       "columns": {
@@ -102,18 +100,21 @@
     }
   },
   "enums": {
-    "user_type": {
+    "public.user_type": {
       "name": "user_type",
-      "values": {
-        "org": "org",
-        "guest": "guest"
-      }
+      "schema": "public",
+      "values": [
+        "org",
+        "guest"
+      ]
     }
   },
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "ac9c6483-5397-45c9-913a-f2b15ac9b866",
+  "prevId": "00000000-0000-0000-0000-000000000000"
 }
