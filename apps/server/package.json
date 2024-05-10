@@ -11,7 +11,7 @@
 		"dev": "tsx watch ./src/index.ts",
 		"lint": "eslint --ext .ts src",
 		"typecheck": "tsc --noEmit -p . --skipLibCheck",
-		"migrate": "tsc -p tsconfig.json && drizzle-kit generate:pg && drizzle-kit push:pg"
+		"migrate": "tsc -p tsconfig.json && drizzle-kit generate && drizzle-kit migrate"
 	},
 	"author": "",
 	"license": "ISC",

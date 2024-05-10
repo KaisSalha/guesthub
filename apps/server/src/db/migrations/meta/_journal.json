@@ -1,12 +1,12 @@
 {
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1713660139287,
-      "tag": "0000_late_hellfire_club",
+      "version": "6",
+      "when": 1715374131442,
+      "tag": "0000_lucky_chamber",
       "breakpoints": true
     }
   ]

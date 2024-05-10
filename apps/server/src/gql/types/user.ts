@@ -8,11 +8,15 @@ export const User = builder.loadableNodeRef("User", {
 	},
 	load: async (ids: string[]) => {
 		const users = await db.query.users.findMany({
-			where: (users, { inArray }) => inArray(users.id, ids),
+			where: (users, { inArray }) =>
+				inArray(
+					users.id,
+					ids.map((id) => parseInt(id))
+				),
 		});
 
 		return ids.map((id) => {
-			const user = users.find((user) => user.id == id);
+			const user = users.find((user) => user.id == parseInt(id));
 
 			if (!user) {
 				return new Error(`User not found: ${id}`);

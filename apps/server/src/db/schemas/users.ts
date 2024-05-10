@@ -1,10 +1,16 @@
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { pgEnum, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+	pgEnum,
+	pgTable,
+	serial,
+	timestamp,
+	varchar,
+} from "drizzle-orm/pg-core";
 
 export const userTypeEnum = pgEnum("user_type", ["org", "guest"]);
 
 export const users = pgTable("users", {
-	id: uuid("id").primaryKey().defaultRandom(),
+	id: serial("id").primaryKey(),
 	email: varchar("email", { length: 256 }).notNull(),
 	password: varchar("password", { length: 256 }).notNull(),
 	first_name: varchar("first_name", { length: 256 }),

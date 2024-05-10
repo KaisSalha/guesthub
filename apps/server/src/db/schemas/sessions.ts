@@ -1,9 +1,9 @@
-import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { users } from "./users.js";
 
 export const sessions = pgTable("sessions", {
 	id: text("id").primaryKey(),
-	userId: uuid("user_id")
+	userId: integer("user_id")
 		.notNull()
 		.references(() => users.id),
 	expiresAt: timestamp("expires_at", {
