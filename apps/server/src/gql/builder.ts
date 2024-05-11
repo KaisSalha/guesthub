@@ -7,10 +7,12 @@ import {
 	DateResolver,
 	JSONResolver,
 	EmailAddressResolver,
-	URLResolver,
 	TimestampResolver,
 	DateTimeResolver,
 	CountryCodeResolver,
+	LatitudeResolver,
+	LongitudeResolver,
+	NonEmptyStringResolver,
 } from "graphql-scalars";
 
 const builder = new SchemaBuilder<{
@@ -39,11 +41,19 @@ const builder = new SchemaBuilder<{
 			Input: string;
 			Output: string;
 		};
-		URL: {
+		CountryCode: {
 			Input: string;
 			Output: string;
 		};
-		CountryCode: {
+		Latitude: {
+			Input: number;
+			Output: number;
+		};
+		Longitude: {
+			Input: number;
+			Output: number;
+		};
+		NonEmptyString: {
 			Input: string;
 			Output: string;
 		};
@@ -77,10 +87,12 @@ builder.addScalarType("Date", DateResolver);
 builder.addScalarType("Timestamp", TimestampResolver);
 builder.addScalarType("DateTime", DateTimeResolver);
 builder.addScalarType("Email", EmailAddressResolver);
-builder.addScalarType("URL", URLResolver);
 builder.addScalarType("CountryCode", CountryCodeResolver);
+builder.addScalarType("Latitude", LatitudeResolver);
+builder.addScalarType("Longitude", LongitudeResolver);
+builder.addScalarType("NonEmptyString", NonEmptyStringResolver);
 
 builder.queryType({});
-// builder.mutationType({});
+builder.mutationType({});
 
 export { builder };

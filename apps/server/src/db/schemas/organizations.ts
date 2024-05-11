@@ -12,8 +12,8 @@ export const organizations = pgTable("organizations", {
 		.references(() => users.id),
 	website: varchar("website", { length: 255 }),
 	logo_url: varchar("logo_url", { length: 255 }),
-	...timeFields,
 	...locationFields,
+	...timeFields,
 });
 
 export const organizationsRelations = relations(organizations, ({ one }) => ({

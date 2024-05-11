@@ -1,6 +1,9 @@
 import { builder } from "../builder.js";
 import { db } from "../../db/index.js";
-import { Organization as OrganizationType } from "../../db/schemas/organizations.js";
+import {
+	Organization as OrganizationType,
+	organizations,
+} from "../../db/schemas/organizations.js";
 import { User } from "./user.js";
 import { encodeGlobalID } from "@pothos/plugin-relay";
 
@@ -44,16 +47,8 @@ Organization.implement({
 			load: async (ids, { loadMany }) => loadMany(User, ids),
 			resolve: (parent) => parent.owner_id,
 		}),
-		website: t.field({
-			type: "URL",
-			nullable: true,
-			resolve: (parent) => parent.website,
-		}),
-		logo_url: t.field({
-			type: "URL",
-			nullable: true,
-			resolve: (parent) => parent.logo_url,
-		}),
+		website: t.exposeString("website", { nullable: true }),
+		logo_url: t.exposeString("logo_url", { nullable: true }),
 		address: t.exposeString("address"),
 		city: t.exposeString("city"),
 		state: t.exposeString("state", { nullable: true }),
@@ -62,6 +57,17 @@ Organization.implement({
 			resolve: (parent) => parent.country_code,
 		}),
 		postal_code: t.exposeString("postal_code", { nullable: true }),
+		timezone: t.exposeString("timezone"),
+		lat: t.field({
+			type: "Latitude",
+			nullable: true,
+			resolve: (parent) => parent.lat,
+		}),
+		lng: t.field({
+			type: "Longitude",
+			nullable: true,
+			resolve: (parent) => parent.lng,
+		}),
 		created_at: t.field({
 			type: "Timestamp",
 			nullable: true,
@@ -85,3 +91,86 @@ builder.queryFields((t) => ({
 		resolve: (_root, args) => args.id.id,
 	}),
 }));
+
+builder.relayMutationField(
+	"createOrganization",
+	{
+		inputFields: (t) => ({
+			name: t.field({
+				type: "NonEmptyString",
+				required: true,
+			}),
+			website: t.string({ required: false }),
+			logo_url: t.string({ required: false }),
+			address: t.field({
+				type: "NonEmptyString",
+				required: true,
+			}),
+			city: t.field({
+				type: "NonEmptyString",
+				required: true,
+			}),
+			state: t.string({ required: false }),
+			country_code: t.field({
+				type: "CountryCode",
+				required: true,
+			}),
+			postal_code: t.string({ required: false }),
+			timezone: t.string({ required: true }),
+			lat: t.field({
+				type: "Latitude",
+				required: true,
+			}),
+			lng: t.field({
+				type: "Longitude",
+				required: true,
+			}),
+		}),
+	},
+	{
+		resolve: async (_root, args, ctx) => {
+			try {
+				const [organization] = await db
+					.insert(organizations)
+					.values({
+						name: args.input.name,
+						owner_id: ctx.user.id,
+						website: args.input.website,
+						logo_url: args.input.logo_url,
+						address: args.input.address,
+						city: args.input.city,
+						state: args.input.state,
+						country_code: args.input.country_code,
+						postal_code: args.input.postal_code,
+						timezone: args.input.timezone,
+						lat: args.input.lat,
+						lng: args.input.lng,
+					})
+					.returning()
+					.execute();
+
+				return {
+					success: true,
+					organization,
+				};
+			} catch (error) {
+				console.log(error);
+				return {
+					success: false,
+				};
+			}
+		},
+	},
+	{
+		outputFields: (t) => ({
+			success: t.boolean({
+				resolve: (result) => result.success,
+			}),
+			organization: t.field({
+				type: Organization,
+				nullable: true,
+				resolve: (result) => result?.organization,
+			}),
+		}),
+	}
+);
