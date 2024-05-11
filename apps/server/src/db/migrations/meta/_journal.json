@@ -8,6 +8,20 @@
       "when": 1715374131442,
       "tag": "0000_lucky_chamber",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1715379967094,
+      "tag": "0001_unique_squirrel_girl",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1715386924622,
+      "tag": "0002_rich_colleen_wing",
+      "breakpoints": true
     }
   ]
 }

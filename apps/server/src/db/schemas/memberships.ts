@@ -1,12 +1,12 @@
 import { roles } from "./roles";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { pgTable, serial, timestamp, integer, json } from "drizzle-orm/pg-core";
+import { pgTable, serial, timestamp, integer } from "drizzle-orm/pg-core";
 import { organizations } from "./organizations";
 import { users } from "./users";
 
-export const memberships = pgTable("roles", {
+export const memberships = pgTable("memberships", {
 	id: serial("id").primaryKey(),
-	owner_id: integer("owner_id")
+	user_id: integer("user_id")
 		.notNull()
 		.references(() => users.id),
 	organization_id: integer("organization_id")
@@ -15,7 +15,6 @@ export const memberships = pgTable("roles", {
 	role_id: integer("role_id")
 		.notNull()
 		.references(() => roles.id),
-	permissions: json("permissions").default({}).notNull(),
 	created_at: timestamp("created_at").defaultNow().notNull(),
 });
 

@@ -46,6 +46,7 @@
 		"fastify-type-provider-zod": "^1.1.9",
 		"fastify-zod": "^1.4.0",
 		"graphql": "^16.8.1",
+		"graphql-scalars": "^1.23.0",
 		"lucia": "^3.2.0",
 		"mercurius": "^14.1.0",
 		"openai": "^4.44.0",
@@ -55,8 +56,8 @@
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
-		"@guesthub/tsconfig": "workspace:*",
 		"@guesthub/eslint-config": "workspace:*",
+		"@guesthub/tsconfig": "workspace:*",
 		"@swc-node/register": "^1.9.0",
 		"@swc/cli": "^0.3.12",
 		"@swc/core": "^1.4.11",
