@@ -30,7 +30,10 @@ export const User = builder.loadableNodeRef("User", {
 User.implement({
 	isTypeOf: (user) => (user as UserType).id !== undefined,
 	fields: (t) => ({
-		email: t.exposeString("email"),
+		email: t.field({
+			type: "Email",
+			resolve: (parent) => parent.email,
+		}),
 		first_name: t.exposeString("first_name", { nullable: true }),
 		last_name: t.exposeString("last_name", { nullable: true }),
 		type: t.exposeString("type"),
@@ -48,9 +51,15 @@ User.implement({
 			},
 			resolve: (parent) => parent.id,
 		}),
-		created_at: t.string({
+		created_at: t.field({
+			type: "Timestamp",
 			nullable: true,
-			resolve: (parent) => parent.created_at.toISOString(),
+			resolve: (parent) => parent.created_at,
+		}),
+		updated_at: t.field({
+			type: "Timestamp",
+			nullable: true,
+			resolve: (parent) => parent.updated_at,
 		}),
 	}),
 });

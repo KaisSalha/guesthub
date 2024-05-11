@@ -1,8 +1,9 @@
 import { roles } from "./roles";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { pgTable, serial, timestamp, integer } from "drizzle-orm/pg-core";
+import { pgTable, serial, integer } from "drizzle-orm/pg-core";
 import { organizations } from "./organizations";
 import { users } from "./users";
+import { timeFields } from "./helpers/time";
 
 export const memberships = pgTable("memberships", {
 	id: serial("id").primaryKey(),
@@ -15,7 +16,7 @@ export const memberships = pgTable("memberships", {
 	role_id: integer("role_id")
 		.notNull()
 		.references(() => roles.id),
-	created_at: timestamp("created_at").defaultNow().notNull(),
+	...timeFields,
 });
 
 export type Membership = InferSelectModel<typeof memberships>;

@@ -1,14 +1,8 @@
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import {
-	pgTable,
-	serial,
-	timestamp,
-	integer,
-	varchar,
-	json,
-} from "drizzle-orm/pg-core";
+import { pgTable, serial, integer, varchar, json } from "drizzle-orm/pg-core";
 import { organizations } from "./organizations";
 import { PERMISSIONS } from "@/permissions";
+import { timeFields } from "./helpers/time";
 
 export const roles = pgTable("roles", {
 	id: serial("id").primaryKey(),
@@ -20,7 +14,7 @@ export const roles = pgTable("roles", {
 		.$type<Partial<typeof PERMISSIONS>>()
 		.default({})
 		.notNull(),
-	created_at: timestamp("created_at").defaultNow().notNull(),
+	...timeFields,
 });
 
 export type Role = InferSelectModel<typeof roles>;

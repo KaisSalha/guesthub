@@ -46,9 +46,15 @@ Role.implement({
 				};
 			},
 		}),
-		created_at: t.string({
+		created_at: t.field({
+			type: "Timestamp",
 			nullable: true,
-			resolve: (parent) => parent.created_at.toISOString(),
+			resolve: (parent) => parent.created_at,
+		}),
+		updated_at: t.field({
+			type: "Timestamp",
+			nullable: true,
+			resolve: (parent) => parent.updated_at,
 		}),
 	}),
 });

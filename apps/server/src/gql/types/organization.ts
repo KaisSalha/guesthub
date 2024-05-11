@@ -44,16 +44,33 @@ Organization.implement({
 			load: async (ids, { loadMany }) => loadMany(User, ids),
 			resolve: (parent) => parent.owner_id,
 		}),
-		website: t.exposeString("website", { nullable: true }),
-		logo_url: t.exposeString("logo_url", { nullable: true }),
+		website: t.field({
+			type: "URL",
+			nullable: true,
+			resolve: (parent) => parent.website,
+		}),
+		logo_url: t.field({
+			type: "URL",
+			nullable: true,
+			resolve: (parent) => parent.logo_url,
+		}),
 		address: t.exposeString("address"),
 		city: t.exposeString("city"),
 		state: t.exposeString("state", { nullable: true }),
-		country: t.exposeString("country"),
+		country_code: t.field({
+			type: "CountryCode",
+			resolve: (parent) => parent.country_code,
+		}),
 		postal_code: t.exposeString("postal_code", { nullable: true }),
-		created_at: t.string({
+		created_at: t.field({
+			type: "Timestamp",
 			nullable: true,
-			resolve: (parent) => parent.created_at.toISOString(),
+			resolve: (parent) => parent.created_at,
+		}),
+		updated_at: t.field({
+			type: "Timestamp",
+			nullable: true,
+			resolve: (parent) => parent.updated_at,
 		}),
 	}),
 });

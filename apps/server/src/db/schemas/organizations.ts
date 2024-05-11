@@ -1,12 +1,8 @@
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
-import {
-	integer,
-	pgTable,
-	serial,
-	timestamp,
-	varchar,
-} from "drizzle-orm/pg-core";
+import { integer, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 import { users } from "./users";
+import { locationFields } from "./helpers/location";
+import { timeFields } from "./helpers/time";
 
 export const organizations = pgTable("organizations", {
 	id: serial("id").primaryKey(),
@@ -16,12 +12,8 @@ export const organizations = pgTable("organizations", {
 		.references(() => users.id),
 	website: varchar("website", { length: 255 }),
 	logo_url: varchar("logo_url", { length: 255 }),
-	address: varchar("address", { length: 255 }).notNull(),
-	city: varchar("city", { length: 100 }).notNull(),
-	state: varchar("state", { length: 100 }),
-	country: varchar("country", { length: 100 }).notNull(),
-	postal_code: varchar("postal_code", { length: 20 }),
-	created_at: timestamp("created_at").defaultNow().notNull(),
+	...timeFields,
+	...locationFields,
 });
 
 export const organizationsRelations = relations(organizations, ({ one }) => ({

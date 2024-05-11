@@ -3,7 +3,15 @@ import RelayPlugin from "@pothos/plugin-relay";
 import DataloaderPlugin from "@pothos/plugin-dataloader";
 import ComplexityPlugin from "@pothos/plugin-complexity";
 import { ContextType } from "./context.js";
-import { DateResolver, JSONResolver } from "graphql-scalars";
+import {
+	DateResolver,
+	JSONResolver,
+	EmailAddressResolver,
+	URLResolver,
+	TimestampResolver,
+	DateTimeResolver,
+	CountryCodeResolver,
+} from "graphql-scalars";
 
 const builder = new SchemaBuilder<{
 	Connection: {
@@ -18,6 +26,26 @@ const builder = new SchemaBuilder<{
 		Date: {
 			Input: Date;
 			Output: Date;
+		};
+		Timestamp: {
+			Input: Date;
+			Output: Date;
+		};
+		DateTime: {
+			Input: Date;
+			Output: Date;
+		};
+		Email: {
+			Input: string;
+			Output: string;
+		};
+		URL: {
+			Input: string;
+			Output: string;
+		};
+		CountryCode: {
+			Input: string;
+			Output: string;
 		};
 	};
 }>({
@@ -46,6 +74,11 @@ builder.globalConnectionField("totalCount", (t) =>
 
 builder.addScalarType("JSON", JSONResolver);
 builder.addScalarType("Date", DateResolver);
+builder.addScalarType("Timestamp", TimestampResolver);
+builder.addScalarType("DateTime", DateTimeResolver);
+builder.addScalarType("Email", EmailAddressResolver);
+builder.addScalarType("URL", URLResolver);
+builder.addScalarType("CountryCode", CountryCodeResolver);
 
 builder.queryType({});
 // builder.mutationType({});
