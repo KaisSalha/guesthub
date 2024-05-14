@@ -19,51 +19,38 @@ import {
   DialogClose,
 } from "@guesthub/ui/dialog";
 
-interface BaseProps {
-  multiple: boolean;
+interface ImageUploadModalButtonProps extends ButtonProps {
   path: string;
+  filename: string; // Required filename prop
   children: React.ReactNode;
   buttonProps?: ButtonProps;
   ruleOfThirds?: boolean;
   circularCrop?: boolean;
   aspect?: number; // Added aspect prop
-}
-
-interface SingleFileUploadProps extends BaseProps {
-  multiple: false;
   onFileUploaded: (url: string) => void;
   onFilesUploaded?: never;
 }
 
-interface MultipleFileUploadProps extends BaseProps {
-  multiple: true;
-  onFileUploaded?: never;
-  onFilesUploaded: (urls: string[]) => void;
-}
-
-type FileUploadModalButtonProps = ButtonProps &
-  (SingleFileUploadProps | MultipleFileUploadProps);
-
-export const FileUploadModalButton = forwardRef<
+export const ImageUploadModalButton = forwardRef<
   HTMLDivElement,
-  FileUploadModalButtonProps
+  ImageUploadModalButtonProps
 >(
   (
     {
-      multiple,
       path,
+      filename,
       children,
       buttonProps,
       onFileUploaded,
-      onFilesUploaded,
       ruleOfThirds = false,
       circularCrop = false,
       aspect,
     },
     ref
   ) => {
-    const { uploadFile, uploadFiles, isPending } = useUpload();
+    const { uploadFile, isPending } = useUpload();
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [fileType, setFileType] = useState<string>("image/jpeg"); // State to store the file type
     const [crop, setCrop] = useState<Crop>({
       unit: "%",
       x: 25,
@@ -78,11 +65,13 @@ export const FileUploadModalButton = forwardRef<
 
     const onSelectFile = (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
+        const file = e.target.files[0];
+        setFileType(file.type); // Set the file type
         const reader = new FileReader();
         reader.addEventListener("load", () =>
           setSelectedImage(reader.result as string)
         );
-        reader.readAsDataURL(e.target.files[0]);
+        reader.readAsDataURL(file);
       } else {
         handleClose(); // Close the dialog if no files were selected
       }
@@ -125,7 +114,7 @@ export const FileUploadModalButton = forwardRef<
           }
           const fileUrl = URL.createObjectURL(blob);
           resolve(fileUrl);
-        }, "image/jpeg");
+        }, fileType);
       });
     };
 
@@ -141,18 +130,11 @@ export const FileUploadModalButton = forwardRef<
 
       const response = await fetch(croppedImage);
       const blob = await response.blob();
-      const file = new File([blob], "cropped.jpg", { type: "image/jpeg" });
+      const file = new File([blob], filename, { type: fileType });
 
-      if (multiple) {
-        const urls = await uploadFiles([file], path);
-        if (onFilesUploaded) {
-          onFilesUploaded(urls.map((url) => `${url}?timestamp=${Date.now()}`)); // Append timestamp to the URL
-        }
-      } else {
-        const url = await uploadFile(file, path);
-        if (onFileUploaded) {
-          onFileUploaded(`${url}?timestamp=${Date.now()}`); // Append timestamp to the URL
-        }
+      const url = await uploadFile(file, path);
+      if (onFileUploaded) {
+        onFileUploaded(`${url}?timestamp=${Date.now()}`); // Append timestamp to the URL
       }
 
       handleClose();
@@ -188,7 +170,6 @@ export const FileUploadModalButton = forwardRef<
           key={fileInputKey.current}
           type="file"
           className="hidden"
-          multiple={multiple}
           onChange={onSelectFile}
         />
         <Dialog>
@@ -219,18 +200,24 @@ export const FileUploadModalButton = forwardRef<
                       style={{ maxWidth: "100%" }}
                     />
                   </ReactCrop>
-                  <Button onClick={handleUpload} loading={isPending}>
-                    Save
-                  </Button>
                 </>
               )}
             </div>
             <DialogFooter>
               <DialogClose asChild>
-                <Button onClick={handleClose} ref={dialogCloseRef}>
+                <Button
+                  onClick={handleClose}
+                  ref={dialogCloseRef}
+                  variant="ghost"
+                >
                   Cancel
                 </Button>
               </DialogClose>
+              {selectedImage && (
+                <Button onClick={handleUpload} loading={isPending}>
+                  Save
+                </Button>
+              )}
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -239,4 +226,4 @@ export const FileUploadModalButton = forwardRef<
   }
 );
 
-FileUploadModalButton.displayName = "FileUploadModalButton";
+ImageUploadModalButton.displayName = "ImageUploadModalButton";

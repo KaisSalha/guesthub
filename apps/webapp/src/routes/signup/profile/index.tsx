@@ -14,9 +14,14 @@ import { cn } from "@guesthub/ui/lib";
 import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "@guesthub/ui/avatar";
 import { User } from "lucide-react";
-import { FileUploadModalButton } from "@/components/file-upload-modal-button";
+import { ImageUploadModalButton } from "@/components/image-upload-modal-button";
+import { useAuth } from "@/hooks/use-auth";
 
 const Profile = () => {
+  const { me } = useAuth();
+
+  if (!me) return null;
+
   return (
     <Layout>
       <div className="flex flex-col-reverse md:flex-row justify-center items-center gap-10 md:gap-20 w-full">
@@ -62,19 +67,19 @@ const Profile = () => {
                             </AvatarFallback>
                           </Avatar>
                           <FormControl>
-                            <FileUploadModalButton
+                            <ImageUploadModalButton
                               onFileUploaded={(url) => {
                                 form.setValue("avatar_url", url);
                               }}
                               {...field}
                               variant="outline"
-                              multiple={false}
                               path="avatars"
+                              filename={me!.id}
                               circularCrop
                               aspect={1}
                             >
                               Upload a profile picture
-                            </FileUploadModalButton>
+                            </ImageUploadModalButton>
                           </FormControl>
                           <FormMessage />
                         </div>

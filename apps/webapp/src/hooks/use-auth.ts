@@ -114,7 +114,7 @@ export const useAuth = () => {
   };
 
   return {
-    me: data,
+    me: data?.me,
     isLoading: loading,
     isAuthenticated,
     signup,
