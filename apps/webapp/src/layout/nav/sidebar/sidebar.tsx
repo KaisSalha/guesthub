@@ -1,5 +1,4 @@
 import {
-  Dribbble,
   ChevronRight,
   ChevronLeft,
   Home,
@@ -18,6 +17,7 @@ import { useRouter, useRouterState } from "@tanstack/react-router";
 import { atomWithStorage } from "jotai/utils";
 import { useAtom } from "jotai";
 import { SearchBar } from "@/components/search-bar";
+import Logo from "@/components/logo";
 
 const sidebarCollapsedAtom = atomWithStorage("sidebar-collapsed", false);
 
@@ -116,15 +116,12 @@ export const Sidebar = () => {
       >
         <div
           className={cn(
-            "w-full flex flex-row items-center gap-2",
+            "w-full flex justify-start",
             isCollapsed && "justify-center",
             !isCollapsed && "mx-4"
           )}
         >
-          <Dribbble size={22} className="text-brand" />
-          {!isCollapsed && (
-            <p className="font-bold text-lg tracking-wider">GuestHub</p>
-          )}
+          <Logo isCollapsed={isCollapsed} />
         </div>
 
         <div

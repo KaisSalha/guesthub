@@ -1,4 +1,3 @@
-import { useAuth } from "@/hooks/auth";
 import { Button } from "@guesthub/ui/button";
 import { Input } from "@guesthub/ui/input";
 import {
@@ -13,11 +12,19 @@ import { cn } from "@guesthub/ui/lib";
 import { useState } from "react";
 import { z } from "zod";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface UserAuthFormProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onSubmit"> {
+  onSubmit: (formData: { email: string; password: string }) => Promise<void>;
+  submitLabel: string;
+}
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserAuthForm({
+  className,
+  onSubmit,
+  submitLabel,
+  ...props
+}: UserAuthFormProps) {
   const [isLoading] = useState<boolean>(false);
-  const { login } = useAuth();
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -26,13 +33,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           email: z.string().email(),
           password: z.string().min(8),
         })}
-        onSubmit={login}
+        onSubmit={onSubmit}
         defaultValues={{
           email: "",
           password: "",
         }}
         fields={(form) => (
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-6">
             <FormField
               control={form.control}
               name="email"
@@ -78,7 +85,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               {/* {isLoading && (
 							<Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
 						)} */}
-              Sign In with Email
+              {submitLabel}
             </Button>
           </div>
         )}

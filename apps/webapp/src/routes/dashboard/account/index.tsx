@@ -5,11 +5,11 @@ import { Header } from "@/components/header";
 const Profile = () => {
   return (
     <div className="flex flex-col gap-8 mb-4">
-      <Header title="Profile" subtitle="" />
+      <Header title="Account" subtitle="" />
     </div>
   );
 };
 
-export const Route = createFileRoute("/dashboard/profile/")({
+export const Route = createFileRoute("/dashboard/account/")({
   component: Profile,
 });

@@ -19,12 +19,12 @@ const getMe = graphql(/* GraphQL */ `
 `);
 
 export const useAuth = () => {
-  const { data, loading, error, refetch } = useQuery<GetMeQuery>(getMe);
+  const { data, loading, error, client, refetch } = useQuery<GetMeQuery>(getMe);
 
   const navigate = useNavigate();
   const routerState = useRouterState();
 
-  const isAuthenticated = !!data?.me;
+  const isAuthenticated = !error && !!data?.me;
 
   useEffect(() => {
     if (!!error && routerState.location.pathname.startsWith("/dashboard")) {
@@ -59,6 +59,36 @@ export const useAuth = () => {
     refetch();
   };
 
+  const signup = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }): Promise<boolean> => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_ENDPOINT}/signup`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, type: "org" }),
+      }
+    );
+
+    if (!response.ok) {
+      toast.error("Invalid credentials");
+
+      return response.ok;
+    }
+
+    refetch();
+
+    return response.ok;
+  };
+
   const logout = async () => {
     const response = await fetch(
       `${import.meta.env.VITE_API_ENDPOINT}/logout`,
@@ -69,18 +99,25 @@ export const useAuth = () => {
     );
 
     if (!response.ok) {
+      console.error("Failed to logout");
+
       toast.error("Failed to logout");
 
       return;
     }
 
-    refetch();
+    client.clearStore();
+
+    navigate({
+      to: "/login",
+    });
   };
 
   return {
     me: data,
     isLoading: loading,
     isAuthenticated,
+    signup,
     login,
     logout,
   };

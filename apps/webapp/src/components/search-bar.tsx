@@ -27,6 +27,7 @@ export const SearchBar = ({ isCollapsed = false }: SearchBarProps) => {
       <Input
         startIcon={Search}
         placeholder="Search"
+        variant="subtle"
         end={
           <Kbd>
             <span className="text-base">⌘</span>

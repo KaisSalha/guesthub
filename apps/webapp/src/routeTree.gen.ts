@@ -13,16 +13,18 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as DashboardImport } from './routes/dashboard'
 import { Route as IndexImport } from './routes/index'
+import { Route as SignupIndexImport } from './routes/signup/index'
 import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as SignupProfileIndexImport } from './routes/signup/profile/index'
 import { Route as DashboardTeamIndexImport } from './routes/dashboard/team/index'
 import { Route as DashboardRequestsIndexImport } from './routes/dashboard/requests/index'
 import { Route as DashboardReportsIndexImport } from './routes/dashboard/reports/index'
-import { Route as DashboardProfileIndexImport } from './routes/dashboard/profile/index'
 import { Route as DashboardHelpIndexImport } from './routes/dashboard/help/index'
 import { Route as DashboardGuestsIndexImport } from './routes/dashboard/guests/index'
 import { Route as DashboardEventsIndexImport } from './routes/dashboard/events/index'
 import { Route as DashboardCalendarIndexImport } from './routes/dashboard/calendar/index'
+import { Route as DashboardAccountIndexImport } from './routes/dashboard/account/index'
 
 // Create/Update Routes
 
@@ -36,6 +38,11 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const SignupIndexRoute = SignupIndexImport.update({
+  path: '/signup/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const LoginIndexRoute = LoginIndexImport.update({
   path: '/login/',
   getParentRoute: () => rootRoute,
@@ -44,6 +51,11 @@ const LoginIndexRoute = LoginIndexImport.update({
 const DashboardIndexRoute = DashboardIndexImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
+} as any)
+
+const SignupProfileIndexRoute = SignupProfileIndexImport.update({
+  path: '/signup/profile/',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const DashboardTeamIndexRoute = DashboardTeamIndexImport.update({
@@ -58,11 +70,6 @@ const DashboardRequestsIndexRoute = DashboardRequestsIndexImport.update({
 
 const DashboardReportsIndexRoute = DashboardReportsIndexImport.update({
   path: '/reports/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardProfileIndexRoute = DashboardProfileIndexImport.update({
-  path: '/profile/',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -86,6 +93,11 @@ const DashboardCalendarIndexRoute = DashboardCalendarIndexImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
+const DashboardAccountIndexRoute = DashboardAccountIndexImport.update({
+  path: '/account/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -106,6 +118,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginIndexImport
       parentRoute: typeof rootRoute
     }
+    '/signup/': {
+      preLoaderRoute: typeof SignupIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard/account/': {
+      preLoaderRoute: typeof DashboardAccountIndexImport
+      parentRoute: typeof DashboardImport
+    }
     '/dashboard/calendar/': {
       preLoaderRoute: typeof DashboardCalendarIndexImport
       parentRoute: typeof DashboardImport
@@ -122,10 +142,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardHelpIndexImport
       parentRoute: typeof DashboardImport
     }
-    '/dashboard/profile/': {
-      preLoaderRoute: typeof DashboardProfileIndexImport
-      parentRoute: typeof DashboardImport
-    }
     '/dashboard/reports/': {
       preLoaderRoute: typeof DashboardReportsIndexImport
       parentRoute: typeof DashboardImport
@@ -138,6 +154,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardTeamIndexImport
       parentRoute: typeof DashboardImport
     }
+    '/signup/profile/': {
+      preLoaderRoute: typeof SignupProfileIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -147,16 +167,18 @@ export const routeTree = rootRoute.addChildren([
   IndexRoute,
   DashboardRoute.addChildren([
     DashboardIndexRoute,
+    DashboardAccountIndexRoute,
     DashboardCalendarIndexRoute,
     DashboardEventsIndexRoute,
     DashboardGuestsIndexRoute,
     DashboardHelpIndexRoute,
-    DashboardProfileIndexRoute,
     DashboardReportsIndexRoute,
     DashboardRequestsIndexRoute,
     DashboardTeamIndexRoute,
   ]),
   LoginIndexRoute,
+  SignupIndexRoute,
+  SignupProfileIndexRoute,
 ])
 
 /* prettier-ignore-end */

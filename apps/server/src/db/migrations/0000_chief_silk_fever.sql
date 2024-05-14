@@ -19,8 +19,6 @@ CREATE TABLE IF NOT EXISTS "organizations" (
 	"owner_id" integer NOT NULL,
 	"website" varchar(255),
 	"logo_url" varchar(255),
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"address" varchar(255) NOT NULL,
 	"city" varchar(100) NOT NULL,
 	"state" varchar(100),
@@ -28,7 +26,9 @@ CREATE TABLE IF NOT EXISTS "organizations" (
 	"postal_code" varchar(20),
 	"timezone" varchar(100) NOT NULL,
 	"lat" numeric(11, 8),
-	"lng" numeric(11, 8)
+	"lng" numeric(11, 8),
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "roles" (
@@ -54,7 +54,8 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"last_name" varchar(256),
 	"user_type" "user_type" NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
 DO $$ BEGIN

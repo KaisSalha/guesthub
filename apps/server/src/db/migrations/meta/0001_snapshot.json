@@ -1,6 +1,6 @@
 {
-  "id": "9cad3cb6-f040-4a7e-a490-2b6d614373b5",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "453e6621-6005-4ffa-bdad-c2795435c27a",
+  "prevId": "9cad3cb6-f040-4a7e-a490-2b6d614373b5",
   "version": "6",
   "dialect": "postgresql",
   "tables": {
@@ -343,6 +343,12 @@
         },
         "last_name": {
           "name": "last_name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avatar_url": {
+          "name": "avatar_url",
           "type": "varchar(256)",
           "primaryKey": false,
           "notNull": false

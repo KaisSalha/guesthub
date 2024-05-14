@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/auth";
 import { useEffect } from "react";
 
 const Login = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const Login = () => {
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-2xl font-semibold tracking-tight">Login</h1>
             </div>
-            <UserAuthForm />
+            <UserAuthForm onSubmit={login} submitLabel="Sign In" />
           </div>
         </div>
       </div>
