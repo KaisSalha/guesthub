@@ -14,7 +14,7 @@ import { cn } from "@guesthub/ui/lib";
 import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "@guesthub/ui/avatar";
 import { User } from "lucide-react";
-import { FileUploadButton } from "@/components/file-upload-button";
+import { FileUploadModalButton } from "@/components/file-upload-modal-button";
 
 const Profile = () => {
   return (
@@ -58,11 +58,11 @@ const Profile = () => {
                               className="h-20 w-20"
                             />
                             <AvatarFallback className="bg-transparent border p-2 rounded-full">
-                              <User strokeWidth={1.25} className="h-14 w-14" />
+                              <User strokeWidth={0.75} className="h-14 w-14" />
                             </AvatarFallback>
                           </Avatar>
                           <FormControl>
-                            <FileUploadButton
+                            <FileUploadModalButton
                               onFileUploaded={(url) => {
                                 form.setValue("avatar_url", url);
                               }}
@@ -70,9 +70,11 @@ const Profile = () => {
                               variant="outline"
                               multiple={false}
                               path="avatars"
+                              circularCrop
+                              aspect={1}
                             >
                               Upload a profile picture
-                            </FileUploadButton>
+                            </FileUploadModalButton>
                           </FormControl>
                           <FormMessage />
                         </div>
