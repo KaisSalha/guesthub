@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { UserAuthForm } from "../login/-components/user-auth-form";
-import { useAuth } from "@/hooks/auth";
+import { useAuth } from "@/hooks/use-auth";
 import { Layout } from "./-components/layout";
 
 const Signup = () => {

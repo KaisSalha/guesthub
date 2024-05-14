@@ -12,9 +12,9 @@ import {
 } from "@guesthub/ui/form";
 import { cn } from "@guesthub/ui/lib";
 import { z } from "zod";
-import { FileUploadButton } from "@/components/file-input";
 import { Avatar, AvatarFallback, AvatarImage } from "@guesthub/ui/avatar";
 import { User } from "lucide-react";
+import { FileUploadButton } from "@/components/file-upload-button";
 
 const Profile = () => {
   return (
@@ -55,19 +55,21 @@ const Profile = () => {
                           <Avatar className="cursor-pointer w-fit h-fit">
                             <AvatarImage
                               src={field.value}
-                              className="h-10 w-10"
+                              className="h-20 w-20"
                             />
                             <AvatarFallback className="bg-transparent border p-2 rounded-full">
-                              <User strokeWidth={1.25} className="h-6 w-6" />
+                              <User strokeWidth={1.25} className="h-12 w-12" />
                             </AvatarFallback>
                           </Avatar>
                           <FormControl>
                             <FileUploadButton
-                              onFilesSelected={(files: File[]) => {
-                                console.log(files);
+                              onFileUploaded={(url) => {
+                                form.setValue("avatar_url", url);
                               }}
                               {...field}
                               variant="outline"
+                              multiple={false}
+                              path="avatars"
                             >
                               Upload a profile picture
                             </FileUploadButton>

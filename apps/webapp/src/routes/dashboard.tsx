@@ -1,6 +1,6 @@
 import { Outlet, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Layout } from "@/layout/layout";
-import { useAuth } from "@/hooks/auth";
+import { useAuth } from "@/hooks/use-auth";
 import { useEffect } from "react";
 
 const Dashboard = () => {

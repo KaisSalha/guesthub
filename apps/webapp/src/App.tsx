@@ -1,6 +1,6 @@
 import { RouterProvider } from "@tanstack/react-router";
 import { router } from "./router";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Toaster } from "@guesthub/ui/toaster";
 import { TooltipProvider } from "@guesthub/ui/tooltip";
 import {
@@ -12,6 +12,9 @@ import {
 import { Provider } from "jotai";
 import { jotaiStore } from "./lib/jotai-store";
 import { ThemeProvider } from "next-themes";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { persistOptions, queryClientOptions } from "@/lib/query-client";
+import { QueryClient } from "@tanstack/react-query";
 
 const httpLink = createHttpLink({
   uri: `${import.meta.env.VITE_API_ENDPOINT}/graphql`,
@@ -36,6 +39,8 @@ const loadDevTools = () => {
 };
 
 function App() {
+  const [queryClient] = useState(() => new QueryClient(queryClientOptions));
+
   useEffect(() => {
     loadDevTools();
   }, []);
@@ -45,11 +50,16 @@ function App() {
       <Suspense fallback={null}>
         <Provider store={jotaiStore}>
           <ApolloProvider client={client}>
-            <ThemeProvider attribute="class" disableTransitionOnChange>
-              <TooltipProvider delayDuration={0}>
-                <RouterProvider router={router} />
-              </TooltipProvider>
-            </ThemeProvider>
+            <PersistQueryClientProvider
+              client={queryClient}
+              persistOptions={persistOptions}
+            >
+              <ThemeProvider attribute="class" disableTransitionOnChange>
+                <TooltipProvider delayDuration={0}>
+                  <RouterProvider router={router} />
+                </TooltipProvider>
+              </ThemeProvider>
+            </PersistQueryClientProvider>
           </ApolloProvider>
         </Provider>
       </Suspense>
