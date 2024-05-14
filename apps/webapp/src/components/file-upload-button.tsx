@@ -26,7 +26,7 @@ type FileUploadButtonProps = ButtonProps &
 
 export const FileUploadButton = (props: FileUploadButtonProps) => {
   const { multiple, children, buttonProps, path } = props;
-  const { uploadFile, uploadFiles } = useUpload();
+  const { uploadFile, uploadFiles, isPending } = useUpload();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +60,12 @@ export const FileUploadButton = (props: FileUploadButtonProps) => {
         ref={fileInputRef}
         onChange={handleFileChange}
       />
-      <Button onClick={buttonOnClick} {...buttonProps} type="button">
+      <Button
+        onClick={buttonOnClick}
+        {...buttonProps}
+        loading={isPending}
+        type="button"
+      >
         {children}
       </Button>
     </>

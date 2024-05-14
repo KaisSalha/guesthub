@@ -3,6 +3,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "../lib";
+import { BouncingDotsLoader } from "./bouncing-loader";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
@@ -36,11 +37,21 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  loading?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, variant, size, asChild = false, disabled, children, ...props },
+    {
+      className,
+      variant,
+      size,
+      asChild = false,
+      disabled,
+      loading,
+      children,
+      ...props
+    },
     ref
   ) => {
     const Comp = asChild ? Slot : "button";
@@ -51,7 +62,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
         disabled={disabled}
       >
-        {children}
+        <div className="relative">
+          <span className={loading ? "invisible" : "visible"}>{children}</span>
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <BouncingDotsLoader />
+            </div>
+          )}
+        </div>
       </Comp>
     );
   }

@@ -58,7 +58,7 @@ const Profile = () => {
                               className="h-20 w-20"
                             />
                             <AvatarFallback className="bg-transparent border p-2 rounded-full">
-                              <User strokeWidth={1.25} className="h-12 w-12" />
+                              <User strokeWidth={1.25} className="h-14 w-14" />
                             </AvatarFallback>
                           </Avatar>
                           <FormControl>
