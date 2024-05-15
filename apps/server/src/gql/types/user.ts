@@ -1,7 +1,8 @@
 import { builder } from "../builder.js";
 import { db } from "../../db/index.js";
-import { User as UserType } from "../../db/schemas/users.js";
+import { User as UserType, users } from "../../db/schemas/users.js";
 import { Membership } from "./membership.js";
+import { eq } from "drizzle-orm";
 
 export const User = builder.loadableNodeRef("User", {
 	id: {
@@ -96,3 +97,59 @@ builder.queryFields((t) => ({
 		},
 	}),
 }));
+
+builder.relayMutationField(
+	"updateUser",
+	{
+		inputFields: (t) => ({
+			first_name: t.string({ required: false }),
+			last_name: t.string({ required: false }),
+			avatar_url: t.string({ required: false }),
+		}),
+	},
+	{
+		resolve: async (_root, args, ctx) => {
+			try {
+				const updateFields: Partial<UserType> = {
+					...(args.input.first_name && {
+						first_name: args.input.first_name,
+					}),
+					...(args.input.last_name && {
+						last_name: args.input.last_name,
+					}),
+					...(args.input.avatar_url && {
+						avatar_url: args.input.avatar_url,
+					}),
+				};
+
+				const [user] = await db
+					.update(users)
+					.set(updateFields)
+					.where(eq(users.id, ctx.user.id))
+					.returning();
+
+				return {
+					success: true,
+					user,
+				};
+			} catch (error) {
+				console.log(error);
+				return {
+					success: false,
+				};
+			}
+		},
+	},
+	{
+		outputFields: (t) => ({
+			success: t.boolean({
+				resolve: (result) => result.success,
+			}),
+			user: t.field({
+				type: User,
+				nullable: true,
+				resolve: (result) => result.user,
+			}),
+		}),
+	}
+);

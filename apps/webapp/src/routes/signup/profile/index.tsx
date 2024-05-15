@@ -1,3 +1,4 @@
+import { graphql } from "gql.tada";
 import { createFileRoute } from "@tanstack/react-router";
 import { Layout } from "../-components/layout";
 import { Button } from "@guesthub/ui/button";
@@ -16,9 +17,25 @@ import { Avatar, AvatarFallback, AvatarImage } from "@guesthub/ui/avatar";
 import { User } from "lucide-react";
 import { ImageUploadModalButton } from "@/components/image-upload-modal-button";
 import { useAuth } from "@/hooks/use-auth";
+import { useMutation } from "@apollo/client";
+
+const updateUserMutation = graphql(/* GraphQL */ `
+  mutation UpdateUser($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      success
+    }
+  }
+`);
 
 const Profile = () => {
   const { me } = useAuth();
+
+  const [updateUser, { loading }] = useMutation(updateUserMutation, {
+    update(cache) {
+      cache.evict({ fieldName: "me" });
+      cache.gc();
+    },
+  });
 
   if (!me) return null;
 
@@ -37,12 +54,34 @@ const Profile = () => {
           <div className={cn("grid gap-6")}>
             <Form
               formSchema={z.object({
-                avatar_url: z.string(),
-                first_name: z.string().min(2),
-                last_name: z.string().min(2),
+                avatar_url: z
+                  .string()
+                  .min(1, { message: "Avatar is required" }),
+                first_name: z
+                  .string()
+                  .min(2, { message: "First name is required" }),
+                last_name: z
+                  .string()
+                  .min(2, { message: "Last name is required" }),
               })}
-              onSubmit={async (vals) => {
-                console.log(vals);
+              onSubmit={async ({
+                avatar_url,
+                first_name,
+                last_name,
+              }: {
+                avatar_url: string;
+                first_name: string;
+                last_name: string;
+              }) => {
+                await updateUser({
+                  variables: {
+                    input: {
+                      avatar_url,
+                      first_name,
+                      last_name,
+                    },
+                  },
+                });
               }}
               defaultValues={{
                 avatar_url: "",
@@ -59,7 +98,7 @@ const Profile = () => {
                         <div className="flex flex-row gap-5 justify-start items-center">
                           <Avatar className="cursor-pointer w-fit h-fit">
                             <AvatarImage
-                              src={field.value}
+                              src={me.avatar_url ?? field.value}
                               className="h-20 w-20"
                             />
                             <AvatarFallback className="bg-transparent border p-2 rounded-full">
@@ -81,8 +120,8 @@ const Profile = () => {
                               Upload a profile picture
                             </ImageUploadModalButton>
                           </FormControl>
-                          <FormMessage />
                         </div>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -113,7 +152,7 @@ const Profile = () => {
                     )}
                   />
 
-                  <Button type="submit" disabled={false}>
+                  <Button type="submit" disabled={false} loading={loading}>
                     Continue
                   </Button>
                 </div>

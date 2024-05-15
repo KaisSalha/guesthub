@@ -2,6 +2,7 @@ import SchemaBuilder from "@pothos/core";
 import RelayPlugin from "@pothos/plugin-relay";
 import DataloaderPlugin from "@pothos/plugin-dataloader";
 import ComplexityPlugin from "@pothos/plugin-complexity";
+import ScopeAuthPlugin from "@pothos/plugin-scope-auth";
 import { ContextType } from "./context.js";
 import {
 	DateResolver,
@@ -20,6 +21,9 @@ const builder = new SchemaBuilder<{
 		totalCount: number;
 	};
 	Context: ContextType;
+	AuthScopes: {
+		public: boolean;
+	};
 	Scalars: {
 		JSON: {
 			Input: unknown;
@@ -59,7 +63,7 @@ const builder = new SchemaBuilder<{
 		};
 	};
 }>({
-	plugins: [DataloaderPlugin, RelayPlugin, ComplexityPlugin],
+	plugins: [DataloaderPlugin, RelayPlugin, ScopeAuthPlugin, ComplexityPlugin],
 	relayOptions: {
 		clientMutationId: "omit",
 		cursorType: "String",
@@ -72,6 +76,13 @@ const builder = new SchemaBuilder<{
 			depth: 10,
 			breadth: 50,
 		}),
+	},
+	authScopes: async (context) => ({
+		public: !!context.user,
+	}),
+	scopeAuthOptions: {
+		authorizeOnSubscribe: true,
+		runScopesOnType: true,
 	},
 });
 
