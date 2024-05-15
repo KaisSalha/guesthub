@@ -36,6 +36,7 @@ User.implement({
 		}),
 		first_name: t.exposeString("first_name", { nullable: true }),
 		last_name: t.exposeString("last_name", { nullable: true }),
+		avatar_url: t.exposeString("avatar_url", { nullable: true }),
 		type: t.exposeString("type"),
 		memberships: t.loadableGroup({
 			type: Membership,

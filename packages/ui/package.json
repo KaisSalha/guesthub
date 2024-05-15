@@ -26,6 +26,7 @@
     "./context-menu": "./components/context-menu.tsx",
     "./dialog": "./components/dialog.tsx",
     "./drawer": "./components/drawer.tsx",
+    "./credenza": "./components/credenza.tsx",
     "./dropdown-menu": "./components/dropdown-menu.tsx",
     "./form": "./components/form.tsx",
     "./globals.css": "./globals.css",

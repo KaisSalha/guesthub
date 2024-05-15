@@ -157,6 +157,7 @@ export type Role = Node & {
 
 export type User = Node & {
   __typename?: 'User';
+  avatar_url?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['Timestamp']['output']>;
   email: Scalars['Email']['output'];
   first_name?: Maybe<Scalars['String']['output']>;
@@ -170,7 +171,7 @@ export type User = Node & {
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, first_name?: string | null, last_name?: string | null, type: string, created_at?: any | null } | null };
+export type GetMeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, first_name?: string | null, last_name?: string | null, avatar_url?: string | null, type: string, created_at?: any | null } | null };
 
 
-export const GetMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}}]}}]} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
+export const GetMeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMe"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"first_name"}},{"kind":"Field","name":{"kind":"Name","value":"last_name"}},{"kind":"Field","name":{"kind":"Name","value":"avatar_url"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"created_at"}}]}}]}}]} as unknown as DocumentNode<GetMeQuery, GetMeQueryVariables>;
