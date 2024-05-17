@@ -16,6 +16,7 @@ interface HeaderProps {
 }
 
 export const Header = ({ title, subtitle }: HeaderProps) => {
+  const { me } = useAuth();
   const router = useRouter();
   const { logout } = useAuth();
 
@@ -33,8 +34,8 @@ export const Header = ({ title, subtitle }: HeaderProps) => {
           <DropdownMenuTrigger>
             <Avatar className="cursor-pointer w-fit h-fit">
               <AvatarImage
-                src="https://github.com/shadcn.png"
-                className="h-9 w-9"
+                src={me?.avatar_url ?? undefined}
+                className="h-10 w-10"
               />
               <AvatarFallback className="bg-transparent border p-2 rounded-full">
                 <User strokeWidth={1.25} className="h-5 w-5" />

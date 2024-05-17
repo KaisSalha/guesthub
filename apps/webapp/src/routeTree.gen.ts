@@ -17,6 +17,7 @@ import { Route as SignupIndexImport } from './routes/signup/index'
 import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as SignupProfileIndexImport } from './routes/signup/profile/index'
+import { Route as SignupOrganizationIndexImport } from './routes/signup/organization/index'
 import { Route as DashboardTeamIndexImport } from './routes/dashboard/team/index'
 import { Route as DashboardRequestsIndexImport } from './routes/dashboard/requests/index'
 import { Route as DashboardReportsIndexImport } from './routes/dashboard/reports/index'
@@ -55,6 +56,11 @@ const DashboardIndexRoute = DashboardIndexImport.update({
 
 const SignupProfileIndexRoute = SignupProfileIndexImport.update({
   path: '/signup/profile/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SignupOrganizationIndexRoute = SignupOrganizationIndexImport.update({
+  path: '/signup/organization/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -154,6 +160,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardTeamIndexImport
       parentRoute: typeof DashboardImport
     }
+    '/signup/organization/': {
+      preLoaderRoute: typeof SignupOrganizationIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/signup/profile/': {
       preLoaderRoute: typeof SignupProfileIndexImport
       parentRoute: typeof rootRoute
@@ -178,6 +188,7 @@ export const routeTree = rootRoute.addChildren([
   ]),
   LoginIndexRoute,
   SignupIndexRoute,
+  SignupOrganizationIndexRoute,
   SignupProfileIndexRoute,
 ])
 

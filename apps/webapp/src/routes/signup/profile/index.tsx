@@ -1,5 +1,5 @@
 import { graphql } from "gql.tada";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Layout } from "../-components/layout";
 import { Button } from "@guesthub/ui/button";
 import { Input } from "@guesthub/ui/input";
@@ -18,6 +18,7 @@ import { User } from "lucide-react";
 import { ImageUploadModalButton } from "@/components/image-upload-modal-button";
 import { useAuth } from "@/hooks/use-auth";
 import { useMutation } from "@apollo/client";
+import { useTheme } from "next-themes";
 
 const updateUserMutation = graphql(/* GraphQL */ `
   mutation UpdateUser($input: UpdateUserInput!) {
@@ -29,6 +30,8 @@ const updateUserMutation = graphql(/* GraphQL */ `
 
 const Profile = () => {
   const { me } = useAuth();
+  const { resolvedTheme } = useTheme();
+  const navigate = useNavigate();
 
   const [updateUser, { loading }] = useMutation(updateUserMutation, {
     update(cache) {
@@ -82,6 +85,10 @@ const Profile = () => {
                     },
                   },
                 });
+
+                navigate({
+                  to: "/signup/organization",
+                });
               }}
               defaultValues={{
                 avatar_url: "",
@@ -98,7 +105,7 @@ const Profile = () => {
                         <div className="flex flex-row gap-5 justify-start items-center">
                           <Avatar className="cursor-pointer w-fit h-fit">
                             <AvatarImage
-                              src={me.avatar_url ?? field.value}
+                              src={field.value ?? me.avatar_url}
                               className="h-20 w-20"
                             />
                             <AvatarFallback className="bg-transparent border p-2 rounded-full">
@@ -162,7 +169,11 @@ const Profile = () => {
         </div>
         <div className="h-[45vh] w-full md:min-h-[80vh] md:w-3/6 bg-background-inverted rounded-xl flex flex-col items-center justify-center relative overflow-hidden">
           <img
-            src="/dashboard-light.png"
+            src={
+              resolvedTheme === "dark"
+                ? "/dashboard-dark.png"
+                : "/dashboard-light.png"
+            }
             alt="Signup"
             className="absolute top-1/2 -right-1/3 scale-150 md:scale-125 transform -translate-y-1/2 rounded-md"
           />

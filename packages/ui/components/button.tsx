@@ -62,7 +62,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
         disabled={disabled}
       >
-        <div className="relative">
+        <div className="relative w-full">
           <span className={loading ? "invisible" : "visible"}>{children}</span>
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center">

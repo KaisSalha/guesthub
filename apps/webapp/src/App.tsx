@@ -54,7 +54,11 @@ function App() {
               client={queryClient}
               persistOptions={persistOptions}
             >
-              <ThemeProvider attribute="class" disableTransitionOnChange>
+              <ThemeProvider
+                attribute="class"
+                disableTransitionOnChange
+                enableSystem
+              >
                 <TooltipProvider delayDuration={0}>
                   <RouterProvider router={router} />
                 </TooltipProvider>
