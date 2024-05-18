@@ -5,22 +5,10 @@ import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-const getMe = graphql(/* GraphQL */ `
-  query GetMe {
-    me {
-      id
-      email
-      first_name
-      last_name
-      avatar_url
-      type
-      created_at
-    }
-  }
-`);
-
 export const useAuth = () => {
-  const { data, loading, error, client, refetch } = useQuery<GetMeQuery>(getMe);
+  const { data, loading, error, client, refetch } = useQuery<GetMeQuery>(
+    useAuth.query
+  );
 
   const navigate = useNavigate();
   const routerState = useRouterState();
@@ -123,3 +111,17 @@ export const useAuth = () => {
     logout,
   };
 };
+
+useAuth.query = graphql(/* GraphQL */ `
+  query GetMe {
+    me {
+      id
+      email
+      first_name
+      last_name
+      avatar_url
+      type
+      created_at
+    }
+  }
+`);

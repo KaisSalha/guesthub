@@ -1,8 +1,8 @@
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { pgTable, serial, integer, varchar, json } from "drizzle-orm/pg-core";
 import { organizations } from "./organizations";
-import { PERMISSIONS } from "@/permissions";
 import { timeFields } from "./helpers/time";
+import { PERMISSIONS } from "../../services/permissions";
 
 export const roles = pgTable("roles", {
 	id: serial("id").primaryKey(),
@@ -11,7 +11,7 @@ export const roles = pgTable("roles", {
 		.notNull()
 		.references(() => organizations.id),
 	permissions: json("permissions")
-		.$type<Partial<typeof PERMISSIONS>>()
+		.$type<Partial<PERMISSIONS>>()
 		.default({})
 		.notNull(),
 	...timeFields,

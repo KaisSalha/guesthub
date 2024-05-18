@@ -19,26 +19,24 @@ import { ImageUploadModalButton } from "@/components/image-upload-modal-button";
 import { useAuth } from "@/hooks/use-auth";
 import { useMutation } from "@apollo/client";
 import { useTheme } from "next-themes";
-
-const updateUserMutation = graphql(/* GraphQL */ `
-  mutation UpdateUser($input: UpdateUserInput!) {
-    updateUser(input: $input) {
-      success
-    }
-  }
-`);
+import { useEffect } from "react";
 
 const Profile = () => {
-  const { me } = useAuth();
+  const { me, isLoading } = useAuth();
   const { resolvedTheme } = useTheme();
   const navigate = useNavigate();
 
-  const [updateUser, { loading }] = useMutation(updateUserMutation, {
+  const [updateUser, { loading }] = useMutation(Profile.mutations.updateUser, {
     update(cache) {
       cache.evict({ fieldName: "me" });
       cache.gc();
     },
   });
+
+  useEffect(() => {
+    if (!isLoading && (me?.first_name || me?.last_name))
+      navigate({ to: "/signup/organization" });
+  }, [isLoading, me, navigate]);
 
   if (!me) return null;
 
@@ -181,6 +179,16 @@ const Profile = () => {
       </div>
     </Layout>
   );
+};
+
+Profile.mutations = {
+  updateUser: graphql(/* GraphQL */ `
+    mutation UpdateUser($input: UpdateUserInput!) {
+      updateUser(input: $input) {
+        success
+      }
+    }
+  `),
 };
 
 export const Route = createFileRoute("/signup/profile/")({

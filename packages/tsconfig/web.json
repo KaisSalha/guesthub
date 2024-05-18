@@ -9,6 +9,9 @@
     "jsx": "preserve",
     "sourceMap": true,
     "allowImportingTsExtensions": true,
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }

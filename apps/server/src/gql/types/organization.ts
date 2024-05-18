@@ -6,6 +6,9 @@ import {
 } from "../../db/schemas/organizations.js";
 import { User } from "./user.js";
 import { encodeGlobalID } from "@pothos/plugin-relay";
+import { roles } from "../../db/schemas/roles.js";
+import { ADMIN_PERMISSIONS, PERMISSIONS } from "../../services/permissions.js";
+import { memberships } from "src/db/schemas/memberships.js";
 
 export const Organization = builder.loadableNodeRef("Organization", {
 	id: {
@@ -119,17 +122,18 @@ builder.relayMutationField(
 			timezone: t.string({ required: true }),
 			lat: t.field({
 				type: "Latitude",
-				required: true,
+				required: false,
 			}),
 			lng: t.field({
 				type: "Longitude",
-				required: true,
+				required: false,
 			}),
 		}),
 	},
 	{
 		resolve: async (_root, args, ctx) => {
 			try {
+				// Create org
 				const [organization] = await db
 					.insert(organizations)
 					.values({
@@ -147,6 +151,36 @@ builder.relayMutationField(
 						lng: args.input.lng,
 					})
 					.returning()
+					.execute();
+
+				// Add roles
+				const [role] = await db
+					.insert(roles)
+					.values({
+						name: "admin",
+						organization_id: organization.id,
+						permissions: ADMIN_PERMISSIONS,
+					})
+					.returning()
+					.execute();
+
+				await db
+					.insert(roles)
+					.values({
+						name: "user",
+						organization_id: organization.id,
+						permissions: PERMISSIONS,
+					})
+					.execute();
+
+				// Create membership
+				await db
+					.insert(memberships)
+					.values({
+						user_id: ctx.user.id,
+						role_id: role.id,
+						organization_id: organization.id,
+					})
 					.execute();
 
 				return {

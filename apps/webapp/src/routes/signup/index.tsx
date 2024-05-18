@@ -2,25 +2,31 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { UserAuthForm } from "../login/-components/user-auth-form";
 import { useAuth } from "@/hooks/use-auth";
 import { Layout } from "./-components/layout";
+import { useCallback, useEffect } from "react";
 
 const Signup = () => {
-  const { signup } = useAuth();
+  const { signup, me, isLoading } = useAuth();
   const navigate = useNavigate();
 
-  const onSubmit = async ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => {
-    const ok = await signup({ email, password });
+  const onSubmit = useCallback(
+    async ({ email, password }: { email: string; password: string }) => {
+      const ok = await signup({ email, password });
 
-    if (ok)
+      if (ok)
+        navigate({
+          to: "/signup/profile",
+        });
+    },
+    [signup, navigate]
+  );
+
+  useEffect(() => {
+    if (me && !isLoading) {
       navigate({
         to: "/signup/profile",
       });
-  };
+    }
+  }, [me, isLoading, navigate]);
 
   return (
     <Layout>

@@ -14,7 +14,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query GetMe {\n    me {\n      id\n      email\n      first_name\n      last_name\n      avatar_url\n      type\n      created_at\n    }\n  }\n": types.GetMeDocument,
-    "\n  mutation UpdateUser($input: UpdateUserInput!) {\n    updateUser(input: $input) {\n      success\n    }\n  }\n": types.UpdateUserDocument,
+    "\n    mutation CreateOrganization($input: CreateOrganizationInput!) {\n      createOrganization(input: $input) {\n        success\n      }\n    }\n  ": types.CreateOrganizationDocument,
+    "\n    mutation UpdateUser($input: UpdateUserInput!) {\n      updateUser(input: $input) {\n        success\n      }\n    }\n  ": types.UpdateUserDocument,
 };
 
 /**
@@ -38,7 +39,11 @@ export function graphql(source: "\n  query GetMe {\n    me {\n      id\n      em
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateUser($input: UpdateUserInput!) {\n    updateUser(input: $input) {\n      success\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateUser($input: UpdateUserInput!) {\n    updateUser(input: $input) {\n      success\n    }\n  }\n"];
+export function graphql(source: "\n    mutation CreateOrganization($input: CreateOrganizationInput!) {\n      createOrganization(input: $input) {\n        success\n      }\n    }\n  "): (typeof documents)["\n    mutation CreateOrganization($input: CreateOrganizationInput!) {\n      createOrganization(input: $input) {\n        success\n      }\n    }\n  "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation UpdateUser($input: UpdateUserInput!) {\n      updateUser(input: $input) {\n        success\n      }\n    }\n  "): (typeof documents)["\n    mutation UpdateUser($input: UpdateUserInput!) {\n      updateUser(input: $input) {\n        success\n      }\n    }\n  "];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

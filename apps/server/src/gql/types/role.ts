@@ -2,7 +2,10 @@ import { builder } from "../builder.js";
 import { db } from "../../db/index.js";
 import { Role as RoleType } from "../../db/schemas/roles.js";
 import { Organization } from "./organization.js";
-import { PERMISSIONS } from "@/permissions.js";
+import {
+	getAdminPermissions,
+	getUserPermissions,
+} from "../../services/permissions.js";
 
 export const Role = builder.loadableNodeRef("Role", {
 	id: {
@@ -40,10 +43,14 @@ Role.implement({
 		permissions: t.field({
 			type: "JSON",
 			resolve: (parent) => {
-				return {
-					...PERMISSIONS,
-					...parent.permissions,
-				};
+				if (parent.name === "admin")
+					return getAdminPermissions({
+						permissions: parent.permissions,
+					});
+
+				return getUserPermissions({
+					permissions: parent.permissions,
+				});
 			},
 		}),
 		created_at: t.field({

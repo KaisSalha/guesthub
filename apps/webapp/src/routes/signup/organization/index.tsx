@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Layout } from "../-components/layout";
 import { Button } from "@guesthub/ui/button";
 import { Input } from "@guesthub/ui/input";
@@ -19,11 +19,23 @@ import locationTimezone from "node-location-timezone";
 import { Combobox } from "@guesthub/ui/combobox";
 import { useTheme } from "next-themes";
 import { cn } from "@guesthub/ui/lib";
+import { graphql } from "gql.tada";
+import { useMutation } from "@apollo/client";
 
 const Organization = () => {
   const { me } = useAuth();
   const { resolvedTheme } = useTheme();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const [createOrganization, { loading }] = useMutation(
+    Organization.mutations.createOrganization,
+    {
+      update(cache) {
+        cache.evict({ fieldName: "me" });
+        cache.gc();
+      },
+    }
+  );
 
   if (!me) return null;
 
@@ -47,6 +59,13 @@ const Organization = () => {
                 website: z.string().trim().url({ message: "Invalid URL" }),
                 address: z.string().min(5, { message: "Address is required" }),
                 city: z.string().min(2, { message: "City is required" }),
+                state: z.optional(
+                  z.string().min(2, { message: "Invalid state" })
+                ),
+                postal_code: z.optional(
+                  z.string().min(2, { message: "Invalid postal code" })
+                ),
+                timezone: z.string().min(2, { message: "Invalid timezone" }),
                 country_code: z
                   .string()
                   .length(2, { message: "Invalid country" }),
@@ -57,6 +76,9 @@ const Organization = () => {
                 website,
                 address,
                 city,
+                state,
+                postal_code,
+                timezone,
                 country_code,
               }: {
                 logo_url: string;
@@ -64,20 +86,30 @@ const Organization = () => {
                 website: string;
                 address: string;
                 city: string;
+                state?: string;
+                postal_code?: string;
+                timezone: string;
                 country_code: string;
               }) => {
-                console.log({
-                  logo_url,
-                  name,
-                  website,
-                  address,
-                  city,
-                  country_code,
+                await createOrganization({
+                  variables: {
+                    input: {
+                      logo_url,
+                      name,
+                      website,
+                      address,
+                      city,
+                      state,
+                      postal_code,
+                      timezone,
+                      country_code,
+                    },
+                  },
                 });
 
-                //   navigate({
-                //     to: "/signup/organization",
-                //   });
+                navigate({
+                  to: "/dashboard",
+                });
               }}
               defaultValues={{
                 logo_url: "",
@@ -85,6 +117,9 @@ const Organization = () => {
                 website: "",
                 address: "",
                 city: "",
+                state: undefined,
+                postal_code: undefined,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                 country_code: "",
               }}
               fields={(form) => (
@@ -94,7 +129,7 @@ const Organization = () => {
                     name="logo_url"
                     render={({ field }) => (
                       <FormItem>
-                        <div className="flex flex-row gap-5 justify-start items-center">
+                        <div className="flex md:flex-row gap-5 justify-start items-center">
                           <Avatar className="cursor-pointer w-fit h-fit rounded-md">
                             <AvatarImage
                               src={field.value}
@@ -126,7 +161,7 @@ const Organization = () => {
                       </FormItem>
                     )}
                   />
-                  <div className="flex flex-row w-full justify-between gap-6">
+                  <div className="flex flex-col md:flex-row w-full justify-between gap-6">
                     <FormField
                       control={form.control}
                       name="name"
@@ -134,7 +169,7 @@ const Organization = () => {
                         <FormItem className="flex-1">
                           <FormLabel>Organization name</FormLabel>
                           <FormControl>
-                            <Input {...field} autoComplete="off" />
+                            <Input {...field} autoComplete="organization" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -147,7 +182,7 @@ const Organization = () => {
                         <FormItem className="flex-1">
                           <FormLabel>Website</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} autoComplete="url" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -161,14 +196,14 @@ const Organization = () => {
                       <FormItem className="flex-1">
                         <FormLabel>Address</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} autoComplete="street-address" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
 
-                  <div className="flex flex-row w-full justify-between gap-6">
+                  <div className="flex flex-col md:flex-row w-full justify-between gap-6">
                     <FormField
                       control={form.control}
                       name="city"
@@ -176,10 +211,45 @@ const Organization = () => {
                         <FormItem className="flex-1">
                           <FormLabel>City</FormLabel>
                           <FormControl>
-                            <Input
-                              {...field}
-                              autoComplete="work address-level2"
-                            />
+                            <Input {...field} autoComplete="address-level2" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="state"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>
+                            State/Province{" "}
+                            <span className="text-foreground-subtle">
+                              (optional)
+                            </span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input {...field} autoComplete="address-level1" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="flex flex-col md:flex-row w-full justify-between gap-6">
+                    <FormField
+                      control={form.control}
+                      name="postal_code"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>
+                            Zip/Postal code{" "}
+                            <span className="text-foreground-subtle">
+                              (optional)
+                            </span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input {...field} autoComplete="postal-code" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -213,10 +283,37 @@ const Organization = () => {
                       )}
                     />
                   </div>
+                  <FormField
+                    control={form.control}
+                    name="timezone"
+                    render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormLabel>Timezone</FormLabel>
+                        <FormControl>
+                          <Combobox
+                            {...field}
+                            options={locationTimezone
+                              .getTimezones()
+                              .map((t) => ({ value: t, label: t }))}
+                            onChange={(value) =>
+                              form.setValue("timezone", value)
+                            }
+                            triggerLabel={
+                              locationTimezone.findCountryByIso(field.value)
+                                ?.name
+                            }
+                            searchLabel={""}
+                            emptyLabel={""}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <Button
                     type="submit"
                     disabled={false}
-                    loading={false}
+                    loading={loading}
                     className="mt-2"
                   >
                     Continue
@@ -240,6 +337,16 @@ const Organization = () => {
       </div>
     </Layout>
   );
+};
+
+Organization.mutations = {
+  createOrganization: graphql(/* GraphQL */ `
+    mutation CreateOrganization($input: CreateOrganizationInput!) {
+      createOrganization(input: $input) {
+        success
+      }
+    }
+  `),
 };
 
 export const Route = createFileRoute("/signup/organization/")({

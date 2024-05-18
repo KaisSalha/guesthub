@@ -32,10 +32,7 @@
     "noFallthroughCasesInSwitch": true,
     "useUnknownInCatchVariables": true,
     "experimentalDecorators": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "baseUrl": "."
   },
   "exclude": ["dist", "build", "node_modules"],
   "ts-node": { "files": true, "esm": true }

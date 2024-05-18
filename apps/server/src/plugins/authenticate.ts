@@ -1,8 +1,8 @@
 import { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import { lucia } from "../lib/auth.js";
-import { config } from "@/config/index.js";
-import { db } from "@/db/index.js";
+import { config } from "../config/index.js";
+import { db } from "../db/index.js";
 
 const plugin = async function (app: FastifyInstance): Promise<void> {
 	app.decorate("user", null);
