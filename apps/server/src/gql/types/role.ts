@@ -1,11 +1,13 @@
 import { builder } from "../builder.js";
 import { db } from "../../db/index.js";
-import { Role as RoleType } from "../../db/schemas/roles.js";
+import { Role as RoleType, roles } from "../../db/schemas/roles.js";
 import { Organization } from "./organization.js";
 import {
 	getAdminPermissions,
 	getUserPermissions,
 } from "../../services/permissions.js";
+import { resolveWindowedConnection } from "src/utils/resolveWindowedConnection.js";
+import { count } from "drizzle-orm";
 
 export const Role = builder.loadableNodeRef("Role", {
 	id: {
@@ -67,26 +69,41 @@ Role.implement({
 });
 
 builder.queryFields((t) => ({
-	role: t.field({
+	orgRoles: t.connection({
 		type: Role,
-		nullable: true,
 		args: {
-			id: t.arg.globalID({ required: true }),
-		},
-		resolve: (_root, args) => args.id.id,
-	}),
-	roles: t.field({
-		type: [Role],
-		nullable: true,
-		args: {
-			ids: t.arg.globalIDList({ required: false }),
+			offset: t.arg.int({ required: true }),
+			orgId: t.arg.globalID({ required: true }),
 		},
 		resolve: async (_parent, args) => {
-			if (args.ids) {
-				return [...args.ids.map(({ id }) => id)];
-			}
+			return await resolveWindowedConnection(
+				{ args },
+				async ({ limit }) => {
+					const [items, totalCount] = await Promise.all([
+						db
+							.select()
+							.from(roles)
+							.limit(limit)
+							.offset(args.offset),
+						db.select({ value: count() }).from(roles),
+					]);
 
-			return await db.query.roles.findMany();
+					return {
+						items: items.map((item) => ({
+							...item,
+							permissions:
+								item.name === "admin"
+									? getAdminPermissions({
+											permissions: item.permissions,
+										})
+									: getUserPermissions({
+											permissions: item.permissions,
+										}),
+						})),
+						totalCount: totalCount[0].value,
+					};
+				}
+			);
 		},
 	}),
 }));

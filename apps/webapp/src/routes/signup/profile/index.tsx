@@ -16,13 +16,13 @@ import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "@guesthub/ui/avatar";
 import { User } from "lucide-react";
 import { ImageUploadModalButton } from "@/components/image-upload-modal-button";
-import { useAuth } from "@/hooks/use-auth";
 import { useMutation } from "@apollo/client";
 import { useTheme } from "next-themes";
 import { useEffect } from "react";
+import { useMe } from "@/hooks/use-me";
 
 const Profile = () => {
-  const { me, isLoading } = useAuth();
+  const { me, isLoading } = useMe();
   const { resolvedTheme } = useTheme();
   const navigate = useNavigate();
 

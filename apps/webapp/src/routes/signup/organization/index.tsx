@@ -14,16 +14,16 @@ import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "@guesthub/ui/avatar";
 import { Building2 } from "lucide-react";
 import { ImageUploadModalButton } from "@/components/image-upload-modal-button";
-import { useAuth } from "@/hooks/use-auth";
 import locationTimezone from "node-location-timezone";
 import { Combobox } from "@guesthub/ui/combobox";
 import { useTheme } from "next-themes";
 import { cn } from "@guesthub/ui/lib";
 import { graphql } from "gql.tada";
 import { useMutation } from "@apollo/client";
+import { useMe } from "@/hooks/use-me";
 
 const Organization = () => {
-  const { me } = useAuth();
+  const { me } = useMe();
   const { resolvedTheme } = useTheme();
   const navigate = useNavigate();
 

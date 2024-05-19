@@ -29,6 +29,15 @@ import {
 } from "../table";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { Skeleton } from "../skeleton";
+import { RowData } from "@tanstack/react-table";
+
+declare module "@tanstack/react-table" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface ColumnMeta<TData extends RowData, TValue> {
+    headerClass?: string;
+    cellClass?: string;
+  }
+}
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -149,7 +158,15 @@ const DataTable = <TData, TValue>({
                 >
                   {headerGroup.headers.map((header) => {
                     return (
-                      <TableHead key={header.id} colSpan={header.colSpan}>
+                      <TableHead
+                        key={header.id}
+                        colSpan={header.colSpan}
+                        className={
+                          header.column.columnDef.meta?.headerClass
+                            ? header.column.columnDef.meta.headerClass
+                            : ""
+                        }
+                      >
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -169,7 +186,14 @@ const DataTable = <TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className={
+                        cell.column.columnDef.meta?.cellClass
+                          ? cell.column.columnDef.meta.cellClass
+                          : ""
+                      }
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -198,7 +222,15 @@ const DataTable = <TData, TValue>({
               <TableRow key={headerGroup.id} className="bg-background-muted/40">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} colSpan={header.colSpan}>
+                    <TableHead
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      className={
+                        header.column.columnDef.meta?.headerClass
+                          ? header.column.columnDef.meta.headerClass
+                          : ""
+                      }
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -219,7 +251,14 @@ const DataTable = <TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className={
+                        cell.column.columnDef.meta?.cellClass
+                          ? cell.column.columnDef.meta.cellClass
+                          : ""
+                      }
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

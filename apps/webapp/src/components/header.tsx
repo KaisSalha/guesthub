@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@guesthub/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
+import { useMe } from "@/hooks/use-me";
 
 interface HeaderProps {
   title: string;
@@ -16,7 +17,7 @@ interface HeaderProps {
 }
 
 export const Header = ({ title, subtitle }: HeaderProps) => {
-  const { me } = useAuth();
+  const { me } = useMe();
   const router = useRouter();
   const { logout } = useAuth();
 

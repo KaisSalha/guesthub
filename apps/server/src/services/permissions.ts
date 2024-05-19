@@ -1,5 +1,6 @@
 export const PERMISSIONS = {
 	CAN_INVITE_GUESTS: false,
+	CAN_UPDATE_ROLES: false,
 };
 
 export type PERMISSIONS = typeof PERMISSIONS;
@@ -18,6 +19,7 @@ export const getUserPermissions = ({
 export const ADMIN_PERMISSIONS = {
 	...PERMISSIONS,
 	CAN_INVITE_GUESTS: true,
+	CAN_UPDATE_ROLES: true,
 };
 
 export const getAdminPermissions = ({
@@ -33,4 +35,5 @@ export const getAdminPermissions = ({
 
 export const OWNER_PERMISSIONS: PERMISSIONS = {
 	CAN_INVITE_GUESTS: true,
+	CAN_UPDATE_ROLES: true,
 };

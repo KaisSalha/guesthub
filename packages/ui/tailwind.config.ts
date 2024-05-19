@@ -18,8 +18,13 @@ export default {
       },
     },
     extend: {
+      flex: {
+        2: "2 2 0%",
+        3: "3 3 0%",
+      },
       flexGrow: {
         2: "2",
+        3: "3",
       },
       fontFamily: {
         sans: ["var(--font-sans)"],

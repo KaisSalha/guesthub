@@ -1,19 +1,14 @@
-import { graphql } from "gql.tada";
-import { GetMeQuery } from "@/gql/graphql";
-import { useQuery } from "@apollo/client";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { useMe } from "./use-me";
 
 export const useAuth = () => {
-  const { data, loading, error, client, refetch } = useQuery<GetMeQuery>(
-    useAuth.query
-  );
+  const { me, isLoading, error, client, refetch } = useMe();
 
   const navigate = useNavigate();
   const routerState = useRouterState();
-
-  const isAuthenticated = !error && !!data?.me;
+  const isAuthenticated = !error && !!me;
 
   useEffect(() => {
     if (!!error && routerState.location.pathname.startsWith("/dashboard")) {
@@ -103,25 +98,10 @@ export const useAuth = () => {
   };
 
   return {
-    me: data?.me,
-    isLoading: loading,
+    isLoading,
     isAuthenticated,
     signup,
     login,
     logout,
   };
 };
-
-useAuth.query = graphql(/* GraphQL */ `
-  query GetMe {
-    me {
-      id
-      email
-      first_name
-      last_name
-      avatar_url
-      type
-      created_at
-    }
-  }
-`);

@@ -5,7 +5,7 @@ import { Layout } from "./-components/layout";
 import { useCallback, useEffect } from "react";
 
 const Signup = () => {
-  const { signup, me, isLoading } = useAuth();
+  const { signup, isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = useCallback(
@@ -21,12 +21,12 @@ const Signup = () => {
   );
 
   useEffect(() => {
-    if (me && !isLoading) {
+    if (isAuthenticated && !isLoading) {
       navigate({
         to: "/signup/profile",
       });
     }
-  }, [me, isLoading, navigate]);
+  }, [isAuthenticated, isLoading, navigate]);
 
   return (
     <Layout>
