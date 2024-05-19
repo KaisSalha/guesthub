@@ -110,7 +110,7 @@ export const Sidebar = () => {
       <div
         ref={panelRef}
         className={cn(
-          "hidden md:flex flex-col gap-3.5 bg-background-surface w-56 min-h-screen fixed border-r border-border-subtle py-4",
+          "hidden md:flex flex-col gap-3.5 bg-background-surface w-56 min-h-screen fixed border-r border-border-subtle py-5",
           isCollapsed && "w-auto"
         )}
       >
