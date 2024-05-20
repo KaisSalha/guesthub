@@ -18,6 +18,7 @@ import {
 import { DataTable } from "@guesthub/ui/data-table";
 import { capitalize } from "@/utils/string-utils";
 import { Checkbox } from "@guesthub/ui/checkbox";
+import { toISODate, userTimezone } from "@/utils/datetime";
 
 const Team = () => {
   const { selectedMembership } = useMe();
@@ -119,8 +120,26 @@ const Team = () => {
                   );
                 },
                 meta: {
-                  headerClass: "flex-1",
-                  cellClass: "flex-1",
+                  headerClass: "flex-2",
+                  cellClass: "flex-2",
+                },
+              },
+              {
+                accessorKey: "updated_at",
+                header: ({ column }) => (
+                  <DataTable.DataTableColumnHeader
+                    column={column}
+                    title="Updated At"
+                  />
+                ),
+                cell: ({ row }) => {
+                  return (
+                    <>{toISODate(row.getValue("updated_at"), userTimezone)}</>
+                  );
+                },
+                meta: {
+                  headerClass: "flex-2",
+                  cellClass: "flex-2",
                 },
               },
             ]}
@@ -154,6 +173,7 @@ Team.query = graphql(/* GraphQL */ `
     id
     name
     permissions
+    updated_at
   }
 `);
 

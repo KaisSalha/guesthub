@@ -44,6 +44,10 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   totalCount: number;
   loading?: boolean;
+  filterable?: boolean;
+  columnsSelector?: boolean;
+  showRowsPerPage?: boolean;
+  showItemsCount?: boolean;
   pageInfo?: {
     hasNextPage: boolean;
     hasPreviousPage: boolean;
@@ -72,6 +76,10 @@ const DataTable = <TData, TValue>({
   loading = false,
   pageInfo = undefined,
   pageControls = undefined,
+  filterable = false,
+  columnsSelector = false,
+  showRowsPerPage = false,
+  showItemsCount = false,
   onCreateButtonClick,
 }: DataTableProps<TData, TValue>) => {
   const [rowSelection, setRowSelection] = useState({});
@@ -146,6 +154,8 @@ const DataTable = <TData, TValue>({
       <div className="space-y-4">
         <DataTableToolbar
           table={table}
+          filterable={filterable}
+          columnsSelector={columnsSelector}
           onCreateButtonClick={onCreateButtonClick}
         />
         <div className="rounded-md border border-border-subtle">
@@ -280,7 +290,12 @@ const DataTable = <TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} totalCount={totalCount} />
+      <DataTablePagination
+        table={table}
+        totalCount={totalCount}
+        showRowsPerPage={showRowsPerPage}
+        showItemsCount={showItemsCount}
+      />
     </div>
   );
 };

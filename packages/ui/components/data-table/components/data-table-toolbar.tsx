@@ -10,26 +10,34 @@ import { DataTableViewOptions } from "./data-table-view-options";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+  filterable?: boolean;
+  columnsSelector?: boolean;
   onCreateButtonClick?: () => void;
 }
 
 export function DataTableToolbar<TData>({
   table,
+  filterable = false,
+  columnsSelector = false,
   onCreateButtonClick,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
+  if (!filterable && !columnsSelector && !onCreateButtonClick) return null;
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
-        <Input
-          placeholder="Filter..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="h-8 w-[150px] lg:w-[250px]"
-        />
+        {filterable && (
+          <Input
+            placeholder="Filter..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("name")?.setFilterValue(event.target.value)
+            }
+            className="h-8 w-[150px] lg:w-[250px]"
+          />
+        )}
         {/* {table.getColumn("status") && (
 					<DataTableFacetedFilter
 						column={table.getColumn("status")}
@@ -58,7 +66,7 @@ export function DataTableToolbar<TData>({
             + Create
           </Button>
         )}
-        <DataTableViewOptions table={table} />
+        {columnsSelector && <DataTableViewOptions table={table} />}
       </div>
     </div>
   );
