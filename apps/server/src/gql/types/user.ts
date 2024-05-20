@@ -37,6 +37,10 @@ User.implement({
 		}),
 		first_name: t.exposeString("first_name", { nullable: true }),
 		last_name: t.exposeString("last_name", { nullable: true }),
+		full_name: t.field({
+			type: "String",
+			resolve: (parent) => `${parent.first_name} ${parent.last_name}`,
+		}),
 		avatar_url: t.exposeString("avatar_url", { nullable: true }),
 		type: t.exposeString("type"),
 		memberships: t.loadableGroup({
@@ -67,6 +71,13 @@ User.implement({
 });
 
 builder.queryFields((t) => ({
+	me: t.field({
+		type: User,
+		nullable: true,
+		resolve: (_parent, _args, { user }) => {
+			return user;
+		},
+	}),
 	user: t.field({
 		type: User,
 		nullable: true,
@@ -74,27 +85,6 @@ builder.queryFields((t) => ({
 			id: t.arg.globalID({ required: true }),
 		},
 		resolve: (_root, args) => args.id.id,
-	}),
-	users: t.field({
-		type: [User],
-		nullable: true,
-		args: {
-			ids: t.arg.globalIDList({ required: false }),
-		},
-		resolve: async (_parent, args) => {
-			if (args.ids) {
-				return [...args.ids.map(({ id }) => id)];
-			}
-
-			return await db.query.users.findMany();
-		},
-	}),
-	me: t.field({
-		type: User,
-		nullable: true,
-		resolve: (_parent, _args, { user }) => {
-			return user;
-		},
 	}),
 }));
 

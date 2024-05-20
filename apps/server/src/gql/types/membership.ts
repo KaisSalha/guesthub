@@ -1,9 +1,14 @@
 import { builder } from "../builder.js";
 import { db } from "../../db/index.js";
-import { Membership as MembershipType } from "../../db/schemas/memberships.js";
+import {
+	Membership as MembershipType,
+	memberships,
+} from "../../db/schemas/memberships.js";
 import { Organization } from "./organization.js";
 import { Role } from "./role.js";
 import { User } from "./user.js";
+import { resolveWindowedConnection } from "src/utils/resolveWindowedConnection.js";
+import { count, eq } from "drizzle-orm";
 
 export const Membership = builder.loadableNodeRef("Membership", {
 	id: {
@@ -61,3 +66,39 @@ Membership.implement({
 		}),
 	}),
 });
+
+builder.queryFields((t) => ({
+	orgMembers: t.connection({
+		type: Membership,
+		args: {
+			offset: t.arg.int({ required: true }),
+			orgId: t.arg.globalID({ required: true }),
+		},
+		resolve: async (_parent, args) => {
+			return await resolveWindowedConnection(
+				{ args },
+				async ({ limit }) => {
+					const [items, totalCount] = await Promise.all([
+						db
+							.select()
+							.from(memberships)
+							.where(
+								eq(
+									memberships.organization_id,
+									parseInt(args.orgId.id)
+								)
+							)
+							.limit(limit)
+							.offset(args.offset),
+						db.select({ value: count() }).from(memberships),
+					]);
+
+					return {
+						items,
+						totalCount: totalCount[0].value,
+					};
+				}
+			);
+		},
+	}),
+}));

@@ -7,7 +7,7 @@ import {
 	getUserPermissions,
 } from "../../services/permissions.js";
 import { resolveWindowedConnection } from "src/utils/resolveWindowedConnection.js";
-import { count } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 
 export const Role = builder.loadableNodeRef("Role", {
 	id: {
@@ -83,6 +83,12 @@ builder.queryFields((t) => ({
 						db
 							.select()
 							.from(roles)
+							.where(
+								eq(
+									roles.organization_id,
+									parseInt(args.orgId.id)
+								)
+							)
 							.limit(limit)
 							.offset(args.offset),
 						db.select({ value: count() }).from(roles),
