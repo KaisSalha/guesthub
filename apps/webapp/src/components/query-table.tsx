@@ -65,6 +65,7 @@ export interface QueryTableProps<
   onStartLoading?(): void;
   onLoad?(data: InternalData<TResultKey, TNode>[TResultKey]): void;
   onCreateButtonClick?(): void;
+  onRowClick?(row: TNode): void;
 }
 
 export const QueryTable = function <
@@ -81,6 +82,7 @@ export const QueryTable = function <
   onChangeTotalCount,
   onLoad,
   onCreateButtonClick,
+  onRowClick,
 }: QueryTableProps<TResultKey, TData, TVariables, TNode>) {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -137,6 +139,7 @@ export const QueryTable = function <
         pageInfo={pageInfo}
         pageControls={pageControls}
         onCreateButtonClick={onCreateButtonClick}
+        onRowClick={onRowClick}
       />
     </div>
   );

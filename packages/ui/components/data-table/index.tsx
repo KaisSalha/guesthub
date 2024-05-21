@@ -30,6 +30,7 @@ import {
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import { Skeleton } from "../skeleton";
 import { RowData } from "@tanstack/react-table";
+import { cn } from "../../lib";
 
 declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -67,6 +68,7 @@ interface DataTableProps<TData, TValue> {
     >;
   };
   onCreateButtonClick?: () => void;
+  onRowClick?: (row: TData) => void;
 }
 
 const DataTable = <TData, TValue>({
@@ -81,6 +83,7 @@ const DataTable = <TData, TValue>({
   showRowsPerPage = false,
   showItemsCount = false,
   onCreateButtonClick,
+  onRowClick,
 }: DataTableProps<TData, TValue>) => {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -259,15 +262,17 @@ const DataTable = <TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => onRowClick?.(row.original)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className={
+                      className={cn(
+                        onRowClick && "cursor-pointer",
                         cell.column.columnDef.meta?.cellClass
                           ? cell.column.columnDef.meta.cellClass
                           : ""
-                      }
+                      )}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
