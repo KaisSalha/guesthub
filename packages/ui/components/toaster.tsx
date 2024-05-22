@@ -7,11 +7,11 @@ type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme();
-  const matches = useMediaQuery(MEDIA_QUERIES.MD);
+  const isDesktop = useMediaQuery(MEDIA_QUERIES.MD);
 
   return (
     <Sonner
-      position={matches ? "bottom-right" : "top-center"}
+      position={isDesktop ? "bottom-right" : "top-center"}
       theme={theme as ToasterProps["theme"]}
       className="toaster group"
       toastOptions={{

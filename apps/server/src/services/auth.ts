@@ -9,7 +9,7 @@ export const signup = async ({ email, password, type }: UserInsert) => {
 	const [user] = await db
 		.insert(users)
 		.values({
-			email,
+			email: email.toLowerCase(),
 			password: hashedPassword,
 			type,
 		})
@@ -38,7 +38,7 @@ export const login = async ({
 	password: string;
 }) => {
 	const user = await db.query.users.findFirst({
-		where: (users, { eq }) => eq(users.email, email),
+		where: (users, { eq }) => eq(users.email, email.toLowerCase()),
 	});
 
 	if (!user) {
