@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@guesthub/ui/avatar";
-import { Bell, User } from "lucide-react";
+import { User } from "lucide-react";
 import { useRouter } from "@tanstack/react-router";
 import {
   DropdownMenu,
@@ -10,6 +10,7 @@ import {
 } from "@guesthub/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
 import { useMe } from "@/hooks/use-me";
+import { NotificationCenter } from "./notification-center";
 
 interface HeaderProps {
   title: string;
@@ -21,6 +22,8 @@ export const Header = ({ title, subtitle }: HeaderProps) => {
   const router = useRouter();
   const { logout } = useAuth();
 
+  if (!me) return null;
+
   return (
     <div className="w-full hidden md:flex flex-row justify-between items-start relative">
       <div className="w-fit flex flex-col items-start">
@@ -28,9 +31,7 @@ export const Header = ({ title, subtitle }: HeaderProps) => {
         <p className="text-sm">{subtitle}</p>
       </div>
       <div className="flex flex-row gap-4 items-center">
-        <div className="border p-2 rounded-full cursor-pointer ">
-          <Bell strokeWidth={1.25} className="h-5 w-5" />
-        </div>
+        <NotificationCenter />
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar className="cursor-pointer w-fit h-fit">

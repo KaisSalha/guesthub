@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@guesthub/ui/avatar";
 import { useRouter } from "@tanstack/react-router";
-import { Bell, CircleUser, Dribbble, Search } from "lucide-react";
+import { CircleUser, Dribbble, Search } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +9,11 @@ import {
   DropdownMenuTrigger,
 } from "@guesthub/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
+import { useMe } from "@/hooks/use-me";
+import { NotificationCenter } from "@/components/notification-center";
 
 export const TopBar = () => {
+  const { me } = useMe();
   const router = useRouter();
   const { logout } = useAuth();
 
@@ -23,7 +26,10 @@ export const TopBar = () => {
         </div>
         <div className="flex flex-row gap-5 items-center">
           <Search className="cursor-pointer h-5 w-5" />
-          <Bell className="cursor-pointer h-5 w-5" />
+          {/* <Bell className="cursor-pointer h-5 w-5" />
+           */}
+
+          <NotificationCenter />
 
           <DropdownMenu>
             <DropdownMenuTrigger>
@@ -36,7 +42,7 @@ export const TopBar = () => {
                 }
               >
                 <AvatarImage
-                  src="https://github.com/shadcn.png"
+                  src={me?.avatar_url ?? undefined}
                   className="h-6 w-6"
                 />
                 <AvatarFallback className="bg-transparent">
