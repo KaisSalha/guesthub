@@ -1,4 +1,8 @@
 {
 	"root": true,
-	"extends": ["@guesthub/eslint-config/index.js"],
+	"extends": [
+		"@guesthub/eslint-config/index.js",
+		"plugin:require-extensions/recommended",
+	],
+	"plugins": ["require-extensions"],
 }

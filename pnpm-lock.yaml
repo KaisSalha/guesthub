@@ -198,6 +198,9 @@ importers:
       eslint-plugin-prettier:
         specifier: ^5.1.3
         version: 5.1.3(eslint-config-prettier@8.10.0)(eslint@8.57.0)(prettier@3.2.5)
+      eslint-plugin-require-extensions:
+        specifier: ^0.1.3
+        version: 0.1.3(eslint@8.57.0)
       eslint-plugin-testing-library:
         specifier: ^5.11.0
         version: 5.11.1(eslint@8.57.0)(typescript@5.4.3)
@@ -10053,6 +10056,15 @@ packages:
     dependencies:
       eslint: 8.57.0
     dev: false
+
+  /eslint-plugin-require-extensions@0.1.3(eslint@8.57.0):
+    resolution: {integrity: sha512-T3c1PZ9PIdI3hjV8LdunfYI8gj017UQjzAnCrxuo3wAjneDbTPHdE3oNWInOjMA+z/aBkUtlW5vC0YepYMZIug==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      eslint: '*'
+    dependencies:
+      eslint: 8.57.0
+    dev: true
 
   /eslint-plugin-testing-library@5.11.1(eslint@8.57.0)(typescript@5.4.3):
     resolution: {integrity: sha512-5eX9e1Kc2PqVRed3taaLnAAqPZGEX75C+M/rXzUAI3wIg/ZxzUm1OVAwfe/O+vE+6YXOLetSe9g5GKD2ecXipw==}

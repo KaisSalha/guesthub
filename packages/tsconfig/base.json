@@ -31,8 +31,7 @@
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "useUnknownInCatchVariables": true,
-    "experimentalDecorators": true,
-    "baseUrl": "."
+    "experimentalDecorators": true
   },
   "exclude": ["dist", "build", "node_modules"],
   "ts-node": { "files": true, "esm": true }
