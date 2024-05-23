@@ -1,11 +1,19 @@
-import { Worker } from "worker_threads";
+import { Worker, parentPort } from "worker_threads";
 import Fastify from "fastify";
 import { config } from "./config/index.js";
 import { publicRoutes } from "./routes/public.js";
 import { privateRoutes } from "./routes/private.js";
+import { boss } from "./lib/pgboss.js";
 
 export const buildServer = async (opts = {}) => {
 	const app = Fastify(opts);
+
+	await boss.start();
+
+	boss.on("error", (error: Error) => {
+		console.error("PgBoss error:", error);
+		parentPort?.postMessage({ type: "error", error });
+	});
 
 	const worker = config.isDev
 		? new Worker(new URL(import.meta.resolve("tsx/cli")), {
@@ -30,7 +38,8 @@ export const buildServer = async (opts = {}) => {
 
 	// Graceful shutdown
 	app.addHook("onClose", async () => {
-		worker.postMessage({ type: "shutdown" });
+		await boss.stop();
+		await worker.terminate();
 	});
 
 	return app;
