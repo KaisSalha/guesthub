@@ -6,7 +6,7 @@ import {
 	getAdminPermissions,
 	getUserPermissions,
 } from "../../services/permissions.js";
-import { resolveWindowedConnection } from "src/utils/resolveWindowedConnection.js";
+import { resolveWindowedConnection } from "../../utils/resolveWindowedConnection.js";
 import { count, eq } from "drizzle-orm";
 
 export const Role = builder.loadableNodeRef("Role", {

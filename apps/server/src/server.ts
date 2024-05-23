@@ -1,5 +1,5 @@
+import { Worker } from "worker_threads";
 import Fastify from "fastify";
-import { jsonSchemaTransform } from "fastify-type-provider-zod";
 import { config } from "./config/index.js";
 import { publicRoutes } from "./routes/public.js";
 import { privateRoutes } from "./routes/private.js";
@@ -7,7 +7,14 @@ import { privateRoutes } from "./routes/private.js";
 export const buildServer = async (opts = {}) => {
 	const app = Fastify(opts);
 
+	const worker = config.isDev
+		? new Worker(new URL(import.meta.resolve("tsx/cli")), {
+				argv: ["./src/services/queue.ts"],
+			})
+		: new Worker(new URL("./services/queue.js", import.meta.url));
+
 	if (!config.isDev) app.register(import("@fastify/helmet"));
+
 	app.register(import("@fastify/cors"), {
 		origin: config.isDev
 			? /https?:\/\/(\w+\.)*guesthub\.(internal)(:\d+)?(\/.*)?$/
@@ -21,15 +28,10 @@ export const buildServer = async (opts = {}) => {
 	app.register(publicRoutes);
 	app.register(privateRoutes);
 
-	if (config.isDev) {
-		app.register(import("@fastify/swagger"), {
-			transform: jsonSchemaTransform,
-		});
-		await app.register(import("@fastify/swagger-ui"), {
-			routePrefix: "/docs",
-			logLevel: "silent",
-		});
-	}
+	// Graceful shutdown
+	app.addHook("onClose", async () => {
+		worker.postMessage({ type: "shutdown" });
+	});
 
 	return app;
 };

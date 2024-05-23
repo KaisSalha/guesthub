@@ -14,7 +14,7 @@ if (
 	!process.env.DATABASE_PORT ||
 	!process.env.DATABASE_USER ||
 	!process.env.DATABASE_PASSWORD ||
-	!process.env.DATABASE_NAME
+	!process.env.SCHEMA_NAME
 ) {
 	throw new Error("DATABASE_KEYS_NOT_SET");
 }
@@ -46,8 +46,9 @@ export const config = {
 		port: parseInt(process.env.DATABASE_PORT, 10),
 		user: process.env.DATABASE_USER,
 		password: process.env.DATABASE_PASSWORD,
-		database: process.env.DATABASE_NAME,
-		url: `postgres://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}`, // postgres://user:password@host:port/database
+		database: process.env.SCHEMA_NAME,
+		url: `postgres://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.SCHEMA_NAME}`,
+		pgBoss: `postgres://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}`,
 	},
 	CACHE_PRIVACY: process.env.CACHE_PRIVACY || "public",
 	LOGGER: {
@@ -66,7 +67,7 @@ export const config = {
 };
 
 export const SERVER_CONFIG = {
-	dev: {
+	dev: () => ({
 		https: {
 			key: fs.readFileSync(
 				path.join(
@@ -82,8 +83,8 @@ export const SERVER_CONFIG = {
 			),
 		},
 		logger: config.LOGGER,
-	},
-	prod: {
+	}),
+	prod: () => ({
 		logger: config.LOGGER,
-	},
+	}),
 };

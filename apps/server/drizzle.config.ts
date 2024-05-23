@@ -6,6 +6,6 @@ export default {
 	out: "./src/db/migrations",
 	dialect: "postgresql",
 	dbCredentials: {
-		url: `postgres://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}`,
+		url: `postgres://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.SCHEMA_NAME}`,
 	},
 } satisfies Config;

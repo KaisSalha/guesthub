@@ -1,4 +1,4 @@
-import { timeFields } from "./helpers/time";
+import { timeFields } from "./helpers/time.js";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { pgEnum, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 

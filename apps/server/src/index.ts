@@ -2,7 +2,7 @@ import { buildServer } from "./server.js";
 import { SERVER_CONFIG, config } from "./config/index.js";
 
 export const app = await buildServer(
-	config.isDev ? SERVER_CONFIG.dev : SERVER_CONFIG.prod
+	config.isDev ? SERVER_CONFIG.dev() : SERVER_CONFIG.prod()
 );
 
 app.listen({ port: config.PORT, host: config.HOST }, (err) => {

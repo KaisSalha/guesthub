@@ -7,7 +7,7 @@ import {
 import { Organization } from "./organization.js";
 import { Role } from "./role.js";
 import { User } from "./user.js";
-import { resolveWindowedConnection } from "src/utils/resolveWindowedConnection.js";
+import { resolveWindowedConnection } from "../../utils/resolveWindowedConnection.js";
 import { count, eq } from "drizzle-orm";
 
 export const Membership = builder.loadableNodeRef("Membership", {

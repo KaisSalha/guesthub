@@ -14,6 +14,7 @@ import {
 	LatitudeResolver,
 	LongitudeResolver,
 	NonEmptyStringResolver,
+	TimeZoneResolver,
 } from "graphql-scalars";
 
 const builder = new SchemaBuilder<{
@@ -61,6 +62,10 @@ const builder = new SchemaBuilder<{
 			Input: string;
 			Output: string;
 		};
+		TimeZone: {
+			Input: string;
+			Output: string;
+		};
 	};
 }>({
 	plugins: [DataloaderPlugin, RelayPlugin, ScopeAuthPlugin, ComplexityPlugin],
@@ -102,6 +107,7 @@ builder.addScalarType("CountryCode", CountryCodeResolver);
 builder.addScalarType("Latitude", LatitudeResolver);
 builder.addScalarType("Longitude", LongitudeResolver);
 builder.addScalarType("NonEmptyString", NonEmptyStringResolver);
+builder.addScalarType("TimeZone", TimeZoneResolver);
 
 builder.queryType({});
 builder.mutationType({});

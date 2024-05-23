@@ -1,8 +1,8 @@
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { integer, pgTable, serial, varchar } from "drizzle-orm/pg-core";
-import { users } from "./users";
-import { locationFields } from "./helpers/location";
-import { timeFields } from "./helpers/time";
+import { users } from "./users.js";
+import { locationFields } from "./helpers/location.js";
+import { timeFields } from "./helpers/time.js";
 
 export const organizations = pgTable("organizations", {
 	id: serial("id").primaryKey(),

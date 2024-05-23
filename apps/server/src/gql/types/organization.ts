@@ -8,7 +8,7 @@ import { User } from "./user.js";
 import { encodeGlobalID } from "@pothos/plugin-relay";
 import { roles } from "../../db/schemas/roles.js";
 import { ADMIN_PERMISSIONS, PERMISSIONS } from "../../services/permissions.js";
-import { memberships } from "src/db/schemas/memberships.js";
+import { memberships } from "../../db/schemas/memberships.js";
 
 export const Organization = builder.loadableNodeRef("Organization", {
 	id: {
@@ -60,7 +60,10 @@ Organization.implement({
 			resolve: (parent) => parent.country_code,
 		}),
 		postal_code: t.exposeString("postal_code", { nullable: true }),
-		timezone: t.exposeString("timezone"),
+		timezone: t.field({
+			type: "TimeZone",
+			resolve: (parent) => parent.timezone,
+		}),
 		lat: t.field({
 			type: "Latitude",
 			nullable: true,
@@ -119,7 +122,10 @@ builder.relayMutationField(
 				required: true,
 			}),
 			postal_code: t.string({ required: false }),
-			timezone: t.string({ required: true }),
+			timezone: t.field({
+				type: "TimeZone",
+				required: true,
+			}),
 			lat: t.field({
 				type: "Latitude",
 				required: false,
