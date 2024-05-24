@@ -6,7 +6,7 @@ import { login, signup } from "../services/auth.js";
 export const publicRoutes = async (app: FastifyInstance) => {
 	await app.register(import("@fastify/rate-limit"), {
 		max: 10,
-		timeWindow: 1000 * 60 * 5,
+		timeWindow: 1000 * 60 * 2,
 	});
 
 	app.post(

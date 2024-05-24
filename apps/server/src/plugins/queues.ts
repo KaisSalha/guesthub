@@ -14,12 +14,28 @@ export const queues = fp(async function (app: FastifyInstance): Promise<void> {
 
 	const worker = config.isDev
 		? new Worker(new URL(import.meta.resolve("tsx/cli")), {
-				argv: ["./src/services/queue.ts"],
+				argv: ["./src/queues/index.ts"],
 			})
-		: new Worker(new URL("./services/queue.js", import.meta.url));
+		: new Worker(new URL("../queues/index.js", import.meta.url));
+
+	// Listen for messages from the worker
+	worker.on("message", (message) => {
+		console.log("Worker message:", message);
+	});
+
+	worker.on("error", (error) => {
+		console.error("Worker thread error:", error);
+	});
+
+	worker.on("exit", (code) => {
+		console.error(`Worker stopped with exit code ${code}`);
+	});
 
 	app.addHook("onClose", async () => {
 		await boss.stop();
-		await worker.terminate();
+		worker.postMessage({ type: "shutdown" });
+		setTimeout(async () => {
+			await worker.terminate();
+		}, 100);
 	});
 });
