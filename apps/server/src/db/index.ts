@@ -4,7 +4,7 @@ import schema from "./schema.js";
 import pkg from "pg";
 const { Pool } = pkg;
 
-const pool = new Pool({
+export const pool = new Pool({
 	connectionString: config.DB.url,
 	min: 5,
 	max: 20,

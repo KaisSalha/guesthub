@@ -15,5 +15,6 @@ app.listen({ port: config.PORT, host: config.HOST }, (err) => {
 for (const signal of ["SIGINT", "SIGTERM"]) {
 	process.on(signal, async () => {
 		await app.close();
+		process.exit(0);
 	});
 }
