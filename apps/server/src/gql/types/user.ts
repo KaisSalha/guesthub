@@ -3,6 +3,8 @@ import { db } from "../../db/index.js";
 import { User as UserType, users } from "../../db/schemas/users.js";
 import { Membership } from "./membership.js";
 import { eq } from "drizzle-orm";
+import { Invite } from "./invite.js";
+import { userInvitesLoader } from "../loaders/user-invites-loader.js";
 
 export const User = builder.loadableNodeRef("User", {
 	id: {
@@ -56,6 +58,13 @@ User.implement({
 				return membership.user_id;
 			},
 			resolve: (parent) => parent.id,
+		}),
+		invites: t.loadableList({
+			type: Invite,
+			nullable: true,
+			load: (emails: string[], context) =>
+				userInvitesLoader(context).loadMany(emails),
+			resolve: (parent) => parent.email,
 		}),
 		created_at: t.field({
 			type: "Timestamp",

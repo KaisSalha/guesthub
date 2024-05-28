@@ -1,5 +1,5 @@
 import { roles } from "./roles.js";
-import { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { pgTable, serial, integer } from "drizzle-orm/pg-core";
 import { organizations } from "./organizations.js";
 import { users } from "./users.js";
@@ -18,6 +18,21 @@ export const memberships = pgTable("memberships", {
 		.references(() => roles.id),
 	...timeFields,
 });
+
+export const membershipsRelations = relations(memberships, ({ one }) => ({
+	organization: one(organizations, {
+		fields: [memberships.organization_id],
+		references: [organizations.id],
+	}),
+	role: one(roles, {
+		fields: [memberships.role_id],
+		references: [roles.id],
+	}),
+	user: one(users, {
+		fields: [memberships.user_id],
+		references: [users.id],
+	}),
+}));
 
 export type Membership = InferSelectModel<typeof memberships>;
 export type MembershipInsert = InferInsertModel<typeof memberships>;

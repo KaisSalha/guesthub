@@ -123,7 +123,7 @@ const DataTable = <TData, TValue>({
       loading
         ? columns.map((column) => ({
             ...column,
-            cell: () => <Skeleton className="min-w-20 h-8" />,
+            cell: () => <Skeleton className="min-w-fit h-8" />,
           }))
         : columns,
     [loading, columns]
@@ -281,11 +281,10 @@ const DataTable = <TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
+                <TableCell colSpan={table.getAllColumns().length}>
+                  <div className="flex items-center justify-center h-20 text-body-subtle w-full text-md font-medium">
+                    No data available
+                  </div>
                 </TableCell>
               </TableRow>
             )}

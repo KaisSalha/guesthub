@@ -1,6 +1,9 @@
 import { timeFields } from "./helpers/time.js";
-import { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { pgEnum, pgTable, serial, varchar } from "drizzle-orm/pg-core";
+import { roles } from "./roles.js";
+import { organizations } from "./organizations.js";
+import { invites } from "./invites.js";
 
 export const userTypeEnum = pgEnum("user_type", ["org", "guest"]);
 
@@ -14,6 +17,12 @@ export const users = pgTable("users", {
 	type: userTypeEnum("user_type").notNull(),
 	...timeFields,
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+	organization: many(organizations),
+	roles: many(roles),
+	invites: many(invites),
+}));
 
 export type User = InferSelectModel<typeof users>;
 export type UserInsert = InferInsertModel<typeof users>;

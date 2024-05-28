@@ -3,6 +3,8 @@ import { integer, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 import { users } from "./users.js";
 import { locationFields } from "./helpers/location.js";
 import { timeFields } from "./helpers/time.js";
+import { roles } from "./roles.js";
+import { invites } from "./invites.js";
 
 export const organizations = pgTable("organizations", {
 	id: serial("id").primaryKey(),
@@ -16,12 +18,18 @@ export const organizations = pgTable("organizations", {
 	...timeFields,
 });
 
-export const organizationsRelations = relations(organizations, ({ one }) => ({
-	owner: one(users, {
-		fields: [organizations.owner_id],
-		references: [users.id],
-	}),
-}));
+export const organizationsRelations = relations(
+	organizations,
+	({ one, many }) => ({
+		owner: one(users, {
+			fields: [organizations.owner_id],
+			references: [users.id],
+		}),
+		members: many(users),
+		roles: many(roles),
+		invites: many(invites),
+	})
+);
 
 export type Organization = InferSelectModel<typeof organizations>;
 export type OrganizationInsert = InferInsertModel<typeof organizations>;

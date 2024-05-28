@@ -1,4 +1,4 @@
-import { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { pgTable, serial, integer, varchar, json } from "drizzle-orm/pg-core";
 import { organizations } from "./organizations.js";
 import { timeFields } from "./helpers/time.js";
@@ -16,6 +16,13 @@ export const roles = pgTable("roles", {
 		.notNull(),
 	...timeFields,
 });
+
+export const rolesRelations = relations(roles, ({ one }) => ({
+	organization: one(organizations, {
+		fields: [roles.organization_id],
+		references: [organizations.id],
+	}),
+}));
 
 export type Role = InferSelectModel<typeof roles>;
 export type RoleInsert = InferInsertModel<typeof roles>;

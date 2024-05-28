@@ -15,6 +15,20 @@
       "when": 1715524964172,
       "tag": "0001_light_molecule_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1716867541136,
+      "tag": "0002_dizzy_sue_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1716867641494,
+      "tag": "0003_slow_martin_li",
+      "breakpoints": true
     }
   ]
 }

@@ -17,8 +17,8 @@ interface DataTableToolbarProps<TData> {
 
 export function DataTableToolbar<TData>({
   table,
-  filterable = false,
-  columnsSelector = false,
+  filterable = true,
+  columnsSelector = true,
   toolBarButtons,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;

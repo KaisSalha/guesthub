@@ -118,8 +118,8 @@ export const RolesTab = () => {
               enableSorting: false,
               enableHiding: false,
               meta: {
-                headerClass: "w-fit min-w-10",
-                cellClass: "w-fit min-w-10",
+                headerClass: "w-fit min-w-2 md:max-w-2",
+                cellClass: "w-fit min-w-2 md:max-w-2",
               },
             },
             {
@@ -130,10 +130,6 @@ export const RolesTab = () => {
               ),
               cell: ({ row }) => {
                 return <>{capitalize(row.getValue("name"))}</>;
-              },
-              meta: {
-                headerClass: "flex-1",
-                cellClass: "flex-1",
               },
             },
             {
@@ -156,10 +152,6 @@ export const RolesTab = () => {
                   </>
                 );
               },
-              meta: {
-                headerClass: "flex-2",
-                cellClass: "flex-2",
-              },
             },
             {
               id: "updated_at",
@@ -174,10 +166,6 @@ export const RolesTab = () => {
                 return (
                   <>{toISODate(row.getValue("updated_at"), userTimezone)}</>
                 );
-              },
-              meta: {
-                headerClass: "flex-2",
-                cellClass: "flex-2",
               },
             },
           ]}
