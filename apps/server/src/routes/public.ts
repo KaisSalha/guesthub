@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { FastifyRequest } from "fastify/types/request";
 import { User, UserInsert } from "../db/schemas/users.js";
 import { login, signup } from "../services/auth.js";
+import { boss } from "../lib/pgboss.js";
 
 export const publicRoutes = async (app: FastifyInstance) => {
 	await app.register(import("@fastify/rate-limit"), {
@@ -77,4 +78,14 @@ export const publicRoutes = async (app: FastifyInstance) => {
 			}
 		}
 	);
+
+	app.get("/testEmail", async (_req, _reply) => {
+		await boss.send("send-msg", {
+			name: "Kais",
+		});
+
+		return {
+			message: "Email sent successfully",
+		};
+	});
 };

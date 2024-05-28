@@ -112,4 +112,18 @@ builder.queryFields((t) => ({
 			);
 		},
 	}),
+	orgAllRoles: t.field({
+		type: [Role],
+		args: {
+			orgId: t.arg.globalID({ required: true }),
+		},
+		resolve: async (_parent, args) => {
+			const items = await db
+				.select()
+				.from(roles)
+				.where(eq(roles.organization_id, parseInt(args.orgId.id)));
+
+			return items;
+		},
+	}),
 }));

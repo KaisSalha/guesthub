@@ -61,10 +61,10 @@ export interface QueryTableProps<
   variables: Omit<TVariables, "first" | "offset">;
   resultKey: TResultKey;
   columns: ColumnDef<TNode>[];
+  toolBarButtons?: React.ReactNode;
   onChangeTotalCount?(totalCount: number): void;
   onStartLoading?(): void;
   onLoad?(data: InternalData<TResultKey, TNode>[TResultKey]): void;
-  onCreateButtonClick?(): void;
   onRowClick?(row: TNode): void;
 }
 
@@ -81,7 +81,7 @@ export const QueryTable = function <
   onStartLoading,
   onChangeTotalCount,
   onLoad,
-  onCreateButtonClick,
+  toolBarButtons,
   onRowClick,
 }: QueryTableProps<TResultKey, TData, TVariables, TNode>) {
   const [pagination, setPagination] = useState<PaginationState>({
@@ -138,7 +138,7 @@ export const QueryTable = function <
         totalCount={totalCount}
         pageInfo={pageInfo}
         pageControls={pageControls}
-        onCreateButtonClick={onCreateButtonClick}
+        toolBarButtons={toolBarButtons}
         onRowClick={onRowClick}
       />
     </div>

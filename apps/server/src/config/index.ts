@@ -32,6 +32,10 @@ if (!process.env.OPENAI_API_KEY) {
 	throw new Error("OPENAI_API_KEY_NOT_SET");
 }
 
+if (!process.env.RESEND_API_KEY) {
+	throw new Error("RESEND_API_KEY_NOT_SET");
+}
+
 // Set the NODE_ENV to 'development' by default
 process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
 
@@ -64,6 +68,7 @@ export const config = {
 		REGION: process.env.S3_REGION,
 	},
 	OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+	RESEND_API_KEY: process.env.RESEND_API_KEY,
 };
 
 export const SERVER_CONFIG = {

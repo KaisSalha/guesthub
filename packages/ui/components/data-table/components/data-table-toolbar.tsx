@@ -12,18 +12,16 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>;
   filterable?: boolean;
   columnsSelector?: boolean;
-  onCreateButtonClick?: () => void;
+  toolBarButtons?: React.ReactNode;
 }
 
 export function DataTableToolbar<TData>({
   table,
   filterable = false,
   columnsSelector = false,
-  onCreateButtonClick,
+  toolBarButtons,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
-
-  if (!filterable && !columnsSelector && !onCreateButtonClick) return null;
 
   return (
     <div className="flex items-center justify-between">
@@ -57,15 +55,7 @@ export function DataTableToolbar<TData>({
         )}
       </div>
       <div className="flex flex-row gap-2">
-        {!!onCreateButtonClick && (
-          <Button
-            size="sm"
-            className="ml-auto h-8 flex"
-            onClick={onCreateButtonClick}
-          >
-            + Create
-          </Button>
-        )}
+        {!!toolBarButtons && toolBarButtons}
         {columnsSelector && <DataTableViewOptions table={table} />}
       </div>
     </div>

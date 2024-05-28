@@ -32,7 +32,6 @@ export const queues = fp(async function (app: FastifyInstance): Promise<void> {
 	});
 
 	app.addHook("onClose", async () => {
-		await boss.stop();
 		worker.postMessage({ type: "shutdown" });
 		setTimeout(async () => {
 			await worker.terminate();

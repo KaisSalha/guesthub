@@ -1,6 +1,7 @@
 import { parentPort } from "worker_threads";
 import { boss } from "../lib/pgboss.js"; // Adjust the path as necessary
 import { Job } from "pg-boss";
+import { resend } from "../lib/resend.js";
 
 await boss.start();
 
@@ -12,6 +13,14 @@ interface IJob extends Job {
 
 boss.work("send-msg", async (job: IJob) => {
 	console.log(`Received job: ${job.name} with name ${job.data.name}`);
+
+	await resend.emails.send({
+		from: "Kais Salha <ksalha@guesthub.ai>",
+		to: ["kaiss.salha@gmail.com"],
+		subject: "hello world",
+		html: "<strong>it works!</strong>",
+	});
+
 	await boss.complete(job.id);
 });
 

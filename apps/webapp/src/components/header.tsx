@@ -10,7 +10,7 @@ import {
 } from "@guesthub/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
 import { useMe } from "@/hooks/use-me";
-import { NotificationCenter } from "./notification-center";
+// import { NotificationCenter } from "./notification-center";
 
 interface HeaderProps {
   title: string;
@@ -31,7 +31,7 @@ export const Header = ({ title, subtitle }: HeaderProps) => {
         <p className="text-sm">{subtitle}</p>
       </div>
       <div className="flex flex-row gap-4 items-center">
-        <NotificationCenter />
+        {/* <NotificationCenter /> */}
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar className="cursor-pointer w-fit h-fit">

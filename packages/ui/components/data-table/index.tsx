@@ -67,7 +67,7 @@ interface DataTableProps<TData, TValue> {
       }>
     >;
   };
-  onCreateButtonClick?: () => void;
+  toolBarButtons?: React.ReactNode;
   onRowClick?: (row: TData) => void;
 }
 
@@ -82,7 +82,7 @@ const DataTable = <TData, TValue>({
   columnsSelector = false,
   showRowsPerPage = false,
   showItemsCount = false,
-  onCreateButtonClick,
+  toolBarButtons,
   onRowClick,
 }: DataTableProps<TData, TValue>) => {
   const [rowSelection, setRowSelection] = useState({});
@@ -159,7 +159,7 @@ const DataTable = <TData, TValue>({
           table={table}
           filterable={filterable}
           columnsSelector={columnsSelector}
-          onCreateButtonClick={onCreateButtonClick}
+          toolBarButtons={toolBarButtons}
         />
         <div className="rounded-md border border-border-subtle">
           <Table>
@@ -224,10 +224,7 @@ const DataTable = <TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar
-        table={table}
-        onCreateButtonClick={onCreateButtonClick}
-      />
+      <DataTableToolbar table={table} toolBarButtons={toolBarButtons} />
       <div className="rounded-md border border-border-subtle">
         <Table>
           <TableHeader>

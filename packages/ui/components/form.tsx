@@ -181,27 +181,38 @@ interface FormProps<TFormValues extends FieldValues> {
   className?: string;
 }
 
-const Form = <TFormValues extends FieldValues>({
-  formSchema,
-  defaultValues,
-  onSubmit,
-  fields,
-  className,
-}: FormProps<TFormValues>) => {
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-    mode: "onChange",
-  });
+type Ref =
+  | {
+      submit: () => void;
+    }
+  | null
+  | undefined;
 
-  return (
-    <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
-        {fields(form)}
-      </form>
-    </FormProvider>
-  );
-};
+const Form = React.forwardRef<Ref, FormProps<any>>(
+  ({ formSchema, defaultValues, onSubmit, fields, className }, ref) => {
+    const form = useForm({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      /* @ts-ignore */
+      resolver: zodResolver(formSchema),
+      defaultValues,
+      mode: "onChange",
+    });
+
+    React.useImperativeHandle(ref, () => ({
+      submit() {
+        form.handleSubmit(onSubmit)();
+      },
+    }));
+
+    return (
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
+          {fields(form)}
+        </form>
+      </FormProvider>
+    );
+  }
+);
 
 export {
   useFormField,

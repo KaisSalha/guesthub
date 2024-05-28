@@ -31,6 +31,8 @@
 		"@fastify/swagger": "^8.14.0",
 		"@fastify/swagger-ui": "^3.0.0",
 		"@lucia-auth/adapter-drizzle": "^1.0.7",
+		"@novu/echo": "0.0.1-alpha.27",
+		"@novu/node": "0.24.1",
 		"@pothos/core": "^3.41.1",
 		"@pothos/plugin-complexity": "^3.13.0",
 		"@pothos/plugin-dataloader": "^3.18.1",
@@ -55,6 +57,7 @@
 		"pg": "^8.11.5",
 		"pg-boss": "^9.0.3",
 		"pino": "^8.19.0",
+		"resend": "^3.2.0",
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
