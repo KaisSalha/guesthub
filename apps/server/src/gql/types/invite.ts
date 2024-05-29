@@ -120,3 +120,51 @@ builder.queryFields((t) => ({
 		},
 	}),
 }));
+
+// invite team member mutation
+builder.relayMutationField(
+	"inviteTeamMember",
+	{
+		inputFields: (t) => ({
+			orgId: t.globalID({ required: true }),
+			email: t.string({ required: true }),
+			role: t.globalID({ required: true }),
+		}),
+	},
+	{
+		resolve: async (_root, args, _ctx) => {
+			try {
+				const [invite] = await db
+					.insert(invites)
+					.values({
+						email: args.input.email,
+						organization_id: parseInt(args.input.orgId.id),
+						role_id: parseInt(args.input.role.id),
+					})
+					.returning();
+
+				return {
+					success: true,
+					invite,
+				};
+			} catch (error) {
+				console.log(error);
+				return {
+					success: false,
+				};
+			}
+		},
+	},
+	{
+		outputFields: (t) => ({
+			success: t.boolean({
+				resolve: (result) => result.success,
+			}),
+			invite: t.field({
+				type: Invite,
+				nullable: true,
+				resolve: (result) => result.invite,
+			}),
+		}),
+	}
+);

@@ -30,23 +30,16 @@ export const generateFileUploadPresignedUrl = async ({
 	});
 };
 
-export const uploadAudioFile = async ({
-	audioStream,
+export const fileURL = ({
 	file_name,
 	path,
 }: {
-	audioStream: Buffer;
 	file_name: string;
 	path: string;
 }) => {
-	await s3Client.send(
-		new PutObjectCommand({
-			Bucket: config.S3.BUCKET_NAME,
-			Key: `${path}/${file_name}`,
-			Body: audioStream,
-			ContentType: "audio/mpeg",
-		})
-	);
-
 	return `https://${config.S3.BUCKET_NAME}.s3.${config.S3.REGION}.amazonaws.com/${path}/${file_name}`;
+};
+
+export const publicFileURL = ({ file_name }: { file_name: string }) => {
+	return fileURL({ file_name, path: "public" });
 };

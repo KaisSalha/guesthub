@@ -20,20 +20,24 @@ import { toast } from "sonner";
 import { graphql } from "gql.tada";
 import { Combobox } from "@guesthub/ui/combobox";
 import { InviteTeamMemberForm_RolesFragment } from "@/gql/graphql";
+import { useMutation } from "@apollo/client";
+import { useMe } from "@/hooks/use-me";
 
 export const InviteTeamMemberForm = ({
   roles,
 }: {
   roles: InviteTeamMemberForm_RolesFragment[];
 }) => {
+  const { selectedMembership } = useMe();
   const dialogCloseRef = useRef<HTMLButtonElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
 
-  const inviteUser = ({ variables }: any) => {
-    console.log("Inviting user", variables);
-  };
-
-  const loading = false;
+  const [inviteUser, { loading }] = useMutation(InviteTeamMemberForm.mutation, {
+    update(cache) {
+      cache.evict({ fieldName: "orgInvites" });
+      cache.gc();
+    },
+  });
 
   return (
     <>
@@ -56,6 +60,7 @@ export const InviteTeamMemberForm = ({
             await inviteUser({
               variables: {
                 input: {
+                  orgId: selectedMembership?.organization.id,
                   email,
                   role,
                 },
@@ -139,3 +144,15 @@ InviteTeamMemberForm.fragments = {
     }
   `),
 };
+
+InviteTeamMemberForm.mutation = graphql(`
+  mutation InviteTeamMemberForm_inviteTeamMember(
+    $input: InviteTeamMemberInput!
+  ) {
+    inviteTeamMember(input: $input) {
+      invite {
+        id
+      }
+    }
+  }
+`);
