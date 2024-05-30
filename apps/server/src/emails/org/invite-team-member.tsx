@@ -13,16 +13,14 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 import { Logo } from "../_components/logo.js";
-import { Footer } from "../_components/footer.js";
 
 interface InviteEmailProps {
-	email?: string;
-	invitedByEmail?: string;
-	invitedByName?: string;
-	teamName?: string;
-	inviteCode?: string;
-	ip?: string;
-	location?: string;
+	email: string;
+	invitedByEmail: string;
+	invitedByName: string;
+	teamName: string;
+	inviteCode: string;
+	location: string;
 }
 
 const baseAppUrl =
@@ -36,7 +34,6 @@ export const InviteEmail = ({
 	email = "pontus@lostisland.co",
 	teamName = "Acme Co",
 	inviteCode = "jnwe9203frnwefl239jweflasn1230oqef",
-	ip = "204.13.186.218",
 	location = "São Paulo, Brazil",
 }: InviteEmailProps) => {
 	const inviteLink = `${baseAppUrl}/teams/invite/${inviteCode}`;
@@ -115,8 +112,10 @@ export const InviteEmail = ({
 							<Text className='text-[12px] leading-[24px] text-[#666666]'>
 								This invitation was intended for{" "}
 								<span className='text-[#121212] '>{email}</span>
-								. This invite was sent from{" "}
-								<span className='text-[#121212] '>{ip}</span>{" "}
+								. This invite was sent by{" "}
+								<span className='text-[#121212] '>
+									{invitedByName}
+								</span>{" "}
 								located in{" "}
 								<span className='text-[#121212] '>
 									{location}
@@ -129,8 +128,6 @@ export const InviteEmail = ({
 						</Section>
 
 						<br />
-
-						<Footer />
 					</Container>
 				</Body>
 			</Tailwind>

@@ -1,10 +1,26 @@
+import locationTimezone from "node-location-timezone";
+import { and, count, eq, inArray } from "drizzle-orm";
+import { render } from "@react-email/render";
 import { builder } from "../builder.js";
 import { db } from "../../db/index.js";
-import { Invite as InviteType, invites } from "../../db/schemas/invites.js";
+import {
+	Invite as InviteType,
+	inviteStatusEnumType,
+	invites,
+} from "../../db/schemas/invites.js";
 import { Organization } from "./organization.js";
 import { Role } from "./role.js";
 import { resolveWindowedConnection } from "../../utils/resolveWindowedConnection.js";
-import { count, eq } from "drizzle-orm";
+import { resend } from "../../lib/resend.js";
+import { InviteEmail } from "../../emails/org/invite-team-member.js";
+import { organizations } from "../../db/schemas/organizations.js";
+import { getCityAddress } from "../../utils/address.js";
+import { users } from "../../db/schemas/users.js";
+import { memberships } from "../../db/schemas/memberships.js";
+
+const InviteStatus = builder.enumType("InviteStatus", {
+	values: inviteStatusEnumType,
+});
 
 export const Invite = builder.loadableNodeRef("Invite", {
 	id: {
@@ -37,6 +53,10 @@ Invite.implement({
 			type: Role,
 			load: async (ids, { loadMany }) => loadMany(Role, ids),
 			resolve: (parent) => parent.role_id,
+		}),
+		status: t.field({
+			type: InviteStatus,
+			resolve: (parent) => parent.status,
 		}),
 		organization: t.loadable({
 			type: Organization,
@@ -132,27 +152,100 @@ builder.relayMutationField(
 		}),
 	},
 	{
-		resolve: async (_root, args, _ctx) => {
-			try {
-				const [invite] = await db
-					.insert(invites)
-					.values({
-						email: args.input.email,
-						organization_id: parseInt(args.input.orgId.id),
-						role_id: parseInt(args.input.role.id),
-					})
-					.returning();
+		resolve: async (_root, args, ctx) => {
+			const email = args.input.email.toLowerCase();
 
-				return {
-					success: true,
-					invite,
-				};
-			} catch (error) {
-				console.log(error);
-				return {
-					success: false,
-				};
+			// Check if there is an invite that is pending or accepted for the email and org
+			const [existingInvite] = await db
+				.select()
+				.from(invites)
+				.where(
+					and(
+						eq(invites.email, email),
+						eq(
+							invites.organization_id,
+							parseInt(args.input.orgId.id)
+						),
+						inArray(invites.status, ["pending", "accepted"])
+					)
+				);
+
+			if (existingInvite) {
+				throw new Error(
+					"An invite for this email and organization already exists and is pending or accepted."
+				);
 			}
+
+			const [result] = await db
+				.select()
+				.from(users)
+				.rightJoin(memberships, eq(memberships.user_id, users.id))
+				.where(
+					and(
+						eq(users.email, email),
+						eq(
+							memberships.organization_id,
+							parseInt(args.input.orgId.id)
+						)
+					)
+				);
+
+			if (result?.memberships) {
+				throw new Error("User already exists in the organization");
+			}
+
+			const [invite] = await db
+				.insert(invites)
+				.values({
+					email,
+					organization_id: parseInt(args.input.orgId.id),
+					role_id: parseInt(args.input.role.id),
+				})
+				.returning();
+
+			const org = await db.query.organizations.findFirst({
+				where: eq(organizations.id, parseInt(args.input.orgId.id)),
+			});
+
+			if (!org) throw new Error("Organization not found");
+
+			const name = `${ctx.user.first_name} ${ctx.user.last_name}`;
+
+			const html = render(
+				InviteEmail({
+					email,
+					invitedByEmail: ctx.user.email,
+					invitedByName: `${ctx.user.first_name} ${ctx.user.last_name}`,
+					teamName: org.name,
+					inviteCode: invite.id,
+					location: getCityAddress({
+						city: org.city,
+						state: org.state,
+						country: locationTimezone.findCountryByIso(
+							org.country_code
+						).name,
+					}),
+				})
+			);
+
+			const { error } = await resend.emails.send({
+				from: `${name} on GuestHub <support@guesthub.ai>`,
+				to: [email],
+				subject: `You've been invited to join ${org.name} on GuestHub`,
+				html,
+			});
+
+			if (error) {
+				// Delete invite from db
+				await db.delete(invites).where(eq(invites.id, invite.id));
+
+				throw new Error(error.message);
+			}
+
+			return {
+				success: true,
+				invite,
+			};
 		},
 	},
 	{

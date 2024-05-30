@@ -55,6 +55,7 @@
 		"graphql-scalars": "^1.23.0",
 		"lucia": "^3.2.0",
 		"mercurius": "^14.1.0",
+		"node-location-timezone": "^1.1.0",
 		"openai": "^4.44.0",
 		"oslo": "^1.2.0",
 		"pg": "^8.11.5",

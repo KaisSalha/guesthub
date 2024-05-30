@@ -1,9 +1,8 @@
-import { InviteEmail } from "./../emails/org/invite-team-member.js";
 import { parentPort } from "worker_threads";
 import { boss } from "../lib/pgboss.js"; // Adjust the path as necessary
 import { Job } from "pg-boss";
-import { resend } from "../lib/resend.js";
-import { render } from "@react-email/render";
+
+console.log("Queues worker thread started");
 
 await boss.start();
 
@@ -15,15 +14,6 @@ interface IJob extends Job {
 
 boss.work("send-msg", async (job: IJob) => {
 	console.log(`Received job: ${job.name} with name ${job.data.name}`);
-
-	const html = await render(InviteEmail({}));
-
-	await resend.emails.send({
-		from: "Kais Salha <ksalha@guesthub.ai>",
-		to: ["kaiss.salha@gmail.com"],
-		subject: "hello world",
-		html,
-	});
 
 	await boss.complete(job.id);
 });
