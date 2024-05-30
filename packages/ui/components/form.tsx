@@ -179,6 +179,7 @@ interface FormProps<TFormValues extends FieldValues> {
     form: UseFormReturn<TFormValues, unknown, undefined>
   ) => React.ReactNode;
   className?: string;
+  mode?: "onBlur" | "onChange" | "onSubmit" | "onTouched" | "all" | undefined;
 }
 
 type Ref =
@@ -189,13 +190,16 @@ type Ref =
   | undefined;
 
 const Form = React.forwardRef<Ref, FormProps<any>>(
-  ({ formSchema, defaultValues, onSubmit, fields, className }, ref) => {
+  (
+    { formSchema, defaultValues, onSubmit, fields, className, mode = "onBlur" },
+    ref
+  ) => {
     const form = useForm({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       /* @ts-ignore */
       resolver: zodResolver(formSchema),
       defaultValues,
-      mode: "onChange",
+      mode,
     });
 
     React.useImperativeHandle(ref, () => ({

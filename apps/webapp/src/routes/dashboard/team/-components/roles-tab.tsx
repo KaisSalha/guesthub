@@ -76,100 +76,106 @@ export const RolesTab = () => {
         </SheetContent>
       </Sheet>
       <div ref={tableRef}>
-        <QueryTable<
-          "orgRoles",
-          GetOrgRolesQuery,
-          GetOrgRolesQueryVariables,
-          GetOrgRoles_RolesFragment
-        >
-          query={RolesTab.query}
-          variables={{
-            orgId: selectedMembership?.organization.id,
-          }}
-          resultKey="orgRoles"
-          // onCreateButtonClick={() => {
-          //   router.navigate({ to: "/dashboard/challenges/new" });
-          // }}
-          onRowClick={(row) => setSelectedRow(row)}
-          columns={[
-            {
-              id: "select",
-              header: ({ table }) => (
-                <Checkbox
-                  checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                  }
-                  onCheckedChange={(value) =>
-                    table.toggleAllPageRowsSelected(!!value)
-                  }
-                  aria-label="Select all"
-                  className="translate-y-[2px]"
-                />
-              ),
-              cell: ({ row }) => (
-                <Checkbox
-                  checked={row.getIsSelected()}
-                  onCheckedChange={(value) => row.toggleSelected(!!value)}
-                  aria-label="Select row"
-                  className="translate-y-[2px]"
-                />
-              ),
-              enableSorting: false,
-              enableHiding: false,
-              meta: {
-                headerClass: "w-fit min-w-2 md:max-w-2",
-                cellClass: "w-fit min-w-2 md:max-w-2",
-              },
-            },
-            {
-              id: "name",
-              accessorFn: (node) => node.name,
-              header: ({ column }) => (
-                <DataTable.DataTableColumnHeader column={column} title="Name" />
-              ),
-              cell: ({ row }) => {
-                return <>{capitalize(row.getValue("name"))}</>;
-              },
-            },
-            {
-              id: "permissions",
-              accessorFn: (node) => node.permissions,
-              header: ({ column }) => (
-                <DataTable.DataTableColumnHeader
-                  column={column}
-                  title="Permissions"
-                />
-              ),
-              cell: ({ row }) => {
-                return (
-                  <>
-                    {
-                      Object.values(
-                        row.getValue("permissions") as object
-                      ).filter((value) => value === true).length
+        <div className="flex flex-col gap-2 md:px-4">
+          <h2 className="text-lg font-semibold">Roles</h2>
+          <QueryTable<
+            "orgRoles",
+            GetOrgRolesQuery,
+            GetOrgRolesQueryVariables,
+            GetOrgRoles_RolesFragment
+          >
+            query={RolesTab.query}
+            variables={{
+              orgId: selectedMembership?.organization.id,
+            }}
+            resultKey="orgRoles"
+            // onCreateButtonClick={() => {
+            //   router.navigate({ to: "/dashboard/challenges/new" });
+            // }}
+            onRowClick={(row) => setSelectedRow(row)}
+            columns={[
+              {
+                id: "select",
+                header: ({ table }) => (
+                  <Checkbox
+                    checked={
+                      table.getIsAllPageRowsSelected() ||
+                      (table.getIsSomePageRowsSelected() && "indeterminate")
                     }
-                  </>
-                );
+                    onCheckedChange={(value) =>
+                      table.toggleAllPageRowsSelected(!!value)
+                    }
+                    aria-label="Select all"
+                    className="translate-y-[2px]"
+                  />
+                ),
+                cell: ({ row }) => (
+                  <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                    className="translate-y-[2px]"
+                  />
+                ),
+                enableSorting: false,
+                enableHiding: false,
+                meta: {
+                  headerClass: "w-fit min-w-2 md:max-w-2",
+                  cellClass: "w-fit min-w-2 md:max-w-2",
+                },
               },
-            },
-            {
-              id: "updated_at",
-              accessorFn: (node) => node.updated_at,
-              header: ({ column }) => (
-                <DataTable.DataTableColumnHeader
-                  column={column}
-                  title="Updated At"
-                />
-              ),
-              cell: ({ row }) => {
-                return (
-                  <>{toISODate(row.getValue("updated_at"), userTimezone)}</>
-                );
+              {
+                id: "name",
+                accessorFn: (node) => node.name,
+                header: ({ column }) => (
+                  <DataTable.DataTableColumnHeader
+                    column={column}
+                    title="Name"
+                  />
+                ),
+                cell: ({ row }) => {
+                  return <>{capitalize(row.getValue("name"))}</>;
+                },
               },
-            },
-          ]}
-        />
+              {
+                id: "permissions",
+                accessorFn: (node) => node.permissions,
+                header: ({ column }) => (
+                  <DataTable.DataTableColumnHeader
+                    column={column}
+                    title="Permissions"
+                  />
+                ),
+                cell: ({ row }) => {
+                  return (
+                    <>
+                      {
+                        Object.values(
+                          row.getValue("permissions") as object
+                        ).filter((value) => value === true).length
+                      }
+                    </>
+                  );
+                },
+              },
+              {
+                id: "updated_at",
+                accessorFn: (node) => node.updated_at,
+                header: ({ column }) => (
+                  <DataTable.DataTableColumnHeader
+                    column={column}
+                    title="Updated At"
+                  />
+                ),
+                cell: ({ row }) => {
+                  return (
+                    <>{toISODate(row.getValue("updated_at"), userTimezone)}</>
+                  );
+                },
+              },
+            ]}
+          />
+        </div>
       </div>
     </>
   );

@@ -42,91 +42,108 @@ export const TeamTab = () => {
   return (
     <Dialog>
       <DialogOverlay />
-      <div className="flex flex-col gap-20 md:gap-36">
-        <QueryTable<
-          "orgMembers",
-          GetOrgMembersQuery,
-          GetOrgMembersQueryVariables,
-          GetOrgMembers_MembersFragment
-        >
-          query={TeamTab.queries.orgMembers}
-          variables={{
-            orgId: selectedMembership?.organization.id,
-          }}
-          resultKey="orgMembers"
-          toolBarButtons={
-            <DialogTrigger asChild>
-              <Button size="sm">Invite</Button>
-            </DialogTrigger>
-          }
-          columns={[
-            {
-              id: "select",
-              header: ({ table }) => (
-                <Checkbox
-                  checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
+      <div className="flex flex-col gap-20 md:gap-36 md:px-4">
+        <div className="flex flex-col gap-2">
+          <h2 className="text-lg font-semibold">Team Members</h2>
+          <QueryTable<
+            "orgMembers",
+            GetOrgMembersQuery,
+            GetOrgMembersQueryVariables,
+            GetOrgMembers_MembersFragment
+          >
+            query={TeamTab.queries.orgMembers}
+            variables={{
+              orgId: selectedMembership?.organization.id,
+            }}
+            resultKey="orgMembers"
+            toolBarButtons={
+              <DialogTrigger asChild>
+                <Button size="sm">Invite</Button>
+              </DialogTrigger>
+            }
+            columns={[
+              {
+                id: "select",
+                header: ({ table }) => (
+                  <Checkbox
+                    checked={
+                      table.getIsAllPageRowsSelected() ||
+                      (table.getIsSomePageRowsSelected() && "indeterminate")
+                    }
+                    onCheckedChange={(value) =>
+                      table.toggleAllPageRowsSelected(!!value)
+                    }
+                    aria-label="Select all"
+                    className="translate-y-[2px]"
+                  />
+                ),
+                cell: ({ row }) => (
+                  <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                    className="translate-y-[2px]"
+                  />
+                ),
+                enableSorting: false,
+                enableHiding: false,
+                meta: {
+                  headerClass: "w-fit min-w-2 md:max-w-2",
+                  cellClass: "w-fit min-w-2 md:max-w-2",
+                },
+              },
+              {
+                id: "name",
+                accessorFn: (node) => node.user.full_name,
+                header: ({ column }) => (
+                  <DataTable.DataTableColumnHeader
+                    column={column}
+                    title="Name"
+                  />
+                ),
+                cell: ({ row }) => {
+                  return <>{capitalize(row.getValue("name"))}</>;
+                },
+              },
+              {
+                id: "role",
+                accessorFn: (node) => node.role.name,
+                header: ({ column }) => (
+                  <DataTable.DataTableColumnHeader
+                    column={column}
+                    title="Role"
+                  />
+                ),
+                cell: ({ row }) => {
+                  // If the user is the owner, return the owner role
+                  if (
+                    row.original.user.id ===
+                    selectedMembership?.organization.owner_id
+                  ) {
+                    return <>Owner</>;
                   }
-                  onCheckedChange={(value) =>
-                    table.toggleAllPageRowsSelected(!!value)
-                  }
-                  aria-label="Select all"
-                  className="translate-y-[2px]"
-                />
-              ),
-              cell: ({ row }) => (
-                <Checkbox
-                  checked={row.getIsSelected()}
-                  onCheckedChange={(value) => row.toggleSelected(!!value)}
-                  aria-label="Select row"
-                  className="translate-y-[2px]"
-                />
-              ),
-              enableSorting: false,
-              enableHiding: false,
-              meta: {
-                headerClass: "w-fit min-w-2 md:max-w-2",
-                cellClass: "w-fit min-w-2 md:max-w-2",
+
+                  return <>{capitalize(row.getValue("role"))}</>;
+                },
               },
-            },
-            {
-              id: "name",
-              accessorFn: (node) => node.user.full_name,
-              header: ({ column }) => (
-                <DataTable.DataTableColumnHeader column={column} title="Name" />
-              ),
-              cell: ({ row }) => {
-                return <>{capitalize(row.getValue("name"))}</>;
+              {
+                id: "updated_at",
+                accessorFn: (node) => node.updated_at,
+                header: ({ column }) => (
+                  <DataTable.DataTableColumnHeader
+                    column={column}
+                    title="Updated At"
+                  />
+                ),
+                cell: ({ row }) => {
+                  return (
+                    <>{toISODate(row.getValue("updated_at"), userTimezone)}</>
+                  );
+                },
               },
-            },
-            {
-              id: "role",
-              accessorFn: (node) => node.role.name,
-              header: ({ column }) => (
-                <DataTable.DataTableColumnHeader column={column} title="Role" />
-              ),
-              cell: ({ row }) => {
-                return <>{capitalize(row.getValue("role"))}</>;
-              },
-            },
-            {
-              id: "updated_at",
-              accessorFn: (node) => node.updated_at,
-              header: ({ column }) => (
-                <DataTable.DataTableColumnHeader
-                  column={column}
-                  title="Updated At"
-                />
-              ),
-              cell: ({ row }) => {
-                return (
-                  <>{toISODate(row.getValue("updated_at"), userTimezone)}</>
-                );
-              },
-            },
-          ]}
-        />
+            ]}
+          />
+        </div>
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold">Invites</h2>
           <QueryTable<

@@ -62,13 +62,6 @@ useMe.query = graphql(/* GraphQL */ `
           id
           name
           owner_id
-          owner {
-            id
-            email
-            first_name
-            last_name
-            avatar_url
-          }
           website
           logo_url
           address
