@@ -25,6 +25,7 @@ import { useQuery } from "@apollo/client";
 import { main } from "./queries/team-tab-query";
 import { orgMembers } from "./queries/org-members-query";
 import { orgInvites } from "./queries/org-invites-query";
+import { Badge } from "@guesthub/ui/badge";
 
 export const TeamTab = () => {
   const { selectedMembership } = useMe();
@@ -41,7 +42,7 @@ export const TeamTab = () => {
   return (
     <Dialog>
       <DialogOverlay />
-      <div className="flex flex-col gap-36">
+      <div className="flex flex-col gap-20 md:gap-36">
         <QueryTable<
           "orgMembers",
           GetOrgMembersQuery,
@@ -166,8 +167,8 @@ export const TeamTab = () => {
                 enableSorting: false,
                 enableHiding: false,
                 meta: {
-                  headerClass: "w-fit min-w-2 md:max-w-2",
-                  cellClass: "w-fit min-w-2 md:max-w-2",
+                  headerClass: "w-fit min-w-4 md:max-w-4",
+                  cellClass: "w-fit min-w-4 md:max-w-4",
                 },
               },
               {
@@ -180,7 +181,27 @@ export const TeamTab = () => {
                   />
                 ),
                 cell: ({ row }) => {
-                  return <>{capitalize(row.getValue("email"))}</>;
+                  return <>{row.getValue("email")}</>;
+                },
+              },
+              {
+                id: "status",
+                accessorFn: (node) => node.status,
+                header: ({ column }) => (
+                  <DataTable.DataTableColumnHeader
+                    column={column}
+                    title="Status"
+                  />
+                ),
+                cell: ({ row }) => {
+                  switch (row.getValue("status")) {
+                    case "pending":
+                      return <Badge variant="attention">Pending</Badge>;
+                    case "accepted":
+                      return <Badge variant="success">Accepted</Badge>;
+                    default:
+                      return <Badge variant="destructive">Declined</Badge>;
+                  }
                 },
               },
               {
@@ -202,7 +223,7 @@ export const TeamTab = () => {
                 header: ({ column }) => (
                   <DataTable.DataTableColumnHeader
                     column={column}
-                    title="Created At"
+                    title="Invited At"
                   />
                 ),
                 cell: ({ row }) => {

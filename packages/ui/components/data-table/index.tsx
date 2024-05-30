@@ -45,7 +45,6 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   totalCount: number;
   loading?: boolean;
-  filterable?: boolean;
   columnsSelector?: boolean;
   showRowsPerPage?: boolean;
   showItemsCount?: boolean;
@@ -69,6 +68,8 @@ interface DataTableProps<TData, TValue> {
   };
   toolBarButtons?: React.ReactNode;
   onRowClick?: (row: TData) => void;
+  filterValue: string;
+  setFilterValue: (value: string) => void;
 }
 
 const DataTable = <TData, TValue>({
@@ -78,12 +79,13 @@ const DataTable = <TData, TValue>({
   loading = false,
   pageInfo = undefined,
   pageControls = undefined,
-  filterable = false,
   columnsSelector = false,
   showRowsPerPage = false,
   showItemsCount = false,
   toolBarButtons,
   onRowClick,
+  filterValue,
+  setFilterValue,
 }: DataTableProps<TData, TValue>) => {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -150,16 +152,18 @@ const DataTable = <TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
     ...serverSidePaginationSettings,
     enableRowSelection: true,
+    manualFiltering: true,
   });
 
   if (loading)
     return (
       <div className="space-y-4">
-        <DataTableToolbar
+        <DataTableToolbar<TData>
           table={table}
-          filterable={filterable}
           columnsSelector={columnsSelector}
           toolBarButtons={toolBarButtons}
+          filterValue={filterValue}
+          setFilterValue={setFilterValue}
         />
         <div className="rounded-md border border-border-subtle">
           <Table>
@@ -224,7 +228,12 @@ const DataTable = <TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} toolBarButtons={toolBarButtons} />
+      <DataTableToolbar
+        table={table}
+        toolBarButtons={toolBarButtons}
+        filterValue={filterValue}
+        setFilterValue={setFilterValue}
+      />
       <div className="rounded-md border border-border-subtle">
         <Table>
           <TableHeader>

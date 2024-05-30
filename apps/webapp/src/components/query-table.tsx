@@ -84,6 +84,7 @@ export const QueryTable = function <
   toolBarButtons,
   onRowClick,
 }: QueryTableProps<TResultKey, TData, TVariables, TNode>) {
+  const [filterValue, setFilterValue] = useState<string>("");
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -140,6 +141,8 @@ export const QueryTable = function <
         pageControls={pageControls}
         toolBarButtons={toolBarButtons}
         onRowClick={onRowClick}
+        filterValue={filterValue}
+        setFilterValue={setFilterValue}
       />
     </div>
   );

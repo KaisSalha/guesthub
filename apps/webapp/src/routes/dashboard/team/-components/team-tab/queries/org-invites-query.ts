@@ -21,6 +21,7 @@ export const orgInvites = graphql(/* GraphQL */ `
   fragment GetOrgInvites_Invites on Invite {
     id
     email
+    status
     role {
       id
       name

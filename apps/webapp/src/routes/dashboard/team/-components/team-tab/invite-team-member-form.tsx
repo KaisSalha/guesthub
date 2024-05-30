@@ -19,9 +19,14 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { graphql } from "gql.tada";
 import { Combobox } from "@guesthub/ui/combobox";
-import { InviteTeamMemberForm_RolesFragment } from "@/gql/graphql";
+import {
+  InviteTeamMemberForm_InviteTeamMemberMutation,
+  InviteTeamMemberForm_InviteTeamMemberMutationVariables,
+  InviteTeamMemberForm_RolesFragment,
+} from "@/gql/graphql";
 import { useMutation } from "@apollo/client";
 import { useMe } from "@/hooks/use-me";
+import { capitalize } from "@/utils/string-utils";
 
 export const InviteTeamMemberForm = ({
   roles,
@@ -32,10 +37,18 @@ export const InviteTeamMemberForm = ({
   const dialogCloseRef = useRef<HTMLButtonElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
 
-  const [inviteUser, { loading }] = useMutation(InviteTeamMemberForm.mutation, {
-    update(cache) {
-      cache.evict({ fieldName: "orgInvites" });
-      cache.gc();
+  const [inviteUser, { loading }] = useMutation<
+    InviteTeamMemberForm_InviteTeamMemberMutation,
+    InviteTeamMemberForm_InviteTeamMemberMutationVariables
+  >(InviteTeamMemberForm.mutation, {
+    update(cache, { data }) {
+      if (data?.inviteTeamMember?.invite) {
+        cache.evict({ fieldName: "orgInvites" });
+        cache.gc();
+      }
+    },
+    onCompleted() {
+      toast.success("User invited successfully");
     },
   });
 
@@ -57,7 +70,11 @@ export const InviteTeamMemberForm = ({
             email: string;
             role: string;
           }) => {
-            await inviteUser({
+            if (!email || !role || !selectedMembership) {
+              return;
+            }
+
+            const { errors } = await inviteUser({
               variables: {
                 input: {
                   orgId: selectedMembership?.organization.id,
@@ -66,6 +83,11 @@ export const InviteTeamMemberForm = ({
                 },
               },
             });
+
+            if (errors) {
+              errors.forEach((error) => toast.error(error.message));
+              return;
+            }
 
             toast.success("User invited successfully");
 
@@ -102,7 +124,7 @@ export const InviteTeamMemberForm = ({
                         {...field}
                         options={roles.map((role) => ({
                           value: role.id,
-                          label: role.name,
+                          label: capitalize(role.name),
                         }))}
                         triggerLabel={"Select role"}
                         searchLabel={"select role"}
