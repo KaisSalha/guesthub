@@ -13,6 +13,7 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 import { Logo } from "../_components/logo.js";
+import { Footer } from "../_components/footer.js";
 
 interface InviteEmailProps {
 	email: string;
@@ -90,7 +91,7 @@ export const InviteEmail = ({
 						</Text>
 						<Section className='mb-[42px] mt-[32px] text-center'>
 							<Button
-								className='bg-transparent rounded-md text-primary text-[14px] text-[#121212] font-medium no-underline text-center px-6 py-3 border border-solid border-[#121212]'
+								className='bg-transparent rounded-md text-primary text-[14px] text-[#fff] font-medium no-underline text-center px-6 py-3 border bg-[#121212]'
 								href={inviteLink}
 							>
 								Join the team
@@ -127,7 +128,7 @@ export const InviteEmail = ({
 							</Text>
 						</Section>
 
-						<br />
+						<Footer />
 					</Container>
 				</Body>
 			</Tailwind>

@@ -42,7 +42,7 @@ export const TeamTab = () => {
   return (
     <Dialog>
       <DialogOverlay />
-      <div className="flex flex-col gap-20 md:gap-36 md:px-4">
+      <div className="flex flex-col gap-20 md:gap-32 md:px-4">
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold">Team Members</h2>
           <QueryTable<
