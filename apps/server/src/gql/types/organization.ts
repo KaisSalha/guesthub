@@ -44,11 +44,17 @@ Organization.implement({
 		owner_id: t.globalID({
 			resolve: (organization) =>
 				encodeGlobalID("User", organization.owner_id),
+			authScopes: {
+				isAuthenticated: true,
+			},
 		}),
 		owner: t.loadable({
 			type: User,
 			load: async (ids, { loadMany }) => loadMany(User, ids),
 			resolve: (parent) => parent.owner_id,
+			authScopes: {
+				isAuthenticated: true,
+			},
 		}),
 		website: t.exposeString("website", { nullable: true }),
 		logo_url: t.exposeString("logo_url", { nullable: true }),
@@ -68,21 +74,33 @@ Organization.implement({
 			type: "Latitude",
 			nullable: true,
 			resolve: (parent) => parent.lat,
+			authScopes: {
+				isAuthenticated: true,
+			},
 		}),
 		lng: t.field({
 			type: "Longitude",
 			nullable: true,
 			resolve: (parent) => parent.lng,
+			authScopes: {
+				isAuthenticated: true,
+			},
 		}),
 		created_at: t.field({
 			type: "Timestamp",
 			nullable: true,
 			resolve: (parent) => parent.created_at,
+			authScopes: {
+				isAuthenticated: true,
+			},
 		}),
 		updated_at: t.field({
 			type: "Timestamp",
 			nullable: true,
 			resolve: (parent) => parent.updated_at,
+			authScopes: {
+				isAuthenticated: true,
+			},
 		}),
 	}),
 });
@@ -137,6 +155,9 @@ builder.relayMutationField(
 		}),
 	},
 	{
+		authScopes: {
+			isAuthenticated: true,
+		},
 		resolve: async (_root, args, ctx) => {
 			try {
 				// Create org

@@ -35,6 +35,9 @@ export const Role = builder.loadableNodeRef("Role", {
 
 Role.implement({
 	isTypeOf: (role) => (role as RoleType).id !== undefined,
+	authScopes: {
+		isAuthenticated: true,
+	},
 	fields: (t) => ({
 		name: t.exposeString("name"),
 		organization: t.loadable({
@@ -74,6 +77,9 @@ builder.queryFields((t) => ({
 		args: {
 			offset: t.arg.int({ required: true }),
 			orgId: t.arg.globalID({ required: true }),
+		},
+		authScopes: {
+			isAuthenticated: true,
 		},
 		resolve: async (_parent, args) => {
 			return await resolveWindowedConnection(

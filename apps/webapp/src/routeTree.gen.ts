@@ -13,9 +13,13 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as DashboardImport } from './routes/dashboard'
 import { Route as IndexImport } from './routes/index'
+import { Route as TeamInviteIndexImport } from './routes/team-invite/index'
 import { Route as SignupIndexImport } from './routes/signup/index'
 import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as TeamInviteSignupIndexImport } from './routes/team-invite/signup/index'
+import { Route as TeamInviteGetStartedIndexImport } from './routes/team-invite/get-started/index'
+import { Route as TeamInviteAcceptIndexImport } from './routes/team-invite/accept/index'
 import { Route as SignupProfileIndexImport } from './routes/signup/profile/index'
 import { Route as SignupOrganizationIndexImport } from './routes/signup/organization/index'
 import { Route as DashboardTeamIndexImport } from './routes/dashboard/team/index'
@@ -26,6 +30,7 @@ import { Route as DashboardGuestsIndexImport } from './routes/dashboard/guests/i
 import { Route as DashboardEventsIndexImport } from './routes/dashboard/events/index'
 import { Route as DashboardCalendarIndexImport } from './routes/dashboard/calendar/index'
 import { Route as DashboardAccountIndexImport } from './routes/dashboard/account/index'
+import { Route as TeamInviteSignupProfileIndexImport } from './routes/team-invite/signup/profile/index'
 
 // Create/Update Routes
 
@@ -36,6 +41,11 @@ const DashboardRoute = DashboardImport.update({
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TeamInviteIndexRoute = TeamInviteIndexImport.update({
+  path: '/team-invite/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -52,6 +62,21 @@ const LoginIndexRoute = LoginIndexImport.update({
 const DashboardIndexRoute = DashboardIndexImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
+} as any)
+
+const TeamInviteSignupIndexRoute = TeamInviteSignupIndexImport.update({
+  path: '/team-invite/signup/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TeamInviteGetStartedIndexRoute = TeamInviteGetStartedIndexImport.update({
+  path: '/team-invite/get-started/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TeamInviteAcceptIndexRoute = TeamInviteAcceptIndexImport.update({
+  path: '/team-invite/accept/',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const SignupProfileIndexRoute = SignupProfileIndexImport.update({
@@ -104,6 +129,12 @@ const DashboardAccountIndexRoute = DashboardAccountIndexImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
+const TeamInviteSignupProfileIndexRoute =
+  TeamInviteSignupProfileIndexImport.update({
+    path: '/team-invite/signup/profile/',
+    getParentRoute: () => rootRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -126,6 +157,10 @@ declare module '@tanstack/react-router' {
     }
     '/signup/': {
       preLoaderRoute: typeof SignupIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/team-invite/': {
+      preLoaderRoute: typeof TeamInviteIndexImport
       parentRoute: typeof rootRoute
     }
     '/dashboard/account/': {
@@ -168,6 +203,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupProfileIndexImport
       parentRoute: typeof rootRoute
     }
+    '/team-invite/accept/': {
+      preLoaderRoute: typeof TeamInviteAcceptIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/team-invite/get-started/': {
+      preLoaderRoute: typeof TeamInviteGetStartedIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/team-invite/signup/': {
+      preLoaderRoute: typeof TeamInviteSignupIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/team-invite/signup/profile/': {
+      preLoaderRoute: typeof TeamInviteSignupProfileIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -188,8 +239,13 @@ export const routeTree = rootRoute.addChildren([
   ]),
   LoginIndexRoute,
   SignupIndexRoute,
+  TeamInviteIndexRoute,
   SignupOrganizationIndexRoute,
   SignupProfileIndexRoute,
+  TeamInviteAcceptIndexRoute,
+  TeamInviteGetStartedIndexRoute,
+  TeamInviteSignupIndexRoute,
+  TeamInviteSignupProfileIndexRoute,
 ])
 
 /* prettier-ignore-end */

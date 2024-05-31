@@ -1,8 +1,12 @@
 import { FastifyInstance } from "fastify";
 import { FastifyRequest } from "fastify/types/request";
+import mercurius from "mercurius";
 import { User, UserInsert } from "../db/schemas/users.js";
 import { login, signup } from "../services/auth.js";
 import { boss } from "../lib/pgboss.js";
+import { schema } from "../gql/index.js";
+import { createContext } from "../gql/context.js";
+import { config } from "../config/index.js";
 
 export const publicRoutes = async (app: FastifyInstance) => {
 	await app.register(import("@fastify/rate-limit"), {
@@ -87,5 +91,11 @@ export const publicRoutes = async (app: FastifyInstance) => {
 		return {
 			message: "Email sent successfully",
 		};
+	});
+
+	app.register(mercurius, {
+		schema,
+		context: createContext,
+		graphiql: config.isDev,
 	});
 };

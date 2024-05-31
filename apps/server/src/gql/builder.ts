@@ -23,7 +23,7 @@ const builder = new SchemaBuilder<{
 	};
 	Context: ContextType;
 	AuthScopes: {
-		public: boolean;
+		isAuthenticated: boolean;
 	};
 	Scalars: {
 		JSON: {
@@ -83,7 +83,7 @@ const builder = new SchemaBuilder<{
 		}),
 	},
 	authScopes: async (context) => ({
-		public: !!context.user,
+		isAuthenticated: context.isAuthenticated,
 	}),
 	scopeAuthOptions: {
 		authorizeOnSubscribe: true,

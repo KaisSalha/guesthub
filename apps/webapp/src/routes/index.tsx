@@ -1,10 +1,15 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  useNavigate,
+  useRouterState,
+} from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { useEffect } from "react";
 
 const Main = () => {
   const { isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
+  const routerState = useRouterState();
 
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
@@ -12,11 +17,13 @@ const Main = () => {
         to: "/dashboard",
       });
     } else {
-      navigate({
-        to: "/login",
-      });
+      if (!routerState.location.pathname.startsWith("/team-invite")) {
+        navigate({
+          to: "/login",
+        });
+      }
     }
-  }, [isAuthenticated, isLoading, navigate]);
+  }, [isAuthenticated, isLoading, navigate, routerState.location.pathname]);
 
   return <></>;
 };

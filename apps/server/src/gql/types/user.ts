@@ -32,6 +32,9 @@ export const User = builder.loadableNodeRef("User", {
 
 User.implement({
 	isTypeOf: (user) => (user as UserType).id !== undefined,
+	authScopes: {
+		isAuthenticated: true,
+	},
 	fields: (t) => ({
 		email: t.field({
 			type: "Email",
@@ -83,6 +86,9 @@ builder.queryFields((t) => ({
 	me: t.field({
 		type: User,
 		nullable: true,
+		authScopes: {
+			isAuthenticated: true,
+		},
 		resolve: (_parent, _args, { user }) => {
 			return user;
 		},
@@ -90,6 +96,9 @@ builder.queryFields((t) => ({
 	user: t.field({
 		type: User,
 		nullable: true,
+		authScopes: {
+			isAuthenticated: true,
+		},
 		args: {
 			id: t.arg.globalID({ required: true }),
 		},
@@ -107,6 +116,9 @@ builder.relayMutationField(
 		}),
 	},
 	{
+		authScopes: {
+			isAuthenticated: true,
+		},
 		resolve: async (_root, args, ctx) => {
 			try {
 				const updateFields: Partial<UserType> = {

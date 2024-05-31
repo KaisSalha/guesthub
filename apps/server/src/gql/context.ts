@@ -6,6 +6,7 @@ import { User } from "lucia";
 
 export interface ContextType {
 	user: User;
+	isAuthenticated: boolean;
 	getLoader: <K, V>(ref: LoadableRef<K, V, ContextType>) => DataLoader<K, V>;
 	load: <K, V>(ref: LoadableRef<K, V, ContextType>, id: K) => Promise<V>;
 	loadMany: <K, V>(
@@ -19,6 +20,7 @@ export const createContext = (
 	_res: FastifyReply
 ): ContextType => ({
 	user: req.user,
+	isAuthenticated: !!req.user,
 	...initContextCache(),
 	get getLoader() {
 		return <K, V>(ref: LoadableRef<K, V, ContextType>) =>

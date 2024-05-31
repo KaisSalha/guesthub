@@ -38,6 +38,9 @@ export const Membership = builder.loadableNodeRef("Membership", {
 
 Membership.implement({
 	isTypeOf: (membership) => (membership as MembershipType).id !== undefined,
+	authScopes: {
+		isAuthenticated: true,
+	},
 	fields: (t) => ({
 		user: t.loadable({
 			type: User,
@@ -73,6 +76,9 @@ builder.queryFields((t) => ({
 		args: {
 			offset: t.arg.int({ required: true }),
 			orgId: t.arg.globalID({ required: true }),
+		},
+		authScopes: {
+			isAuthenticated: true,
 		},
 		resolve: async (_parent, args) => {
 			return await resolveWindowedConnection(

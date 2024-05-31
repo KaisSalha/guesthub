@@ -1,11 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { FastifyRequest } from "fastify/types/request";
-import mercurius from "mercurius";
-import { schema } from "../gql/index.js";
-import { createContext } from "../gql/context.js";
 import { generateFileUploadPresignedUrl } from "../lib/s3.js";
-import { config } from "../config/index.js";
-import authenticate from "../plugins/authenticate.js";
+import { authenticate } from "../plugins/authenticate.js";
 import { logout } from "../services/auth.js";
 
 export const privateRoutes = async (app: FastifyInstance) => {
@@ -52,11 +48,5 @@ export const privateRoutes = async (app: FastifyInstance) => {
 				error: "SOMETHING_WENT_WRONG",
 			};
 		}
-	});
-
-	app.register(mercurius, {
-		schema,
-		context: createContext,
-		graphiql: config.isDev,
 	});
 };

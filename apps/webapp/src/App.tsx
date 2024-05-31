@@ -25,7 +25,10 @@ const httpLink = createHttpLink({
 
 const errorLink = onError(({ operation }) => {
   const { response } = operation.getContext();
-  if (response.status === 401) {
+  if (
+    response.status === 401 &&
+    new URL(window.location.href).pathname.startsWith("/dashboard")
+  ) {
     client.clearStore();
     router.navigate({
       to: "/login",
