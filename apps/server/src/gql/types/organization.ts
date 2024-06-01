@@ -57,7 +57,16 @@ Organization.implement({
 			},
 		}),
 		website: t.exposeString("website", { nullable: true }),
-		logo_url: t.exposeString("logo_url", { nullable: true }),
+		logo_url: t.field({
+			type: "S3File",
+			nullable: true,
+			resolve: (parent) =>
+				parent.logo_url
+					? {
+							url: parent.logo_url,
+						}
+					: null,
+		}),
 		address: t.exposeString("address"),
 		city: t.exposeString("city"),
 		state: t.exposeString("state", { nullable: true }),

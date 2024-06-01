@@ -60,11 +60,18 @@ User.implement({
 				isAuthenticated: true,
 			},
 		}),
-		avatar_url: t.exposeString("avatar_url", {
+		avatar_url: t.field({
+			type: "S3File",
 			nullable: true,
 			authScopes: {
 				isAuthenticated: true,
 			},
+			resolve: (parent) =>
+				parent.avatar_url
+					? {
+							url: parent.avatar_url,
+						}
+					: null,
 		}),
 		type: t.exposeString("type", {
 			authScopes: {

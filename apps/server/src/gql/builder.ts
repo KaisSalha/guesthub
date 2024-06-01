@@ -16,6 +16,7 @@ import {
 	NonEmptyStringResolver,
 	TimeZoneResolver,
 } from "graphql-scalars";
+import { generateReadPresignedUrl } from "../lib/s3.js";
 
 const builder = new SchemaBuilder<{
 	Connection: {
@@ -66,6 +67,16 @@ const builder = new SchemaBuilder<{
 			Input: string;
 			Output: string;
 		};
+		S3File: {
+			Input: {
+				url: string;
+				duration?: number;
+			};
+			Output: {
+				url: string;
+				duration?: number;
+			};
+		};
 	};
 }>({
 	plugins: [DataloaderPlugin, RelayPlugin, ScopeAuthPlugin, ComplexityPlugin],
@@ -97,6 +108,30 @@ builder.globalConnectionField("totalCount", (t) =>
 		resolve: (parent) => parent.totalCount,
 	})
 );
+
+builder.scalarType("S3File", {
+	serialize: async (value: { url: string; duration?: number }) => {
+		// Ensure the value is of the expected format
+		if (typeof value === "object" && "url" in value) {
+			return await generateReadPresignedUrl({
+				url: value.url,
+				duration: value.duration,
+			});
+		}
+		throw new Error(
+			"S3File scalar can only serialize an object with url and duration"
+		);
+	},
+	parseValue: (value) => {
+		if (!!value && typeof value === "object" && "url" in value) {
+			return value as { url: string; duration?: number };
+		}
+		throw new Error(
+			"S3File scalar can only parse an object with url and duration"
+		);
+	},
+	description: "S3 File URL with presigned URL generation",
+});
 
 builder.addScalarType("JSON", JSONResolver);
 builder.addScalarType("Date", DateResolver);

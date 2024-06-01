@@ -1,4 +1,8 @@
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+	GetObjectCommand,
+	PutObjectCommand,
+	S3Client,
+} from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { config } from "../config/index.js";
 
@@ -9,6 +13,36 @@ const s3Client = new S3Client({
 		secretAccessKey: config.S3.SECRET_KEY,
 	},
 });
+
+const extractParametersFromUrl = (url: string) => {
+	const urlObj = new URL(url);
+	const pathname = urlObj.pathname; // e.g., /avatars/VXNlcjox
+	const timestamp = urlObj.searchParams.get("timestamp"); // e.g., 1717256272504
+
+	return {
+		path: pathname.substring(1), // remove leading '/'
+		timestamp,
+	};
+};
+
+export const generateReadPresignedUrl = async ({
+	url,
+	duration = 1800, // URL expires in 30 minutes
+}: {
+	url: string;
+	duration?: number;
+}) => {
+	const { path } = extractParametersFromUrl(url);
+
+	const command = new GetObjectCommand({
+		Bucket: config.S3.BUCKET_NAME,
+		Key: path,
+	});
+
+	return await getSignedUrl(s3Client, command, {
+		expiresIn: duration,
+	});
+};
 
 export const generateFileUploadPresignedUrl = async ({
 	file_name,
@@ -26,7 +60,7 @@ export const generateFileUploadPresignedUrl = async ({
 	});
 
 	return await getSignedUrl(s3Client, command, {
-		expiresIn: 3600,
+		expiresIn: 1800, // 30 minutes
 	});
 };
 

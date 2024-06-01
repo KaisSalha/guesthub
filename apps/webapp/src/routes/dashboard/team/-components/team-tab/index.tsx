@@ -106,6 +106,19 @@ export const TeamTab = () => {
                 },
               },
               {
+                id: "email",
+                accessorFn: (node) => node.user.email,
+                header: ({ column }) => (
+                  <DataTable.DataTableColumnHeader
+                    column={column}
+                    title="Email"
+                  />
+                ),
+                cell: ({ row }) => {
+                  return <>{row.getValue("email")}</>;
+                },
+              },
+              {
                 id: "role",
                 accessorFn: (node) => node.role.name,
                 header: ({ column }) => (
