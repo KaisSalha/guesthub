@@ -22,6 +22,9 @@ const documents = {
     "\n    query TeamTabQuery($orgId: ID!) {\n      orgAllRoles(orgId: $orgId) {\n        ...InviteTeamMemberForm_roles\n      }\n    }\n  ": types.TeamTabQueryDocument,
     "\n    mutation CreateOrganization($input: CreateOrganizationInput!) {\n      createOrganization(input: $input) {\n        success\n      }\n    }\n  ": types.CreateOrganizationDocument,
     "\n    mutation UpdateUser($input: UpdateUserInput!) {\n      updateUser(input: $input) {\n        success\n      }\n    }\n  ": types.UpdateUserDocument,
+    "\n  query GetInvite($id: ID!) {\n    invite(id: $id) {\n      id\n      email\n      organization {\n        id\n        name\n        logo_url\n      }\n      user {\n        id\n        email\n        profile_completed\n      }\n    }\n  }\n": types.GetInviteDocument,
+    "\n  mutation AcceptInvitation($input: AcceptInvitationInput!) {\n    acceptInvitation(input: $input) {\n      success\n    }\n  }\n": types.AcceptInvitationDocument,
+    "\n    mutation UpdateInviteUser($input: UpdateUserInput!) {\n      updateUser(input: $input) {\n        success\n      }\n    }\n  ": types.UpdateInviteUserDocument,
 };
 
 /**
@@ -74,6 +77,18 @@ export function graphql(source: "\n    mutation CreateOrganization($input: Creat
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    mutation UpdateUser($input: UpdateUserInput!) {\n      updateUser(input: $input) {\n        success\n      }\n    }\n  "): (typeof documents)["\n    mutation UpdateUser($input: UpdateUserInput!) {\n      updateUser(input: $input) {\n        success\n      }\n    }\n  "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetInvite($id: ID!) {\n    invite(id: $id) {\n      id\n      email\n      organization {\n        id\n        name\n        logo_url\n      }\n      user {\n        id\n        email\n        profile_completed\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetInvite($id: ID!) {\n    invite(id: $id) {\n      id\n      email\n      organization {\n        id\n        name\n        logo_url\n      }\n      user {\n        id\n        email\n        profile_completed\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation AcceptInvitation($input: AcceptInvitationInput!) {\n    acceptInvitation(input: $input) {\n      success\n    }\n  }\n"): (typeof documents)["\n  mutation AcceptInvitation($input: AcceptInvitationInput!) {\n    acceptInvitation(input: $input) {\n      success\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation UpdateInviteUser($input: UpdateUserInput!) {\n      updateUser(input: $input) {\n        success\n      }\n    }\n  "): (typeof documents)["\n    mutation UpdateInviteUser($input: UpdateUserInput!) {\n      updateUser(input: $input) {\n        success\n      }\n    }\n  "];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

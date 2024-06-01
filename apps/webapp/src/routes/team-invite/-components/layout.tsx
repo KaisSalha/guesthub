@@ -7,9 +7,9 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="h-full min-h-screen px-4 md:px-8 py-3 flex-1 flex flex-col items-center gap-6 md:gap-12">
-      <Logo />
-      {children}
+    <div className="h-full min-h-screen flex flex-col px-4 md:px-20 lg:px-36 py-3">
+      <Logo className="md:w-fit self-start" />
+      <div className="flex flex-1 items-center justify-center">{children}</div>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { encodeGlobalID } from "@pothos/plugin-relay";
 import locationTimezone from "node-location-timezone";
 import { and, count, eq, inArray } from "drizzle-orm";
 import { render } from "@react-email/render";
@@ -17,6 +18,9 @@ import { organizations } from "../../db/schemas/organizations.js";
 import { getCityAddress } from "../../utils/address.js";
 import { users } from "../../db/schemas/users.js";
 import { memberships } from "../../db/schemas/memberships.js";
+import { User } from "./user.js";
+import { Membership } from "./membership.js";
+import { emailsUsersLoader } from "../loaders/emails-users-loader.js";
 
 const InviteStatus = builder.enumType("InviteStatus", {
 	values: inviteStatusEnumType,
@@ -63,6 +67,13 @@ Invite.implement({
 			load: async (ids, { loadMany }) => loadMany(Organization, ids),
 			resolve: (parent) => parent.organization_id,
 		}),
+		user: t.loadable({
+			type: User,
+			nullable: true,
+			load: (emails: string[], context) =>
+				emailsUsersLoader(context).loadMany(emails),
+			resolve: (parent) => parent.email,
+		}),
 		created_at: t.field({
 			type: "Timestamp",
 			nullable: true,
@@ -77,6 +88,14 @@ Invite.implement({
 });
 
 builder.queryFields((t) => ({
+	invite: t.field({
+		type: Invite,
+		nullable: true,
+		args: {
+			id: t.arg.globalID({ required: true }),
+		},
+		resolve: (_root, args) => args.id.id,
+	}),
 	userInvites: t.connection({
 		type: Invite,
 		nullable: true,
@@ -194,6 +213,14 @@ builder.relayMutationField(
 				throw new Error("User already exists in the organization");
 			}
 
+			const org = await db.query.organizations.findFirst({
+				where: eq(organizations.id, parseInt(args.input.orgId.id)),
+			});
+
+			if (!org) throw new Error("Organization not found");
+
+			const name = `${ctx.user.first_name} ${ctx.user.last_name}`;
+
 			const [invite] = await db
 				.insert(invites)
 				.values({
@@ -203,21 +230,13 @@ builder.relayMutationField(
 				})
 				.returning();
 
-			const org = await db.query.organizations.findFirst({
-				where: eq(organizations.id, parseInt(args.input.orgId.id)),
-			});
-
-			if (!org) throw new Error("Organization not found");
-
-			const name = `${ctx.user.first_name} ${ctx.user.last_name}`;
-
 			const html = render(
 				InviteEmail({
 					email,
 					invitedByEmail: ctx.user.email,
 					invitedByName: `${ctx.user.first_name} ${ctx.user.last_name}`,
 					teamName: org.name,
-					inviteCode: invite.id,
+					inviteCode: encodeGlobalID("Invite", invite.id),
 					location: getCityAddress({
 						city: org.city,
 						state: org.state,
@@ -257,6 +276,66 @@ builder.relayMutationField(
 				type: Invite,
 				nullable: true,
 				resolve: (result) => result.invite,
+			}),
+		}),
+	}
+);
+
+// accept invitation mutation
+builder.relayMutationField(
+	"acceptInvitation",
+	{
+		inputFields: (t) => ({
+			inviteId: t.globalID({ required: true }),
+		}),
+	},
+	{
+		authScopes: async (_, args, ctx) => {
+			try {
+				const [invitation] = await db
+					.select()
+					.from(invites)
+					.where(eq(invites.id, args.input.inviteId.id));
+
+				if (!invitation) {
+					return false;
+				}
+
+				const invitationBelongsToUser =
+					invitation.email === ctx.user.email;
+
+				return !!invitationBelongsToUser;
+			} catch (error) {
+				console.error(error);
+				return false;
+			}
+		},
+		resolve: async (_root, args, ctx) => {
+			await db.transaction(async (tx) => {
+				const [invite] = await tx
+					.update(invites)
+					.set({ status: "accepted" })
+					.where(eq(invites.id, args.input.inviteId.id))
+					.returning();
+
+				await tx.insert(memberships).values({
+					user_id: ctx.user.id,
+					organization_id: invite.organization_id,
+					role_id: invite.role_id,
+				});
+			});
+
+			Membership.getDataloader(ctx).clearAll();
+
+			return {
+				success: true,
+			};
+		},
+	},
+	{
+		outputFields: (t) => ({
+			success: t.boolean({
+				resolve: (result) => result.success,
 			}),
 		}),
 	}

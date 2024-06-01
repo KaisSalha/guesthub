@@ -21,7 +21,13 @@ export const useMe = () => {
 
   // Select the first membership if none is selected
   useEffect(() => {
-    if (data?.me?.memberships && !selectedMembershipId) {
+    if (
+      !!data?.me?.memberships.length &&
+      (!selectedMembershipId ||
+        !data.me.memberships.find(
+          (membership) => membership.id === selectedMembershipId
+        ))
+    ) {
       setSelectedMembershipId(data.me.memberships[0].id);
     }
   }, [data, selectedMembershipId, setSelectedMembershipId]);

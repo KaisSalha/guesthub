@@ -18,7 +18,6 @@ import { Route as SignupIndexImport } from './routes/signup/index'
 import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as TeamInviteSignupIndexImport } from './routes/team-invite/signup/index'
-import { Route as TeamInviteGetStartedIndexImport } from './routes/team-invite/get-started/index'
 import { Route as TeamInviteAcceptIndexImport } from './routes/team-invite/accept/index'
 import { Route as SignupProfileIndexImport } from './routes/signup/profile/index'
 import { Route as SignupOrganizationIndexImport } from './routes/signup/organization/index'
@@ -66,11 +65,6 @@ const DashboardIndexRoute = DashboardIndexImport.update({
 
 const TeamInviteSignupIndexRoute = TeamInviteSignupIndexImport.update({
   path: '/team-invite/signup/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const TeamInviteGetStartedIndexRoute = TeamInviteGetStartedIndexImport.update({
-  path: '/team-invite/get-started/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -207,10 +201,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamInviteAcceptIndexImport
       parentRoute: typeof rootRoute
     }
-    '/team-invite/get-started/': {
-      preLoaderRoute: typeof TeamInviteGetStartedIndexImport
-      parentRoute: typeof rootRoute
-    }
     '/team-invite/signup/': {
       preLoaderRoute: typeof TeamInviteSignupIndexImport
       parentRoute: typeof rootRoute
@@ -243,7 +233,6 @@ export const routeTree = rootRoute.addChildren([
   SignupOrganizationIndexRoute,
   SignupProfileIndexRoute,
   TeamInviteAcceptIndexRoute,
-  TeamInviteGetStartedIndexRoute,
   TeamInviteSignupIndexRoute,
   TeamInviteSignupProfileIndexRoute,
 ])

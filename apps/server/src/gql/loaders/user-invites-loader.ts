@@ -11,8 +11,6 @@ export const userInvitesLoader = loaderWithContext(
 
 		const invitesMap = new Map();
 		invites.forEach((invite) => {
-			invitesMap.set(invite.email, invite);
-
 			if (!invitesMap.has(invite.email)) {
 				invitesMap.set(invite.email, []);
 			}
@@ -20,6 +18,6 @@ export const userInvitesLoader = loaderWithContext(
 			invitesMap.get(invite.email).push(invite);
 		});
 
-		return invites.map((id) => invitesMap.get(id) || null);
+		return emails.map((email) => invitesMap.get(email) || []);
 	}
 );

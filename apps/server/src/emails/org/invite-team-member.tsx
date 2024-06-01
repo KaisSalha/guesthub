@@ -37,7 +37,7 @@ export const InviteEmail = ({
 	inviteCode = "jnwe9203frnwefl239jweflasn1230oqef",
 	location = "São Paulo, Brazil",
 }: InviteEmailProps) => {
-	const inviteLink = `${baseAppUrl}/teams/invite/${inviteCode}`;
+	const inviteLink = `${baseAppUrl}/team-invite?inviteId=${inviteCode}`;
 
 	return (
 		<Html>

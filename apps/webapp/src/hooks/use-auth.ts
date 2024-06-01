@@ -97,11 +97,5 @@ export const useAuth = () => {
     });
   };
 
-  return {
-    isLoading,
-    isAuthenticated,
-    signup,
-    login,
-    logout,
-  };
+  return { me, isLoading, isAuthenticated, signup, login, logout };
 };

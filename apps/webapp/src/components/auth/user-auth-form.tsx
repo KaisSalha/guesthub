@@ -16,14 +16,24 @@ interface UserAuthFormProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onSubmit"> {
   onSubmit: (formData: { email: string; password: string }) => Promise<void>;
   submitLabel: string;
+  disableUserInput?: boolean;
+  defaultValues?: {
+    email: string;
+    password: string;
+  };
 }
 
-export function UserAuthForm({
+export const UserAuthForm = ({
   className,
   onSubmit,
   submitLabel,
+  disableUserInput = false,
+  defaultValues = {
+    email: "",
+    password: "",
+  },
   ...props
-}: UserAuthFormProps) {
+}: UserAuthFormProps) => {
   const [isLoading] = useState<boolean>(false);
 
   return (
@@ -34,10 +44,7 @@ export function UserAuthForm({
           password: z.string().min(8),
         })}
         onSubmit={onSubmit}
-        defaultValues={{
-          email: "",
-          password: "",
-        }}
+        defaultValues={defaultValues}
         fields={(form) => (
           <div className="flex flex-col gap-6">
             <FormField
@@ -52,8 +59,9 @@ export function UserAuthForm({
                       placeholder="name@example.com"
                       type="email"
                       autoCapitalize="none"
-                      autoComplete="email"
+                      autoComplete={disableUserInput ? "off" : "email"}
                       autoCorrect="off"
+                      disabled={disableUserInput}
                     />
                   </FormControl>
                   <FormMessage />
@@ -92,4 +100,4 @@ export function UserAuthForm({
       />
     </div>
   );
-}
+};

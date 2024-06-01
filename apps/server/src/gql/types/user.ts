@@ -32,24 +32,50 @@ export const User = builder.loadableNodeRef("User", {
 
 User.implement({
 	isTypeOf: (user) => (user as UserType).id !== undefined,
-	authScopes: {
-		isAuthenticated: true,
-	},
 	fields: (t) => ({
 		email: t.field({
 			type: "Email",
 			resolve: (parent) => parent.email,
 		}),
-		first_name: t.exposeString("first_name", { nullable: true }),
-		last_name: t.exposeString("last_name", { nullable: true }),
+		profile_completed: t.field({
+			type: "Boolean",
+			resolve: (parent) => !!parent.first_name?.length,
+		}),
+		first_name: t.exposeString("first_name", {
+			nullable: true,
+			authScopes: {
+				isAuthenticated: true,
+			},
+		}),
+		last_name: t.exposeString("last_name", {
+			nullable: true,
+			authScopes: {
+				isAuthenticated: true,
+			},
+		}),
 		full_name: t.field({
 			type: "String",
 			resolve: (parent) => `${parent.first_name} ${parent.last_name}`,
+			authScopes: {
+				isAuthenticated: true,
+			},
 		}),
-		avatar_url: t.exposeString("avatar_url", { nullable: true }),
-		type: t.exposeString("type"),
+		avatar_url: t.exposeString("avatar_url", {
+			nullable: true,
+			authScopes: {
+				isAuthenticated: true,
+			},
+		}),
+		type: t.exposeString("type", {
+			authScopes: {
+				isAuthenticated: true,
+			},
+		}),
 		memberships: t.loadableGroup({
 			type: Membership,
+			authScopes: {
+				isAuthenticated: true,
+			},
 			load: (ids: number[]) =>
 				db.query.memberships.findMany({
 					where: (memberships, { inArray }) =>
@@ -65,6 +91,9 @@ User.implement({
 		invites: t.loadableList({
 			type: Invite,
 			nullable: true,
+			authScopes: {
+				isAuthenticated: true,
+			},
 			load: (emails: string[], context) =>
 				userInvitesLoader(context).loadMany(emails),
 			resolve: (parent) => parent.email,
@@ -73,11 +102,17 @@ User.implement({
 			type: "Timestamp",
 			nullable: true,
 			resolve: (parent) => parent.created_at,
+			authScopes: {
+				isAuthenticated: true,
+			},
 		}),
 		updated_at: t.field({
 			type: "Timestamp",
 			nullable: true,
 			resolve: (parent) => parent.updated_at,
+			authScopes: {
+				isAuthenticated: true,
+			},
 		}),
 	}),
 });

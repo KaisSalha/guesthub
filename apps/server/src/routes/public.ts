@@ -3,94 +3,85 @@ import { FastifyRequest } from "fastify/types/request";
 import mercurius from "mercurius";
 import { User, UserInsert } from "../db/schemas/users.js";
 import { login, signup } from "../services/auth.js";
-import { boss } from "../lib/pgboss.js";
 import { schema } from "../gql/index.js";
 import { createContext } from "../gql/context.js";
 import { config } from "../config/index.js";
 
 export const publicRoutes = async (app: FastifyInstance) => {
-	await app.register(import("@fastify/rate-limit"), {
-		max: 10,
-		timeWindow: 1000 * 60 * 2,
-	});
-
-	app.post(
-		"/signup",
-		async (
-			req: FastifyRequest<{
-				Body: Pick<UserInsert, "email" | "password" | "type">;
-			}>,
-			reply
-		) => {
-			try {
-				const cookie = await signup({
-					email: req.body.email,
-					password: req.body.password,
-					type: req.body.type,
-				});
-
-				reply.header("Set-Cookie", cookie.serialize());
-
-				return {
-					message: "User created successfully",
-				};
-			} catch (error) {
-				reply.status(400);
-
-				if (error instanceof Error)
-					return {
-						error: error.message,
-					};
-
-				return {
-					error: "SOMETHING_WENT_WRONG",
-				};
-			}
-		}
-	);
-
-	app.post(
-		"/login",
-		async (
-			req: FastifyRequest<{
-				Body: Pick<User, "email" | "password">;
-			}>,
-			reply
-		) => {
-			try {
-				const cookie = await login({
-					email: req.body.email,
-					password: req.body.password,
-				});
-
-				reply.header("Set-Cookie", cookie.serialize());
-
-				return {
-					message: "Logged in successfully",
-				};
-			} catch (error) {
-				reply.status(400);
-
-				if (error instanceof Error)
-					return {
-						error: error.message,
-					};
-
-				return {
-					error: "SOMETHING_WENT_WRONG",
-				};
-			}
-		}
-	);
-
-	app.get("/testEmail", async (_req, _reply) => {
-		await boss.send("send-msg", {
-			name: "Kais",
+	app.register(async (app) => {
+		await app.register(import("@fastify/rate-limit"), {
+			max: 10,
+			timeWindow: 1000 * 60 * 2,
 		});
 
-		return {
-			message: "Email sent successfully",
-		};
+		app.post(
+			"/signup",
+			async (
+				req: FastifyRequest<{
+					Body: Pick<UserInsert, "email" | "password" | "type">;
+				}>,
+				reply
+			) => {
+				try {
+					const cookie = await signup({
+						email: req.body.email,
+						password: req.body.password,
+						type: req.body.type,
+					});
+
+					reply.header("Set-Cookie", cookie.serialize());
+
+					return {
+						message: "User created successfully",
+					};
+				} catch (error) {
+					reply.status(400);
+
+					if (error instanceof Error)
+						return {
+							error: error.message,
+						};
+
+					return {
+						error: "SOMETHING_WENT_WRONG",
+					};
+				}
+			}
+		);
+
+		app.post(
+			"/login",
+			async (
+				req: FastifyRequest<{
+					Body: Pick<User, "email" | "password">;
+				}>,
+				reply
+			) => {
+				try {
+					const cookie = await login({
+						email: req.body.email,
+						password: req.body.password,
+					});
+
+					reply.header("Set-Cookie", cookie.serialize());
+
+					return {
+						message: "Logged in successfully",
+					};
+				} catch (error) {
+					reply.status(400);
+
+					if (error instanceof Error)
+						return {
+							error: error.message,
+						};
+
+					return {
+						error: "SOMETHING_WENT_WRONG",
+					};
+				}
+			}
+		);
 	});
 
 	app.register(mercurius, {

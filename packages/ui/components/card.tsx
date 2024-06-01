@@ -9,6 +9,8 @@ const cardVariants = cva(
     variants: {
       variant: {
         default: "",
+        desktopOnly:
+          "shadow-none md:rounded-xl border-0 md:border md:border-border-subtle md:shadow-sm",
         info: "bg-background-info border-none",
         success: "bg-background-success border-none",
         attention: "bg-background-attention border-none",
