@@ -1,23 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useHeader } from "@/components/header";
-import { useEffect } from "react";
+import { useSetHeader } from "@/components/header";
 
 const Requests = () => {
-  const [_, setHeader] = useHeader();
-
-  useEffect(() => {
-    setHeader({
-      title: "Requests",
-      subtitle: "Manage and respond to guest and event requests",
-    });
-
-    return () => {
-      setHeader({
-        title: "",
-        subtitle: "",
-      });
-    };
-  }, [setHeader]);
+  useSetHeader({
+    title: "Requests",
+    subtitle: "Manage and respond to guest and event requests",
+  });
 
   return <div className="flex flex-col gap-8 mb-4"></div>;
 };

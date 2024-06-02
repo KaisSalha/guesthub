@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { atom, useAtom, useAtomValue } from "jotai";
 import { Avatar, AvatarImage, AvatarFallback } from "@guesthub/ui/avatar";
 import { User } from "lucide-react";
@@ -23,8 +23,15 @@ const HeaderContext = atom<HeaderProps>({
   subtitle: "",
 });
 
-export const useHeader = () => {
-  return useAtom(HeaderContext);
+export const useSetHeader = ({ title, subtitle }: HeaderProps) => {
+  const [_, setHeader] = useAtom(HeaderContext);
+
+  useEffect(() => {
+    setHeader({
+      title,
+      subtitle,
+    });
+  }, [setHeader, title, subtitle]);
 };
 
 export const Header = () => {
