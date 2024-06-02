@@ -1,16 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import React from "react";
-import { Header } from "@/components/header";
+import { useHeader } from "@/components/header";
+import { useEffect } from "react";
 
 const Events = () => {
-  return (
-    <div className="flex flex-col gap-8 mb-4">
-      <Header
-        title="Events"
-        subtitle="Create and manage event details and schedules"
-      />
-    </div>
-  );
+  const [_, setHeader] = useHeader();
+
+  useEffect(() => {
+    setHeader({
+      title: "Events",
+      subtitle: "Create and manage event details and schedules",
+    });
+
+    return () => {
+      setHeader({
+        title: "",
+        subtitle: "",
+      });
+    };
+  }, [setHeader]);
+
+  return <div className="flex flex-col gap-8 mb-4"></div>;
 };
 
 export const Route = createFileRoute("/dashboard/events/")({

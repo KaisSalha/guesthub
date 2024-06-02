@@ -1,4 +1,5 @@
 import React from "react";
+import { atom, useAtom, useAtomValue } from "jotai";
 import { Avatar, AvatarImage, AvatarFallback } from "@guesthub/ui/avatar";
 import { User } from "lucide-react";
 import { useRouter } from "@tanstack/react-router";
@@ -14,10 +15,20 @@ import { useMe } from "@/hooks/use-me";
 
 interface HeaderProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
 }
 
-export const Header = ({ title, subtitle }: HeaderProps) => {
+const HeaderContext = atom<HeaderProps>({
+  title: "",
+  subtitle: "",
+});
+
+export const useHeader = () => {
+  return useAtom(HeaderContext);
+};
+
+export const Header = () => {
+  const { title, subtitle } = useAtomValue(HeaderContext);
   const { me } = useMe();
   const router = useRouter();
   const { logout } = useAuth();

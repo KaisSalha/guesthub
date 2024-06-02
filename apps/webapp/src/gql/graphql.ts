@@ -30,6 +30,8 @@ export type Scalars = {
   Longitude: { input: any; output: any; }
   /** A string that cannot be passed as an empty value */
   NonEmptyString: { input: any; output: any; }
+  /** S3 File URL with presigned URL generation */
+  S3File: { input: any; output: any; }
   /** A field whose value exists in the standard IANA Time Zone Database: https://www.iana.org/time-zones */
   TimeZone: { input: any; output: any; }
   /** The javascript `Date` as integer. Type represents date and time as number of milliseconds from start of UNIX epoch. */
@@ -146,7 +148,7 @@ export type Organization = Node & {
   id: Scalars['ID']['output'];
   lat?: Maybe<Scalars['Latitude']['output']>;
   lng?: Maybe<Scalars['Longitude']['output']>;
-  logo_url?: Maybe<Scalars['String']['output']>;
+  logo_url?: Maybe<Scalars['S3File']['output']>;
   name: Scalars['String']['output'];
   owner: User;
   owner_id: Scalars['ID']['output'];
@@ -325,7 +327,7 @@ export type UpdateUserPayload = {
 
 export type User = Node & {
   __typename?: 'User';
-  avatar_url?: Maybe<Scalars['String']['output']>;
+  avatar_url?: Maybe<Scalars['S3File']['output']>;
   created_at?: Maybe<Scalars['Timestamp']['output']>;
   email: Scalars['Email']['output'];
   first_name?: Maybe<Scalars['String']['output']>;
@@ -342,7 +344,7 @@ export type User = Node & {
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, first_name?: string | null, last_name?: string | null, avatar_url?: string | null, type: string, created_at?: any | null, memberships: Array<{ __typename?: 'Membership', id: string, role: { __typename?: 'Role', id: string, name: string, permissions: any }, organization: { __typename?: 'Organization', id: string, name: string, owner_id: string, website?: string | null, logo_url?: string | null, address: string, city: string, state?: string | null, country_code: any, postal_code?: string | null, timezone: any, lat?: any | null, lng?: any | null } }> } | null };
+export type GetMeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, first_name?: string | null, last_name?: string | null, avatar_url?: any | null, type: string, created_at?: any | null, memberships: Array<{ __typename?: 'Membership', id: string, role: { __typename?: 'Role', id: string, name: string, permissions: any }, organization: { __typename?: 'Organization', id: string, name: string, owner_id: string, website?: string | null, logo_url?: any | null, address: string, city: string, state?: string | null, country_code: any, postal_code?: string | null, timezone: any, lat?: any | null, lng?: any | null } }> } | null };
 
 export type GetOrgRolesQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -393,7 +395,7 @@ export type GetOrgMembersQuery = { __typename?: 'Query', orgMembers: { __typenam
         & { ' $fragmentRefs'?: { 'GetOrgMembers_MembersFragment': GetOrgMembers_MembersFragment } }
       ) } | null>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
 
-export type GetOrgMembers_MembersFragment = { __typename?: 'Membership', id: string, updated_at?: any | null, user: { __typename?: 'User', id: string, email: any, full_name: string, avatar_url?: string | null, type: string }, role: { __typename?: 'Role', id: string, name: string, permissions: any } } & { ' $fragmentName'?: 'GetOrgMembers_MembersFragment' };
+export type GetOrgMembers_MembersFragment = { __typename?: 'Membership', id: string, updated_at?: any | null, user: { __typename?: 'User', id: string, email: any, full_name: string, avatar_url?: any | null, type: string }, role: { __typename?: 'Role', id: string, name: string, permissions: any } } & { ' $fragmentName'?: 'GetOrgMembers_MembersFragment' };
 
 export type TeamTabQueryQueryVariables = Exact<{
   orgId: Scalars['ID']['input'];
@@ -424,7 +426,7 @@ export type GetInviteQueryVariables = Exact<{
 }>;
 
 
-export type GetInviteQuery = { __typename?: 'Query', invite?: { __typename?: 'Invite', id: string, email: any, organization: { __typename?: 'Organization', id: string, name: string, logo_url?: string | null }, user?: { __typename?: 'User', id: string, email: any, profile_completed: boolean } | null } | null };
+export type GetInviteQuery = { __typename?: 'Query', invite?: { __typename?: 'Invite', id: string, email: any, organization: { __typename?: 'Organization', id: string, name: string, logo_url?: any | null }, user?: { __typename?: 'User', id: string, email: any, profile_completed: boolean } | null } | null };
 
 export type AcceptInvitationMutationVariables = Exact<{
   input: AcceptInvitationInput;
