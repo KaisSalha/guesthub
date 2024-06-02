@@ -32,8 +32,3 @@ export const getAdminPermissions = ({
 		...permissions,
 	};
 };
-
-export const OWNER_PERMISSIONS: PERMISSIONS = {
-	CAN_INVITE_GUESTS: true,
-	CAN_UPDATE_ROLES: true,
-};

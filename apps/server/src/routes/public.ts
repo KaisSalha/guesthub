@@ -88,5 +88,6 @@ export const publicRoutes = async (app: FastifyInstance) => {
 		schema,
 		context: createContext,
 		graphiql: config.isDev,
+		jit: 1,
 	});
 };
