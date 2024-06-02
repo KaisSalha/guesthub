@@ -88,76 +88,134 @@ Invite.implement({
 });
 
 builder.queryFields((t) => ({
-	invite: t.field({
-		type: Invite,
-		nullable: true,
-		args: {
-			id: t.arg.globalID({ required: true }),
-		},
-		resolve: (_root, args) => args.id.id,
-	}),
-	userInvites: t.connection({
-		type: Invite,
-		nullable: true,
-		args: {
-			offset: t.arg.int({ required: true }),
-		},
-		resolve: async (_parent, args, context) => {
-			return await resolveWindowedConnection(
-				{ args },
-				async ({ limit }) => {
-					const [items, totalCount] = await Promise.all([
-						db
-							.select()
-							.from(invites)
-							.where(eq(invites.email, context.user.email))
-							.limit(limit)
-							.offset(args.offset),
-						db.select({ value: count() }).from(invites),
-					]);
-
-					return {
-						items,
-						totalCount: totalCount[0].value,
-					};
+	invite: t
+		.withAuth({
+			isAuthenticated: true,
+		})
+		.field({
+			type: Invite,
+			nullable: true,
+			args: {
+				id: t.arg.globalID({ required: true }),
+			},
+			authScopes: async (_, args, ctx) => {
+				if (!ctx.user) {
+					throw new Error("User required");
 				}
-			);
-		},
-	}),
-	orgInvites: t.connection({
-		type: Invite,
-		nullable: true,
-		args: {
-			offset: t.arg.int({ required: true }),
-			orgId: t.arg.globalID({ required: true }),
-		},
-		resolve: async (_parent, args) => {
-			return await resolveWindowedConnection(
-				{ args },
-				async ({ limit }) => {
-					const [items, totalCount] = await Promise.all([
-						db
-							.select()
-							.from(invites)
-							.where(
-								eq(
-									invites.organization_id,
-									parseInt(args.orgId.id)
+
+				const [invitation] = await db
+					.select()
+					.from(invites)
+					.where(eq(invites.id, args.id.id));
+
+				if (!invitation) {
+					return false;
+				}
+
+				if (ctx.user.type === "guest") {
+					const invitationBelongsToUser =
+						invitation.email === ctx.user.email;
+
+					return !!invitationBelongsToUser;
+				}
+
+				// If invitation belongs to org the user is a member of
+				const invitationBelongsToOrg = ctx.user.memberships?.some(
+					(membership) =>
+						membership.organization.id ===
+						invitation.organization_id
+				);
+
+				return !!invitationBelongsToOrg;
+			},
+			resolve: (_root, args) => args.id.id,
+		}),
+	userInvites: t
+		.withAuth({
+			isAuthenticated: true,
+		})
+		.connection({
+			type: Invite,
+			nullable: true,
+			args: {
+				offset: t.arg.int({ required: true }),
+			},
+			resolve: async (_parent, args, ctx) => {
+				if (!ctx.user) {
+					throw new Error("User required");
+				}
+
+				return await resolveWindowedConnection(
+					{ args },
+					async ({ limit }) => {
+						const [items, totalCount] = await Promise.all([
+							db
+								.select()
+								.from(invites)
+								.where(eq(invites.email, ctx.user.email))
+								.limit(limit)
+								.offset(args.offset),
+							db.select({ value: count() }).from(invites),
+						]);
+
+						return {
+							items,
+							totalCount: totalCount[0].value,
+						};
+					}
+				);
+			},
+		}),
+	orgInvites: t
+		.withAuth({
+			isAuthenticated: true,
+		})
+		.connection({
+			type: Invite,
+			nullable: true,
+			args: {
+				offset: t.arg.int({ required: true }),
+				orgId: t.arg.globalID({ required: true }),
+			},
+			authScopes: async (_, args, ctx) => {
+				const userBelongsToOrg = ctx.user.memberships?.some(
+					(membership) =>
+						membership.organization.id === parseInt(args.orgId.id)
+				);
+
+				return !!userBelongsToOrg;
+			},
+			resolve: async (_parent, args, ctx) => {
+				if (!ctx.user) {
+					throw new Error("User required");
+				}
+
+				return await resolveWindowedConnection(
+					{ args },
+					async ({ limit }) => {
+						const [items, totalCount] = await Promise.all([
+							db
+								.select()
+								.from(invites)
+								.where(
+									eq(
+										invites.organization_id,
+										parseInt(args.orgId.id)
+									)
 								)
-							)
-							.limit(limit)
-							.offset(args.offset),
-						db.select({ value: count() }).from(invites),
-					]);
+								.limit(limit)
+								.offset(args.offset),
+							db.select({ value: count() }).from(invites),
+						]);
 
-					return {
-						items,
-						totalCount: totalCount[0].value,
-					};
-				}
-			);
-		},
-	}),
+						return {
+							items,
+							totalCount: totalCount[0].value,
+						};
+					}
+				);
+			},
+		}),
 }));
 
 // invite team member mutation
@@ -171,7 +229,28 @@ builder.relayMutationField(
 		}),
 	},
 	{
+		authScopes: async (_, args, ctx) => {
+			if (!ctx.user) {
+				throw new Error("User required");
+			}
+
+			const membership = ctx.user.memberships?.find(
+				(membership) =>
+					membership.organization.id === parseInt(args.input.orgId.id)
+			);
+
+			if (!membership) return false;
+
+			return (
+				membership.organization.owner_id === ctx.user.id ||
+				membership.role.permissions.CAN_INVITE_GUESTS
+			);
+		},
 		resolve: async (_root, args, ctx) => {
+			if (!ctx.user) {
+				throw new Error("User required");
+			}
+
 			const email = args.input.email.toLowerCase();
 
 			// Check if there is an invite that is pending or accepted for the email and org
@@ -292,6 +371,10 @@ builder.relayMutationField(
 	{
 		authScopes: async (_, args, ctx) => {
 			try {
+				if (!ctx.user) {
+					throw new Error("User required");
+				}
+
 				const [invitation] = await db
 					.select()
 					.from(invites)
@@ -311,6 +394,10 @@ builder.relayMutationField(
 			}
 		},
 		resolve: async (_root, args, ctx) => {
+			if (!ctx.user) {
+				throw new Error("User required");
+			}
+
 			await db.transaction(async (tx) => {
 				const [invite] = await tx
 					.update(invites)
@@ -319,7 +406,7 @@ builder.relayMutationField(
 					.returning();
 
 				await tx.insert(memberships).values({
-					user_id: ctx.user.id,
+					user_id: ctx.user!.id,
 					organization_id: invite.organization_id,
 					role_id: invite.role_id,
 				});

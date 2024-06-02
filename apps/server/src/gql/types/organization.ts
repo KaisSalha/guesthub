@@ -115,14 +115,26 @@ Organization.implement({
 });
 
 builder.queryFields((t) => ({
-	organization: t.field({
-		type: Organization,
-		nullable: true,
-		args: {
-			id: t.arg.globalID({ required: true }),
-		},
-		resolve: (_root, args) => args.id.id,
-	}),
+	organization: t
+		.withAuth({
+			isAuthenticated: true,
+		})
+		.field({
+			type: Organization,
+			nullable: true,
+			args: {
+				id: t.arg.globalID({ required: true }),
+			},
+			authScopes: async (_, args, ctx) => {
+				const userBelongsToOrg = ctx.user.memberships?.some(
+					(membership) =>
+						membership.organization.id === parseInt(args.id.id)
+				);
+
+				return !!userBelongsToOrg;
+			},
+			resolve: (_root, args) => args.id.id,
+		}),
 }));
 
 builder.relayMutationField(
@@ -169,6 +181,10 @@ builder.relayMutationField(
 		},
 		resolve: async (_root, args, ctx) => {
 			try {
+				if (!ctx.user) {
+					throw new Error("User required");
+				}
+
 				// Create org
 				const [organization] = await db
 					.insert(organizations)

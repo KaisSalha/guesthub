@@ -4,6 +4,7 @@ import { pgEnum, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 import { roles } from "./roles.js";
 import { organizations } from "./organizations.js";
 import { invites } from "./invites.js";
+import { memberships } from "./memberships.js";
 
 export const userTypeEnum = pgEnum("user_type", ["org", "guest"]);
 
@@ -20,6 +21,7 @@ export const users = pgTable("users", {
 
 export const usersRelations = relations(users, ({ many }) => ({
 	organization: many(organizations),
+	memberships: many(memberships),
 	roles: many(roles),
 	invites: many(invites),
 }));

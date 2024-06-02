@@ -71,40 +71,49 @@ Membership.implement({
 });
 
 builder.queryFields((t) => ({
-	orgMembers: t.connection({
-		type: Membership,
-		args: {
-			offset: t.arg.int({ required: true }),
-			orgId: t.arg.globalID({ required: true }),
-		},
-		authScopes: {
+	orgMembers: t
+		.withAuth({
 			isAuthenticated: true,
-		},
-		resolve: async (_parent, args) => {
-			return await resolveWindowedConnection(
-				{ args },
-				async ({ limit }) => {
-					const [items, totalCount] = await Promise.all([
-						db
-							.select()
-							.from(memberships)
-							.where(
-								eq(
-									memberships.organization_id,
-									parseInt(args.orgId.id)
-								)
-							)
-							.limit(limit)
-							.offset(args.offset),
-						db.select({ value: count() }).from(memberships),
-					]);
+		})
+		.connection({
+			type: Membership,
+			args: {
+				offset: t.arg.int({ required: true }),
+				orgId: t.arg.globalID({ required: true }),
+			},
+			authScopes: async (_, args, ctx) => {
+				const userBelongsToOrg = ctx.user.memberships?.some(
+					(membership) =>
+						membership.organization.id === parseInt(args.orgId.id)
+				);
 
-					return {
-						items,
-						totalCount: totalCount[0].value,
-					};
-				}
-			);
-		},
-	}),
+				return !!userBelongsToOrg;
+			},
+			resolve: async (_parent, args) => {
+				return await resolveWindowedConnection(
+					{ args },
+					async ({ limit }) => {
+						const [items, totalCount] = await Promise.all([
+							db
+								.select()
+								.from(memberships)
+								.where(
+									eq(
+										memberships.organization_id,
+										parseInt(args.orgId.id)
+									)
+								)
+								.limit(limit)
+								.offset(args.offset),
+							db.select({ value: count() }).from(memberships),
+						]);
+
+						return {
+							items,
+							totalCount: totalCount[0].value,
+						};
+					}
+				);
+			},
+		}),
 }));

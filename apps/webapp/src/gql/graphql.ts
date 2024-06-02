@@ -178,7 +178,6 @@ export type Query = {
   orgMembers: QueryOrgMembersConnection;
   orgRoles: QueryOrgRolesConnection;
   organization?: Maybe<Organization>;
-  user?: Maybe<User>;
   userInvites?: Maybe<QueryUserInvitesConnection>;
 };
 
@@ -234,11 +233,6 @@ export type QueryOrgRolesArgs = {
 
 
 export type QueryOrganizationArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type QueryUserArgs = {
   id: Scalars['ID']['input'];
 };
 

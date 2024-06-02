@@ -1,7 +1,7 @@
-import { User } from "lucia";
+import { User } from "./user.js";
 
 declare module "fastify" {
 	export interface FastifyRequest {
-		user: User;
+		user?: User;
 	}
 }

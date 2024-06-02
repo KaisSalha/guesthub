@@ -135,17 +135,6 @@ builder.queryFields((t) => ({
 			return user;
 		},
 	}),
-	user: t.field({
-		type: User,
-		nullable: true,
-		authScopes: {
-			isAuthenticated: true,
-		},
-		args: {
-			id: t.arg.globalID({ required: true }),
-		},
-		resolve: (_root, args) => args.id.id,
-	}),
 }));
 
 builder.relayMutationField(
@@ -163,6 +152,10 @@ builder.relayMutationField(
 		},
 		resolve: async (_root, args, ctx) => {
 			try {
+				if (!ctx.user) {
+					throw new Error("User required");
+				}
+
 				const updateFields: Partial<UserType> = {
 					...(args.input.first_name && {
 						first_name: args.input.first_name,

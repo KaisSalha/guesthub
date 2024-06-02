@@ -17,6 +17,7 @@ import {
 	TimeZoneResolver,
 } from "graphql-scalars";
 import { generateReadPresignedUrl } from "../lib/s3.js";
+import { User } from "../types/user.js";
 
 const builder = new SchemaBuilder<{
 	Connection: {
@@ -25,6 +26,9 @@ const builder = new SchemaBuilder<{
 	Context: ContextType;
 	AuthScopes: {
 		isAuthenticated: boolean;
+	};
+	AuthContexts: {
+		isAuthenticated: ContextType & { user: User };
 	};
 	Scalars: {
 		JSON: {
@@ -93,7 +97,7 @@ const builder = new SchemaBuilder<{
 			breadth: 50,
 		}),
 	},
-	authScopes: async (context) => ({
+	authScopes: (context) => ({
 		isAuthenticated: context.isAuthenticated,
 	}),
 	scopeAuthOptions: {

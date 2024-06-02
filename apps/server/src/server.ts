@@ -5,6 +5,7 @@ import { queues } from "./plugins/queues.js";
 import { security } from "./plugins/security.js";
 import { shutdown } from "./plugins/shutdown.js";
 import { injectUser } from "./plugins/injectUser.js";
+import { injectMemberships } from "./plugins/injectMemberships.js";
 
 export const buildServer = async (opts = {}) => {
 	const app = Fastify(opts);
@@ -13,6 +14,7 @@ export const buildServer = async (opts = {}) => {
 	app.register(security);
 
 	app.register(injectUser);
+	app.register(injectMemberships);
 
 	app.register(publicRoutes);
 	app.register(privateRoutes);

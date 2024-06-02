@@ -16,29 +16,17 @@ export const injectUser = fp(async function (
 					eq(users.email, request.headers["x-debug-user"] as string),
 			});
 
-			if (!user) {
-				return;
-			}
-
 			request.user = user;
 			return;
 		}
 
-		if (!request.headers.cookie) {
-			return;
-		}
+		if (!request.headers.cookie) return;
 
 		const sessionId = lucia.readSessionCookie(request.headers.cookie);
 
-		if (!sessionId) {
-			return;
-		}
+		if (!sessionId) return;
 
 		const { session, user } = await lucia.validateSession(sessionId);
-
-		if (!user) {
-			return;
-		}
 
 		if (session && session.fresh)
 			reply.header(
@@ -52,6 +40,6 @@ export const injectUser = fp(async function (
 				lucia.createBlankSessionCookie().serialize()
 			);
 
-		request.user = user;
+		request.user = user || undefined;
 	});
 });

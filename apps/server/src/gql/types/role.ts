@@ -72,64 +72,85 @@ Role.implement({
 });
 
 builder.queryFields((t) => ({
-	orgRoles: t.connection({
-		type: Role,
-		args: {
-			offset: t.arg.int({ required: true }),
-			orgId: t.arg.globalID({ required: true }),
-		},
-		authScopes: {
+	orgRoles: t
+		.withAuth({
 			isAuthenticated: true,
-		},
-		resolve: async (_parent, args) => {
-			return await resolveWindowedConnection(
-				{ args },
-				async ({ limit }) => {
-					const [items, totalCount] = await Promise.all([
-						db
-							.select()
-							.from(roles)
-							.where(
-								eq(
-									roles.organization_id,
-									parseInt(args.orgId.id)
+		})
+		.connection({
+			type: Role,
+			args: {
+				offset: t.arg.int({ required: true }),
+				orgId: t.arg.globalID({ required: true }),
+			},
+			authScopes: async (_, args, ctx) => {
+				const userBelongsToOrg = ctx.user.memberships?.some(
+					(membership) =>
+						membership.organization.id === parseInt(args.orgId.id)
+				);
+
+				return !!userBelongsToOrg;
+			},
+			resolve: async (_parent, args) => {
+				return await resolveWindowedConnection(
+					{ args },
+					async ({ limit }) => {
+						const [items, totalCount] = await Promise.all([
+							db
+								.select()
+								.from(roles)
+								.where(
+									eq(
+										roles.organization_id,
+										parseInt(args.orgId.id)
+									)
 								)
-							)
-							.limit(limit)
-							.offset(args.offset),
-						db.select({ value: count() }).from(roles),
-					]);
+								.limit(limit)
+								.offset(args.offset),
+							db.select({ value: count() }).from(roles),
+						]);
 
-					return {
-						items: items.map((item) => ({
-							...item,
-							permissions:
-								item.name === "admin"
-									? getAdminPermissions({
-											permissions: item.permissions,
-										})
-									: getUserPermissions({
-											permissions: item.permissions,
-										}),
-						})),
-						totalCount: totalCount[0].value,
-					};
-				}
-			);
-		},
-	}),
-	orgAllRoles: t.field({
-		type: [Role],
-		args: {
-			orgId: t.arg.globalID({ required: true }),
-		},
-		resolve: async (_parent, args) => {
-			const items = await db
-				.select()
-				.from(roles)
-				.where(eq(roles.organization_id, parseInt(args.orgId.id)));
+						return {
+							items: items.map((item) => ({
+								...item,
+								permissions:
+									item.name === "admin"
+										? getAdminPermissions({
+												permissions: item.permissions,
+											})
+										: getUserPermissions({
+												permissions: item.permissions,
+											}),
+							})),
+							totalCount: totalCount[0].value,
+						};
+					}
+				);
+			},
+		}),
+	orgAllRoles: t
+		.withAuth({
+			isAuthenticated: true,
+		})
+		.field({
+			type: [Role],
+			args: {
+				orgId: t.arg.globalID({ required: true }),
+			},
+			authScopes: async (_, args, ctx) => {
+				const userBelongsToOrg = ctx.user.memberships?.some(
+					(membership) =>
+						membership.organization.id === parseInt(args.orgId.id)
+				);
 
-			return items;
-		},
-	}),
+				return !!userBelongsToOrg;
+			},
+			resolve: async (_parent, args) => {
+				const items = await db
+					.select()
+					.from(roles)
+					.where(eq(roles.organization_id, parseInt(args.orgId.id)));
+
+				return items;
+			},
+		}),
 }));
