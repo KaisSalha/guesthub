@@ -26,11 +26,11 @@ const errorLink = onError(({ operation }) => {
 
 const cache = new InvalidationPolicyCache({
   invalidationPolicies: {
-    timeToLive: 1000 * 60 * 60, // 1 hour
+    timeToLive: 1000 * 60 * 30, // 30 minutes
     renewalPolicy: RenewalPolicy.WriteOnly,
     types: {
       S3File: {
-        timeToLive: 1000 * 60 * 10, // 10 minutes
+        timeToLive: 1000 * 60 * 15, // 15 minutes
         renewalPolicy: RenewalPolicy.WriteOnly,
       },
     },
