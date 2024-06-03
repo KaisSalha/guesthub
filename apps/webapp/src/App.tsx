@@ -3,48 +3,14 @@ import { router } from "./router";
 import { Suspense, useEffect, useState } from "react";
 import { Toaster } from "@guesthub/ui/toaster";
 import { TooltipProvider } from "@guesthub/ui/tooltip";
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  createHttpLink,
-  from,
-} from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import { Provider } from "jotai";
 import { jotaiStore } from "./lib/jotai-store";
 import { ThemeProvider } from "next-themes";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { persistOptions, queryClientOptions } from "@/lib/query-client";
 import { QueryClient } from "@tanstack/react-query";
-import { onError } from "@apollo/client/link/error";
-
-const httpLink = createHttpLink({
-  uri: `${import.meta.env.VITE_API_ENDPOINT}/graphql`,
-  credentials: "include",
-});
-
-const errorLink = onError(({ operation }) => {
-  const { response } = operation.getContext();
-  if (
-    response.status === 401 &&
-    new URL(window.location.href).pathname.startsWith("/dashboard")
-  ) {
-    client.clearStore();
-    router.navigate({
-      to: "/login",
-    });
-  }
-});
-
-const client = new ApolloClient({
-  link: from([errorLink, httpLink]),
-  cache: new InMemoryCache(),
-  defaultOptions: {
-    mutate: {
-      errorPolicy: "all",
-    },
-  },
-});
+import { client } from "./lib/apollo-client";
 
 const loadDevTools = () => {
   if (process.env.NODE_ENV !== "production") {
