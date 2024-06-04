@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import { db } from "../db/index.js";
 import {
+	OWNER_PERMISSIONS,
 	getAdminPermissions,
 	getUserPermissions,
 } from "../services/permissions.js";
@@ -27,15 +28,18 @@ export const injectMemberships = fp(async function (
 					role: {
 						...membership.role,
 						permissions:
-							membership.role.name === "admin"
-								? getAdminPermissions({
-										permissions:
-											membership.role.permissions,
-									})
-								: getUserPermissions({
-										permissions:
-											membership.role.permissions,
-									}),
+							membership.organization.owner_id ===
+							request.user!.id
+								? OWNER_PERMISSIONS
+								: membership.role.name === "admin"
+									? getAdminPermissions({
+											permissions:
+												membership.role.permissions,
+										})
+									: getUserPermissions({
+											permissions:
+												membership.role.permissions,
+										}),
 					},
 				})),
 			};

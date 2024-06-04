@@ -16,11 +16,11 @@ export const getUserPermissions = ({
 	};
 };
 
-type AdminPermissions = {
+type OwnerPermissions = {
 	[K in keyof PERMISSIONS]: true;
 };
 
-export const ADMIN_PERMISSIONS: AdminPermissions = {
+export const ADMIN_PERMISSIONS: OwnerPermissions = {
 	CAN_INVITE_GUESTS: true,
 	CAN_UPDATE_ROLES: true,
 };
@@ -34,4 +34,9 @@ export const getAdminPermissions = ({
 		...ADMIN_PERMISSIONS,
 		...permissions,
 	};
+};
+
+export const OWNER_PERMISSIONS: OwnerPermissions = {
+	CAN_INVITE_GUESTS: true,
+	CAN_UPDATE_ROLES: true,
 };

@@ -241,10 +241,7 @@ builder.relayMutationField(
 
 			if (!membership) return false;
 
-			return (
-				membership.organization.owner_id === ctx.user.id ||
-				membership.role.permissions.CAN_INVITE_GUESTS
-			);
+			return membership.role.permissions.CAN_INVITE_GUESTS;
 		},
 		resolve: async (_root, args, ctx) => {
 			if (!ctx.user) {
