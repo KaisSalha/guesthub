@@ -28,7 +28,7 @@ import { orgInvites } from "./queries/org-invites-query";
 import { Badge } from "@guesthub/ui/badge";
 
 export const TeamTab = () => {
-  const { selectedMembership } = useMe();
+  const { selectedMembership, permissions } = useMe();
 
   const { data } = useQuery(TeamTab.queries.main, {
     variables: {
@@ -57,9 +57,13 @@ export const TeamTab = () => {
             }}
             resultKey="orgMembers"
             toolBarButtons={
-              <DialogTrigger asChild>
-                <Button size="sm">Invite</Button>
-              </DialogTrigger>
+              <>
+                {permissions.CAN_INVITE_GUESTS && (
+                  <DialogTrigger asChild>
+                    <Button size="sm">Invite</Button>
+                  </DialogTrigger>
+                )}
+              </>
             }
             columns={[
               {

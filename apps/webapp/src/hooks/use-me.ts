@@ -1,9 +1,10 @@
 import { graphql } from "gql.tada";
 import { GetMeQuery } from "@/gql/graphql";
 import { useQuery } from "@apollo/client";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { atomWithStorage } from "jotai/utils";
 import { useAtom } from "jotai";
+import { OWNER_PERMISSIONS, PERMISSIONS } from "@/utils/permissions";
 
 const selectedMembershipIdAtom = atomWithStorage<string | undefined>(
   "selectedMembership",
@@ -32,12 +33,30 @@ export const useMe = () => {
     }
   }, [data, selectedMembershipId, setSelectedMembershipId]);
 
-  const selectedMembership = data?.me?.memberships?.find(
-    (membership) => membership.id === selectedMembershipId
+  const selectedMembership = useMemo(
+    () =>
+      data?.me?.memberships?.find(
+        (membership) => membership.id === selectedMembershipId
+      ),
+    [data, selectedMembershipId]
+  );
+
+  // If the selected membership is the owner, use the owner permissions
+  const permissions: PERMISSIONS = useMemo(
+    () =>
+      selectedMembership?.organization.owner_id === data?.me?.id
+        ? OWNER_PERMISSIONS
+        : selectedMembership?.role?.permissions,
+    [
+      data?.me?.id,
+      selectedMembership?.organization.owner_id,
+      selectedMembership?.role?.permissions,
+    ]
   );
 
   return {
     selectedMembership,
+    permissions,
     setSelectedMembershipId,
     me: data?.me,
     isLoading: loading,
