@@ -21,6 +21,7 @@ import { cn } from "@guesthub/ui/lib";
 import { graphql } from "gql.tada";
 import { useMutation } from "@apollo/client";
 import { useMe } from "@/hooks/use-me";
+import { toast } from "sonner";
 
 const Organization = () => {
   const { me } = useMe();
@@ -91,10 +92,10 @@ const Organization = () => {
                 timezone: string;
                 country_code: string;
               }) => {
-                await createOrganization({
+                const { errors } = await createOrganization({
                   variables: {
                     input: {
-                      logo_url,
+                      logo_url: logo_url.split("?")[0],
                       name,
                       website,
                       address,
@@ -106,6 +107,13 @@ const Organization = () => {
                     },
                   },
                 });
+
+                if (errors) {
+                  errors.forEach((error) => {
+                    toast.error(error.message);
+                  });
+                  return;
+                }
 
                 navigate({
                   to: "/dashboard",

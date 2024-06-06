@@ -1,43 +1,44 @@
 import { builder } from "../builder.js";
 import { db } from "../../db/index.js";
 import {
-	Membership as MembershipType,
-	memberships,
-} from "../../db/schemas/memberships.js";
+	OrgMembership as OrgMembershipType,
+	orgMemberships,
+} from "../../db/schemas/orgMemberships.js";
 import { Organization } from "./organization.js";
-import { Role } from "./role.js";
+import { OrgRole } from "./orgRole.js";
 import { User } from "./user.js";
 import { resolveWindowedConnection } from "../../utils/resolveWindowedConnection.js";
 import { count, eq } from "drizzle-orm";
 
-export const Membership = builder.loadableNodeRef("Membership", {
+export const OrgMembership = builder.loadableNodeRef("OrgMembership", {
 	id: {
-		resolve: (membership) => membership.id,
+		resolve: (orgMembership) => orgMembership.id,
 	},
 	load: async (ids: string[]) => {
-		const memberships = await db.query.memberships.findMany({
-			where: (memberships, { inArray }) =>
+		const orgMemberships = await db.query.orgMemberships.findMany({
+			where: (orgMemberships, { inArray }) =>
 				inArray(
-					memberships.id,
+					orgMemberships.id,
 					ids.map((id) => parseInt(id))
 				),
 		});
 
 		return ids.map((id) => {
-			const membership = memberships.find(
-				(membership) => membership.id == parseInt(id)
+			const orgMembership = orgMemberships.find(
+				(orgMembership) => orgMembership.id == parseInt(id)
 			);
 
-			if (!membership) {
-				return new Error(`Membership not found: ${id}`);
+			if (!orgMembership) {
+				return new Error(`Organization membership not found: ${id}`);
 			}
-			return membership;
+			return orgMembership;
 		});
 	},
 });
 
-Membership.implement({
-	isTypeOf: (membership) => (membership as MembershipType).id !== undefined,
+OrgMembership.implement({
+	isTypeOf: (orgMembership) =>
+		(orgMembership as OrgMembershipType).id !== undefined,
 	authScopes: {
 		isAuthenticated: true,
 	},
@@ -48,9 +49,9 @@ Membership.implement({
 			resolve: (parent) => parent.user_id,
 		}),
 		role: t.loadable({
-			type: Role,
-			load: async (ids, { loadMany }) => loadMany(Role, ids),
-			resolve: (parent) => parent.role_id,
+			type: OrgRole,
+			load: async (ids, { loadMany }) => loadMany(OrgRole, ids),
+			resolve: (parent) => parent.org_role_id,
 		}),
 		organization: t.loadable({
 			type: Organization,
@@ -76,15 +77,16 @@ builder.queryFields((t) => ({
 			isAuthenticated: true,
 		})
 		.connection({
-			type: Membership,
+			type: OrgMembership,
 			args: {
 				offset: t.arg.int({ required: true }),
 				orgId: t.arg.globalID({ required: true }),
 			},
 			authScopes: async (_, args, ctx) => {
-				const userBelongsToOrg = ctx.user.memberships?.some(
-					(membership) =>
-						membership.organization.id === parseInt(args.orgId.id)
+				const userBelongsToOrg = ctx.user.orgMemberships?.some(
+					(orgMembership) =>
+						orgMembership.organization.id ===
+						parseInt(args.orgId.id)
 				);
 
 				return !!userBelongsToOrg;
@@ -96,16 +98,16 @@ builder.queryFields((t) => ({
 						const [items, totalCount] = await Promise.all([
 							db
 								.select()
-								.from(memberships)
+								.from(orgMemberships)
 								.where(
 									eq(
-										memberships.organization_id,
+										orgMemberships.organization_id,
 										parseInt(args.orgId.id)
 									)
 								)
 								.limit(limit)
 								.offset(args.offset),
-							db.select({ value: count() }).from(memberships),
+							db.select({ value: count() }).from(orgMemberships),
 						]);
 
 						return {

@@ -4,7 +4,7 @@ import { organizations } from "./organizations.js";
 import { timeFields } from "./helpers/time.js";
 import { PERMISSIONS } from "../../services/permissions.js";
 
-export const roles = pgTable("roles", {
+export const orgRoles = pgTable("org_roles", {
 	id: serial("id").primaryKey(),
 	name: varchar("name", { length: 256 }).notNull(),
 	organization_id: integer("organization_id")
@@ -17,12 +17,12 @@ export const roles = pgTable("roles", {
 	...timeFields,
 });
 
-export const rolesRelations = relations(roles, ({ one }) => ({
+export const orgRolesRelations = relations(orgRoles, ({ one }) => ({
 	organization: one(organizations, {
-		fields: [roles.organization_id],
+		fields: [orgRoles.organization_id],
 		references: [organizations.id],
 	}),
 }));
 
-export type Role = InferSelectModel<typeof roles>;
-export type RoleInsert = InferInsertModel<typeof roles>;
+export type OrgRole = InferSelectModel<typeof orgRoles>;
+export type OrgRoleInsert = InferInsertModel<typeof orgRoles>;

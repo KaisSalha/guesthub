@@ -2,7 +2,7 @@ import { User as LuciaUser } from "lucia";
 import { PERMISSIONS } from "../services/permissions.js";
 
 export interface User extends LuciaUser {
-	memberships?: Array<{
+	orgMemberships?: Array<{
 		organization: {
 			id: number;
 			owner_id: number;

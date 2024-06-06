@@ -18,7 +18,7 @@ export const orgMembers = graphql(/* GraphQL */ `
     }
   }
 
-  fragment GetOrgMembers_Members on Membership {
+  fragment GetOrgMembers_Members on OrgMembership {
     id
     user {
       id

@@ -164,7 +164,7 @@ export const TeamTab = () => {
         <div className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold">Invites</h2>
           <QueryTable<
-            "orgInvites",
+            "orgTeamInvites",
             GetOrgInvitesQuery,
             GetOrgInvitesQueryVariables,
             GetOrgInvites_InvitesFragment
@@ -173,7 +173,7 @@ export const TeamTab = () => {
             variables={{
               orgId: selectedMembership?.organization.id,
             }}
-            resultKey="orgInvites"
+            resultKey="orgTeamInvites"
             columns={[
               {
                 id: "select",

@@ -28,15 +28,21 @@ const extractParametersFromUrl = (url: string) => {
 export const generateReadPresignedUrl = async ({
 	url,
 	duration = 1800, // URL expires in 30 minutes
+	file_name,
+	path,
 }: {
-	url: string;
+	url?: string;
 	duration?: number;
+	file_name?: string;
+	path?: string;
 }) => {
-	const { path } = extractParametersFromUrl(url);
+	const Key = url
+		? extractParametersFromUrl(url).path
+		: `${path}/${file_name}`;
 
 	const command = new GetObjectCommand({
 		Bucket: config.S3.BUCKET_NAME,
-		Key: path,
+		Key,
 	});
 
 	return await getSignedUrl(s3Client, command, {

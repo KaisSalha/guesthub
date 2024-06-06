@@ -23,20 +23,20 @@ export const useMe = () => {
   // Select the first membership if none is selected
   useEffect(() => {
     if (
-      !!data?.me?.memberships.length &&
+      !!data?.me?.orgMemberships.length &&
       (!selectedMembershipId ||
-        !data.me.memberships.find(
-          (membership) => membership.id === selectedMembershipId
+        !data.me.orgMemberships.find(
+          (orgMembership) => orgMembership.id === selectedMembershipId
         ))
     ) {
-      setSelectedMembershipId(data.me.memberships[0].id);
+      setSelectedMembershipId(data.me.orgMemberships[0].id);
     }
   }, [data, selectedMembershipId, setSelectedMembershipId]);
 
   const selectedMembership = useMemo(
     () =>
-      data?.me?.memberships?.find(
-        (membership) => membership.id === selectedMembershipId
+      data?.me?.orgMemberships?.find(
+        (orgMembership) => orgMembership.id === selectedMembershipId
       ),
     [data, selectedMembershipId]
   );
@@ -76,7 +76,7 @@ useMe.query = graphql(/* GraphQL */ `
       avatar_url
       type
       created_at
-      memberships {
+      orgMemberships {
         id
         role {
           id

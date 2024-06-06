@@ -1,15 +1,15 @@
 import * as usersSchema from "./schemas/users.js";
 import * as sessionsSchema from "./schemas/sessions.js";
 import * as organizationsSchema from "./schemas/organizations.js";
-import * as rolesSchema from "./schemas/roles.js";
-import * as membershipsSchema from "./schemas/memberships.js";
-import * as invitesSchema from "./schemas/invites.js";
+import * as orgRolesSchema from "./schemas/orgRoles.js";
+import * as orgMembershipsSchema from "./schemas/orgMemberships.js";
+import * as orgInvitesSchema from "./schemas/orgInvites.js";
 
 export default {
 	...usersSchema,
 	...sessionsSchema,
 	...organizationsSchema,
-	...rolesSchema,
-	...membershipsSchema,
-	...invitesSchema,
+	...orgRolesSchema,
+	...orgMembershipsSchema,
+	...orgInvitesSchema,
 };

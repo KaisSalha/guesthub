@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import { useEffect } from "react";
 import { useMe } from "@/hooks/use-me";
 import { UserProfileForm } from "@/components/auth/user-profile-form";
+import { toast } from "sonner";
 
 const Profile = () => {
   const { me, isLoading } = useMe();
@@ -48,15 +49,22 @@ const Profile = () => {
               first_name: string;
               last_name: string;
             }) => {
-              await updateUser({
+              const { errors } = await updateUser({
                 variables: {
                   input: {
-                    avatar_url,
+                    avatar_url: avatar_url.split("?")[0],
                     first_name,
                     last_name,
                   },
                 },
               });
+
+              if (errors) {
+                errors.forEach((error) => {
+                  toast.error(error.message);
+                });
+                return;
+              }
 
               navigate({
                 to: "/signup/organization",

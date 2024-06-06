@@ -5,61 +5,63 @@ import { render } from "@react-email/render";
 import { builder } from "../builder.js";
 import { db } from "../../db/index.js";
 import {
-	Invite as InviteType,
-	inviteStatusEnumType,
-	invites,
-} from "../../db/schemas/invites.js";
+	OrgInvite as OrgInviteType,
+	orgInviteStatusEnumType,
+	orgInvites,
+} from "../../db/schemas/orgInvites.js";
 import { Organization } from "./organization.js";
-import { Role } from "./role.js";
+import { OrgRole } from "./orgRole.js";
 import { resolveWindowedConnection } from "../../utils/resolveWindowedConnection.js";
 import { resend } from "../../lib/resend.js";
 import { InviteEmail } from "../../emails/org/invite-team-member.js";
 import { organizations } from "../../db/schemas/organizations.js";
 import { getCityAddress } from "../../utils/address.js";
 import { users } from "../../db/schemas/users.js";
-import { memberships } from "../../db/schemas/memberships.js";
+import { orgMemberships } from "../../db/schemas/orgMemberships.js";
 import { User } from "./user.js";
-import { Membership } from "./membership.js";
+import { OrgMembership } from "./orgMembership.js";
 import { emailsUsersLoader } from "../loaders/emails-users-loader.js";
 
-const InviteStatus = builder.enumType("InviteStatus", {
-	values: inviteStatusEnumType,
+const OrgInviteStatus = builder.enumType("OrgInviteStatus", {
+	values: orgInviteStatusEnumType,
 });
 
-export const Invite = builder.loadableNodeRef("Invite", {
+export const OrgInvite = builder.loadableNodeRef("OrgInvite", {
 	id: {
-		resolve: (invite) => invite.id,
+		resolve: (orgInvite) => orgInvite.id,
 	},
 	load: async (ids: string[]) => {
-		const invites = await db.query.invites.findMany({
-			where: (invites, { inArray }) => inArray(invites.id, ids),
+		const orgInvites = await db.query.orgInvites.findMany({
+			where: (orgInvites, { inArray }) => inArray(orgInvites.id, ids),
 		});
 
 		return ids.map((id) => {
-			const invite = invites.find((invite) => invite.id == id);
+			const orgInvite = orgInvites.find(
+				(orgInvite) => orgInvite.id == id
+			);
 
-			if (!invite) {
-				return new Error(`Invite not found: ${id}`);
+			if (!orgInvite) {
+				return new Error(`Organization invite not found: ${id}`);
 			}
-			return invite;
+			return orgInvite;
 		});
 	},
 });
 
-Invite.implement({
-	isTypeOf: (invite) => (invite as InviteType).id !== undefined,
+OrgInvite.implement({
+	isTypeOf: (orgInvite) => (orgInvite as OrgInviteType).id !== undefined,
 	fields: (t) => ({
 		email: t.field({
 			type: "Email",
 			resolve: (parent) => parent.email,
 		}),
 		role: t.loadable({
-			type: Role,
-			load: async (ids, { loadMany }) => loadMany(Role, ids),
-			resolve: (parent) => parent.role_id,
+			type: OrgRole,
+			load: async (ids, { loadMany }) => loadMany(OrgRole, ids),
+			resolve: (parent) => parent.org_role_id,
 		}),
 		status: t.field({
-			type: InviteStatus,
+			type: OrgInviteStatus,
 			resolve: (parent) => parent.status,
 		}),
 		organization: t.loadable({
@@ -88,12 +90,12 @@ Invite.implement({
 });
 
 builder.queryFields((t) => ({
-	invite: t
+	orgInvite: t
 		.withAuth({
 			isAuthenticated: true,
 		})
 		.field({
-			type: Invite,
+			type: OrgInvite,
 			nullable: true,
 			args: {
 				id: t.arg.globalID({ required: true }),
@@ -105,8 +107,8 @@ builder.queryFields((t) => ({
 
 				const [invitation] = await db
 					.select()
-					.from(invites)
-					.where(eq(invites.id, args.id.id));
+					.from(orgInvites)
+					.where(eq(orgInvites.id, args.id.id));
 
 				if (!invitation) {
 					return false;
@@ -120,9 +122,9 @@ builder.queryFields((t) => ({
 				}
 
 				// If invitation belongs to org the user is a member of
-				const invitationBelongsToOrg = ctx.user.memberships?.some(
-					(membership) =>
-						membership.organization.id ===
+				const invitationBelongsToOrg = ctx.user.orgMemberships?.some(
+					(orgMembership) =>
+						orgMembership.organization.id ===
 						invitation.organization_id
 				);
 
@@ -130,12 +132,12 @@ builder.queryFields((t) => ({
 			},
 			resolve: (_root, args) => args.id.id,
 		}),
-	userInvites: t
+	userOrgInvites: t
 		.withAuth({
 			isAuthenticated: true,
 		})
 		.connection({
-			type: Invite,
+			type: OrgInvite,
 			nullable: true,
 			args: {
 				offset: t.arg.int({ required: true }),
@@ -151,11 +153,11 @@ builder.queryFields((t) => ({
 						const [items, totalCount] = await Promise.all([
 							db
 								.select()
-								.from(invites)
-								.where(eq(invites.email, ctx.user.email))
+								.from(orgInvites)
+								.where(eq(orgInvites.email, ctx.user.email))
 								.limit(limit)
 								.offset(args.offset),
-							db.select({ value: count() }).from(invites),
+							db.select({ value: count() }).from(orgInvites),
 						]);
 
 						return {
@@ -166,21 +168,22 @@ builder.queryFields((t) => ({
 				);
 			},
 		}),
-	orgInvites: t
+	orgTeamInvites: t
 		.withAuth({
 			isAuthenticated: true,
 		})
 		.connection({
-			type: Invite,
+			type: OrgInvite,
 			nullable: true,
 			args: {
 				offset: t.arg.int({ required: true }),
 				orgId: t.arg.globalID({ required: true }),
 			},
 			authScopes: async (_, args, ctx) => {
-				const userBelongsToOrg = ctx.user.memberships?.some(
-					(membership) =>
-						membership.organization.id === parseInt(args.orgId.id)
+				const userBelongsToOrg = ctx.user.orgMemberships?.some(
+					(orgMembership) =>
+						orgMembership.organization.id ===
+						parseInt(args.orgId.id)
 				);
 
 				return !!userBelongsToOrg;
@@ -196,16 +199,16 @@ builder.queryFields((t) => ({
 						const [items, totalCount] = await Promise.all([
 							db
 								.select()
-								.from(invites)
+								.from(orgInvites)
 								.where(
 									eq(
-										invites.organization_id,
+										orgInvites.organization_id,
 										parseInt(args.orgId.id)
 									)
 								)
 								.limit(limit)
 								.offset(args.offset),
-							db.select({ value: count() }).from(invites),
+							db.select({ value: count() }).from(orgInvites),
 						]);
 
 						return {
@@ -225,7 +228,7 @@ builder.relayMutationField(
 		inputFields: (t) => ({
 			orgId: t.globalID({ required: true }),
 			email: t.string({ required: true }),
-			role: t.globalID({ required: true }),
+			orgRoleId: t.globalID({ required: true }),
 		}),
 	},
 	{
@@ -234,9 +237,10 @@ builder.relayMutationField(
 				throw new Error("User required");
 			}
 
-			const membership = ctx.user.memberships?.find(
-				(membership) =>
-					membership.organization.id === parseInt(args.input.orgId.id)
+			const membership = ctx.user.orgMemberships?.find(
+				(orgMembership) =>
+					orgMembership.organization.id ===
+					parseInt(args.input.orgId.id)
 			);
 
 			if (!membership) return false;
@@ -253,15 +257,15 @@ builder.relayMutationField(
 			// Check if there is an invite that is pending or accepted for the email and org
 			const [existingInvite] = await db
 				.select()
-				.from(invites)
+				.from(orgInvites)
 				.where(
 					and(
-						eq(invites.email, email),
+						eq(orgInvites.email, email),
 						eq(
-							invites.organization_id,
+							orgInvites.organization_id,
 							parseInt(args.input.orgId.id)
 						),
-						inArray(invites.status, ["pending", "accepted"])
+						inArray(orgInvites.status, ["pending", "accepted"])
 					)
 				);
 
@@ -274,18 +278,18 @@ builder.relayMutationField(
 			const [result] = await db
 				.select()
 				.from(users)
-				.rightJoin(memberships, eq(memberships.user_id, users.id))
+				.rightJoin(orgMemberships, eq(orgMemberships.user_id, users.id))
 				.where(
 					and(
 						eq(users.email, email),
 						eq(
-							memberships.organization_id,
+							orgMemberships.organization_id,
 							parseInt(args.input.orgId.id)
 						)
 					)
 				);
 
-			if (result?.memberships) {
+			if (result?.org_memberships) {
 				throw new Error("User already exists in the organization");
 			}
 
@@ -298,11 +302,11 @@ builder.relayMutationField(
 			const name = `${ctx.user.first_name} ${ctx.user.last_name}`;
 
 			const [invite] = await db
-				.insert(invites)
+				.insert(orgInvites)
 				.values({
 					email,
 					organization_id: parseInt(args.input.orgId.id),
-					role_id: parseInt(args.input.role.id),
+					org_role_id: parseInt(args.input.orgRoleId.id),
 				})
 				.returning();
 
@@ -332,7 +336,7 @@ builder.relayMutationField(
 
 			if (error) {
 				// Delete invite from db
-				await db.delete(invites).where(eq(invites.id, invite.id));
+				await db.delete(orgInvites).where(eq(orgInvites.id, invite.id));
 
 				throw new Error(error.message);
 			}
@@ -349,7 +353,7 @@ builder.relayMutationField(
 				resolve: (result) => result.success,
 			}),
 			invite: t.field({
-				type: Invite,
+				type: OrgInvite,
 				nullable: true,
 				resolve: (result) => result.invite,
 			}),
@@ -374,8 +378,8 @@ builder.relayMutationField(
 
 				const [invitation] = await db
 					.select()
-					.from(invites)
-					.where(eq(invites.id, args.input.inviteId.id));
+					.from(orgInvites)
+					.where(eq(orgInvites.id, args.input.inviteId.id));
 
 				if (!invitation) {
 					return false;
@@ -397,19 +401,19 @@ builder.relayMutationField(
 
 			await db.transaction(async (tx) => {
 				const [invite] = await tx
-					.update(invites)
+					.update(orgInvites)
 					.set({ status: "accepted" })
-					.where(eq(invites.id, args.input.inviteId.id))
+					.where(eq(orgInvites.id, args.input.inviteId.id))
 					.returning();
 
-				await tx.insert(memberships).values({
+				await tx.insert(orgMemberships).values({
 					user_id: ctx.user!.id,
 					organization_id: invite.organization_id,
-					role_id: invite.role_id,
+					org_role_id: invite.org_role_id,
 				});
 			});
 
-			Membership.getDataloader(ctx).clearAll();
+			OrgMembership.getDataloader(ctx).clearAll();
 
 			return {
 				success: true,

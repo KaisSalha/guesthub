@@ -1,6 +1,6 @@
 import { builder } from "../builder.js";
 import { db } from "../../db/index.js";
-import { Role as RoleType, roles } from "../../db/schemas/roles.js";
+import { OrgRole as OrgRoleType, orgRoles } from "../../db/schemas/orgRoles.js";
 import { Organization } from "./organization.js";
 import {
 	getAdminPermissions,
@@ -9,32 +9,35 @@ import {
 import { resolveWindowedConnection } from "../../utils/resolveWindowedConnection.js";
 import { count, eq } from "drizzle-orm";
 
-export const Role = builder.loadableNodeRef("Role", {
+export const OrgRole = builder.loadableNodeRef("OrgRole", {
 	id: {
-		resolve: (role) => role.id,
+		resolve: (orgRole) => orgRole.id,
 	},
 	load: async (ids: string[]) => {
-		const roles = await db.query.roles.findMany({
-			where: (roles, { inArray }) =>
+		const orgRoles = await db.query.orgRoles.findMany({
+			where: (orgRoles, { inArray }) =>
 				inArray(
-					roles.id,
+					orgRoles.id,
 					ids.map((id) => parseInt(id))
 				),
 		});
 
 		return ids.map((id) => {
-			const role = roles.find((role) => role.id == parseInt(id));
+			const orgRole = orgRoles.find(
+				(orgRole) => orgRole.id == parseInt(id)
+			);
 
-			if (!role) {
-				return new Error(`Role not found: ${id}`);
+			if (!orgRole) {
+				return new Error(`Organization role not found: ${id}`);
 			}
-			return role;
+
+			return orgRole;
 		});
 	},
 });
 
-Role.implement({
-	isTypeOf: (role) => (role as RoleType).id !== undefined,
+OrgRole.implement({
+	isTypeOf: (orgRole) => (orgRole as OrgRoleType).id !== undefined,
 	authScopes: {
 		isAuthenticated: true,
 	},
@@ -77,15 +80,16 @@ builder.queryFields((t) => ({
 			isAuthenticated: true,
 		})
 		.connection({
-			type: Role,
+			type: OrgRole,
 			args: {
 				offset: t.arg.int({ required: true }),
 				orgId: t.arg.globalID({ required: true }),
 			},
 			authScopes: async (_, args, ctx) => {
-				const userBelongsToOrg = ctx.user.memberships?.some(
-					(membership) =>
-						membership.organization.id === parseInt(args.orgId.id)
+				const userBelongsToOrg = ctx.user.orgMemberships?.some(
+					(orgMembership) =>
+						orgMembership.organization.id ===
+						parseInt(args.orgId.id)
 				);
 
 				return !!userBelongsToOrg;
@@ -97,16 +101,16 @@ builder.queryFields((t) => ({
 						const [items, totalCount] = await Promise.all([
 							db
 								.select()
-								.from(roles)
+								.from(orgRoles)
 								.where(
 									eq(
-										roles.organization_id,
+										orgRoles.organization_id,
 										parseInt(args.orgId.id)
 									)
 								)
 								.limit(limit)
 								.offset(args.offset),
-							db.select({ value: count() }).from(roles),
+							db.select({ value: count() }).from(orgRoles),
 						]);
 
 						return {
@@ -132,14 +136,15 @@ builder.queryFields((t) => ({
 			isAuthenticated: true,
 		})
 		.field({
-			type: [Role],
+			type: [OrgRole],
 			args: {
 				orgId: t.arg.globalID({ required: true }),
 			},
 			authScopes: async (_, args, ctx) => {
-				const userBelongsToOrg = ctx.user.memberships?.some(
-					(membership) =>
-						membership.organization.id === parseInt(args.orgId.id)
+				const userBelongsToOrg = ctx.user.orgMemberships?.some(
+					(orgMembership) =>
+						orgMembership.organization.id ===
+						parseInt(args.orgId.id)
 				);
 
 				return !!userBelongsToOrg;
@@ -147,8 +152,10 @@ builder.queryFields((t) => ({
 			resolve: async (_parent, args) => {
 				const items = await db
 					.select()
-					.from(roles)
-					.where(eq(roles.organization_id, parseInt(args.orgId.id)));
+					.from(orgRoles)
+					.where(
+						eq(orgRoles.organization_id, parseInt(args.orgId.id))
+					);
 
 				return items;
 			},

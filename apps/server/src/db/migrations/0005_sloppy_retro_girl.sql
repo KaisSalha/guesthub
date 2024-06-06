@@ -1,1 +1,0 @@
-CREATE INDEX IF NOT EXISTS "memberships_role_idx" ON "memberships" ("role_id");

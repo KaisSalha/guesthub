@@ -7,61 +7,60 @@ import {
 	uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { organizations } from "./organizations.js";
-import { roles } from "./roles.js";
+import { orgRoles } from "./orgRoles.js";
 import { timeFields } from "./helpers/time.js";
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { users } from "./users.js";
 
-export const inviteStatusEnum = pgEnum("invite_status", [
+export const orgInviteStatusEnum = pgEnum("org_invite_status", [
 	"pending",
 	"accepted",
 	"declined",
 ]);
 
-export const inviteStatusEnumType = [
+export const orgInviteStatusEnumType = [
 	"pending",
 	"accepted",
 	"declined",
 ] as const;
 
-export const invites = pgTable(
-	"invites",
+export const orgInvites = pgTable(
+	"org_invites",
 	{
 		id: uuid("id").primaryKey().defaultRandom(),
 		email: varchar("email", { length: 256 }).notNull(),
 		organization_id: integer("organization_id")
 			.notNull()
 			.references(() => organizations.id),
-		role_id: integer("role_id")
+		org_role_id: integer("org_role_id")
 			.notNull()
-			.references(() => roles.id),
-		status: inviteStatusEnum("status").notNull().default("pending"),
+			.references(() => orgRoles.id),
+		status: orgInviteStatusEnum("status").notNull().default("pending"),
 		...timeFields,
 	},
 	(table) => {
 		return {
-			invites_email_org_idx: uniqueIndex("invites_email_org_idx").on(
-				table.email,
-				table.organization_id
-			),
+			org_invites_email_org_idx: uniqueIndex(
+				"org_invites_email_org_idx"
+			).on(table.email, table.organization_id),
 		};
 	}
 );
 
-export const invitesRelations = relations(invites, ({ one }) => ({
+export const orgInvitesRelations = relations(orgInvites, ({ one }) => ({
 	organization: one(organizations, {
-		fields: [invites.organization_id],
+		fields: [orgInvites.organization_id],
 		references: [organizations.id],
 	}),
-	role: one(roles, {
-		fields: [invites.role_id],
-		references: [roles.id],
+	role: one(orgRoles, {
+		fields: [orgInvites.org_role_id],
+		references: [orgRoles.id],
 	}),
 	user: one(users, {
-		fields: [invites.email],
+		fields: [orgInvites.email],
 		references: [users.email],
 	}),
 }));
 
-export type Invite = InferSelectModel<typeof invites>;
-export type InviteInsert = InferInsertModel<typeof invites>;
+export type OrgInvite = InferSelectModel<typeof orgInvites>;
+export type OrgInviteInsert = InferInsertModel<typeof orgInvites>;

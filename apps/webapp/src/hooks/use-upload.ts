@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 
 interface PresignedUrlResponse {
   url: string;
+  readUrl: string;
 }
 
 interface FileUploadProgress {
@@ -12,11 +13,11 @@ interface FileUploadProgress {
   url: string;
 }
 
-const getPresignedUrl = async (
+const getPresignedUploadUrl = async (
   filename: string,
   contentType: string,
   path: string
-): Promise<string> => {
+): Promise<PresignedUrlResponse> => {
   const response = await axios.post<PresignedUrlResponse>(
     `${import.meta.env.VITE_API_ENDPOINT}/generate-file-upload-presigned-url`,
     { filename, contentType, path },
@@ -24,7 +25,11 @@ const getPresignedUrl = async (
       withCredentials: true,
     }
   );
-  return response.data.url;
+
+  return {
+    url: response.data.url,
+    readUrl: response.data.readUrl,
+  };
 };
 
 export const useUpload = () => {
@@ -37,9 +42,13 @@ export const useUpload = () => {
   // Mutation for single file upload
   const singleFileMutation = useMutation({
     mutationFn: async ({ file, path }: { file: File; path: string }) => {
-      const presignedUrl = await getPresignedUrl(file.name, file.type, path);
+      const presignedUrl = await getPresignedUploadUrl(
+        file.name,
+        file.type,
+        path
+      );
 
-      await axios.put(presignedUrl, file, {
+      await axios.put(presignedUrl.url, file, {
         headers: {
           "Content-Type": file.type,
         },
@@ -50,16 +59,20 @@ export const useUpload = () => {
         },
       });
 
-      return presignedUrl.split("?")[0]; // Return the URL
+      return presignedUrl.readUrl;
     },
   });
 
   // Mutation for multiple file uploads
   const multipleFilesMutation = useMutation({
     mutationFn: async ({ file, path }: { file: File; path: string }) => {
-      const presignedUrl = await getPresignedUrl(file.name, file.type, path);
+      const presignedUrl = await getPresignedUploadUrl(
+        file.name,
+        file.type,
+        path
+      );
 
-      await axios.put(presignedUrl, file, {
+      await axios.put(presignedUrl.url, file, {
         headers: {
           "Content-Type": file.type,
         },
@@ -79,7 +92,7 @@ export const useUpload = () => {
         },
       });
 
-      return presignedUrl.split("?")[0]; // Return the URL
+      return presignedUrl.readUrl;
     },
   });
 

@@ -134,7 +134,7 @@ export const ImageUploadModalButton = forwardRef<
 
       const url = await uploadFile(file, path);
       if (onFileUploaded) {
-        onFileUploaded(`${url}?timestamp=${Date.now()}`); // Append timestamp to the URL
+        onFileUploaded(`${url}`); // Append timestamp to the URL
       }
 
       handleClose();

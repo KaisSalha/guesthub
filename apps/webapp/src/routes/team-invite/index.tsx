@@ -7,16 +7,16 @@ import { Button } from "@guesthub/ui/button";
 import { useQuery } from "@apollo/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@guesthub/ui/avatar";
 import { Building2 } from "lucide-react";
-import { GetInviteQuery } from "@/gql/graphql";
+import { GetOrgInviteQuery } from "@/gql/graphql";
 import { Card } from "@guesthub/ui/card";
-import { GetInvite } from "./-queries";
+import { GetOrgInvite } from "./-queries";
 
 const GetStarted = () => {
   const { me, isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
   const { inviteId } = Route.useSearch();
-  const { data, loading: isLoadingInvite } = useQuery<GetInviteQuery>(
-    GetInvite,
+  const { data, loading: isLoadingInvite } = useQuery<GetOrgInviteQuery>(
+    GetOrgInvite,
     {
       variables: { id: inviteId },
       skip: !inviteId || isLoading || (!isLoading && isAuthenticated),
@@ -37,7 +37,7 @@ const GetStarted = () => {
 
   if (isLoading || isLoadingInvite) return null;
 
-  if (!inviteId || !data?.invite) return null;
+  if (!inviteId || !data?.orgInvite) return null;
 
   return (
     <Layout>
@@ -45,7 +45,7 @@ const GetStarted = () => {
         <div className="flex flex-col items-center gap-6 md:gap-10">
           <Avatar className="cursor-pointer w-fit h-fit rounded-md">
             <AvatarImage
-              src={data.invite.organization.logo_url ?? undefined}
+              src={data.orgInvite.organization.logo_url ?? undefined}
               className="h-24 w-24 md:h-28 md:w-28"
             />
             <AvatarFallback className="bg-transparent border p-2 rounded-md">
@@ -56,7 +56,7 @@ const GetStarted = () => {
             </AvatarFallback>
           </Avatar>
           <h1 className="text-xl md:text-3xl font-bold">
-            Join {data.invite.organization.name} on GuestHub
+            Join {data.orgInvite.organization.name} on GuestHub
           </h1>
           <Button onClick={onGetStarted} size="lg">
             Get Started

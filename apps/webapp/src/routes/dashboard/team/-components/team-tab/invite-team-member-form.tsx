@@ -79,7 +79,7 @@ export const InviteTeamMemberForm = ({
                 input: {
                   orgId: selectedMembership?.organization.id,
                   email,
-                  role,
+                  orgRoleId: role,
                 },
               },
             });
@@ -160,7 +160,7 @@ export const InviteTeamMemberForm = ({
 
 InviteTeamMemberForm.fragments = {
   roles: graphql(`
-    fragment InviteTeamMemberForm_roles on Role {
+    fragment InviteTeamMemberForm_roles on OrgRole {
       id
       name
     }

@@ -1,10 +1,10 @@
 import { builder } from "../builder.js";
 import { db } from "../../db/index.js";
 import { User as UserType, users } from "../../db/schemas/users.js";
-import { Membership } from "./membership.js";
+import { OrgMembership } from "./orgMembership.js";
 import { eq } from "drizzle-orm";
-import { Invite } from "./invite.js";
-import { userInvitesLoader } from "../loaders/user-invites-loader.js";
+import { OrgInvite } from "./orgInvite.js";
+import { userOrgInvitesLoader } from "../loaders/user-org-invites-loader.js";
 
 export const User = builder.loadableNodeRef("User", {
 	id: {
@@ -78,15 +78,15 @@ User.implement({
 				isAuthenticated: true,
 			},
 		}),
-		memberships: t.loadableGroup({
-			type: Membership,
+		orgMemberships: t.loadableGroup({
+			type: OrgMembership,
 			authScopes: {
 				isAuthenticated: true,
 			},
 			load: (ids: number[]) =>
-				db.query.memberships.findMany({
-					where: (memberships, { inArray }) =>
-						inArray(memberships.user_id, ids),
+				db.query.orgMemberships.findMany({
+					where: (orgMemberships, { inArray }) =>
+						inArray(orgMemberships.user_id, ids),
 				}),
 			group: (membership) => {
 				if (typeof membership === "string") return -1;
@@ -95,14 +95,14 @@ User.implement({
 			},
 			resolve: (parent) => parent.id,
 		}),
-		invites: t.loadableList({
-			type: Invite,
+		orgInvites: t.loadableList({
+			type: OrgInvite,
 			nullable: true,
 			authScopes: {
 				isAuthenticated: true,
 			},
 			load: (emails: string[], context) =>
-				userInvitesLoader(context).loadMany(emails),
+				userOrgInvitesLoader(context).loadMany(emails),
 			resolve: (parent) => parent.email,
 		}),
 		created_at: t.field({
@@ -151,39 +151,32 @@ builder.relayMutationField(
 			isAuthenticated: true,
 		},
 		resolve: async (_root, args, ctx) => {
-			try {
-				if (!ctx.user) {
-					throw new Error("User required");
-				}
-
-				const updateFields: Partial<UserType> = {
-					...(args.input.first_name && {
-						first_name: args.input.first_name,
-					}),
-					...(args.input.last_name && {
-						last_name: args.input.last_name,
-					}),
-					...(args.input.avatar_url && {
-						avatar_url: args.input.avatar_url,
-					}),
-				};
-
-				const [user] = await db
-					.update(users)
-					.set(updateFields)
-					.where(eq(users.id, ctx.user.id))
-					.returning();
-
-				return {
-					success: true,
-					user,
-				};
-			} catch (error) {
-				console.log(error);
-				return {
-					success: false,
-				};
+			if (!ctx.user) {
+				throw new Error("User required");
 			}
+
+			const updateFields: Partial<UserType> = {
+				...(args.input.first_name && {
+					first_name: args.input.first_name,
+				}),
+				...(args.input.last_name && {
+					last_name: args.input.last_name,
+				}),
+				...(args.input.avatar_url && {
+					avatar_url: args.input.avatar_url,
+				}),
+			};
+
+			const [user] = await db
+				.update(users)
+				.set(updateFields)
+				.where(eq(users.id, ctx.user.id))
+				.returning();
+
+			return {
+				success: true,
+				user,
+			};
 		},
 	},
 	{

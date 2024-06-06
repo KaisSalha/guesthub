@@ -199,7 +199,7 @@ RolesTab.query = graphql(/* GraphQL */ `
     }
   }
 
-  fragment GetOrgRoles_Roles on Role {
+  fragment GetOrgRoles_Roles on OrgRole {
     id
     name
     permissions

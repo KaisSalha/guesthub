@@ -3,8 +3,8 @@ import { integer, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 import { users } from "./users.js";
 import { locationFields } from "./helpers/location.js";
 import { timeFields } from "./helpers/time.js";
-import { roles } from "./roles.js";
-import { invites } from "./invites.js";
+import { orgRoles } from "./orgRoles.js";
+import { orgInvites } from "./orgInvites.js";
 
 export const organizations = pgTable("organizations", {
 	id: serial("id").primaryKey(),
@@ -26,8 +26,8 @@ export const organizationsRelations = relations(
 			references: [users.id],
 		}),
 		members: many(users),
-		roles: many(roles),
-		invites: many(invites),
+		roles: many(orgRoles),
+		invites: many(orgInvites),
 	})
 );
 

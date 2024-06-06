@@ -7,8 +7,8 @@ import { useMutation, useQuery } from "@apollo/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@guesthub/ui/avatar";
 import { Building2 } from "lucide-react";
 import { Layout } from "../../-components/layout";
-import { GetInvite } from "../../-queries";
-import { GetInviteQuery, UpdateInviteUserMutation } from "@/gql/graphql";
+import { GetOrgInvite } from "../../-queries";
+import { GetOrgInviteQuery, UpdateInviteUserMutation } from "@/gql/graphql";
 import { graphql } from "gql.tada";
 import { UserProfileForm } from "@/components/auth/user-profile-form";
 import { useEffect } from "react";
@@ -17,8 +17,8 @@ const Profile = () => {
   const { me, isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
   const { inviteId } = Route.useSearch();
-  const { data, loading: isLoadingInvite } = useQuery<GetInviteQuery>(
-    GetInvite,
+  const { data, loading: isLoadingInvite } = useQuery<GetOrgInviteQuery>(
+    GetOrgInvite,
     {
       variables: { id: inviteId },
       skip: !inviteId || isLoading,
@@ -42,9 +42,9 @@ const Profile = () => {
 
   if (isLoading || isLoadingInvite) return <div>Loading...</div>;
 
-  if (!inviteId || !data?.invite) return <div>Not found</div>;
+  if (!inviteId || !data?.orgInvite) return <div>Not found</div>;
 
-  console.log(data.invite.user);
+  console.log(data.orgInvite.user);
 
   return (
     <Layout>
@@ -52,7 +52,7 @@ const Profile = () => {
         <div className="flex flex-col gap-6">
           <Avatar className="cursor-pointer w-fit h-fit rounded-md self-center">
             <AvatarImage
-              src={data.invite.organization.logo_url ?? undefined}
+              src={data.orgInvite.organization.logo_url ?? undefined}
               className="h-24 w-24 md:h-28 md:w-28"
             />
             <AvatarFallback className="bg-transparent border p-2 rounded-md">
@@ -63,7 +63,7 @@ const Profile = () => {
             </AvatarFallback>
           </Avatar>
           <h1 className="text-xl md:text-3xl font-bold">
-            Join {data.invite.organization.name} on GuestHub
+            Join {data.orgInvite.organization.name} on GuestHub
           </h1>
           <UserProfileForm
             onSubmit={async ({

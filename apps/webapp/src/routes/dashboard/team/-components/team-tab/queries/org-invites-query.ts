@@ -2,7 +2,7 @@ import { graphql } from "gql.tada";
 
 export const orgInvites = graphql(/* GraphQL */ `
   query GetOrgInvites($first: Int!, $offset: Int!, $orgId: ID!) {
-    orgInvites(first: $first, offset: $offset, orgId: $orgId) {
+    orgTeamInvites(first: $first, offset: $offset, orgId: $orgId) {
       totalCount
       edges {
         node {
@@ -18,7 +18,7 @@ export const orgInvites = graphql(/* GraphQL */ `
     }
   }
 
-  fragment GetOrgInvites_Invites on Invite {
+  fragment GetOrgInvites_Invites on OrgInvite {
     id
     email
     status

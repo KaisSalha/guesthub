@@ -1,6 +1,9 @@
 import { FastifyInstance } from "fastify";
 import { FastifyRequest } from "fastify/types/request";
-import { generateFileUploadPresignedUrl } from "../lib/s3.js";
+import {
+	generateFileUploadPresignedUrl,
+	generateReadPresignedUrl,
+} from "../lib/s3.js";
 import { authenticate } from "../plugins/authenticate.js";
 import { logout } from "../services/auth.js";
 
@@ -23,6 +26,10 @@ export const privateRoutes = async (app: FastifyInstance) => {
 				url: await generateFileUploadPresignedUrl({
 					file_name: req.body.filename,
 					file_type: req.body.contentType,
+					path: req.body.path,
+				}),
+				readUrl: await generateReadPresignedUrl({
+					file_name: req.body.filename,
 					path: req.body.path,
 				}),
 			};

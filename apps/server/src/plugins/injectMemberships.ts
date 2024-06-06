@@ -12,9 +12,9 @@ export const injectMemberships = fp(async function (
 ): Promise<void> {
 	app.addHook("onRequest", async (request) => {
 		if (request.user && request.user.type === "org") {
-			const memberships = await db.query.memberships.findMany({
-				where: (memberships, { eq }) =>
-					eq(memberships.user_id, request.user!.id),
+			const orgMemberships = await db.query.orgMemberships.findMany({
+				where: (orgMemberships, { eq }) =>
+					eq(orgMemberships.user_id, request.user!.id),
 				with: {
 					role: true,
 					organization: true,
@@ -23,22 +23,22 @@ export const injectMemberships = fp(async function (
 
 			request.user = {
 				...request.user,
-				memberships: memberships.map((membership) => ({
-					...membership,
+				orgMemberships: orgMemberships.map((orgMembership) => ({
+					...orgMembership,
 					role: {
-						...membership.role,
+						...orgMembership.role,
 						permissions:
-							membership.organization.owner_id ===
+							orgMembership.organization.owner_id ===
 							request.user!.id
 								? OWNER_PERMISSIONS
-								: membership.role.name === "admin"
+								: orgMembership.role.name === "admin"
 									? getAdminPermissions({
 											permissions:
-												membership.role.permissions,
+												orgMembership.role.permissions,
 										})
 									: getUserPermissions({
 											permissions:
-												membership.role.permissions,
+												orgMembership.role.permissions,
 										}),
 					},
 				})),

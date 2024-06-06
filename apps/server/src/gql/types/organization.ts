@@ -6,9 +6,9 @@ import {
 } from "../../db/schemas/organizations.js";
 import { User } from "./user.js";
 import { encodeGlobalID } from "@pothos/plugin-relay";
-import { roles } from "../../db/schemas/roles.js";
+import { orgRoles } from "../../db/schemas/orgRoles.js";
 import { ADMIN_PERMISSIONS, PERMISSIONS } from "../../services/permissions.js";
-import { memberships } from "../../db/schemas/memberships.js";
+import { orgMemberships } from "../../db/schemas/orgMemberships.js";
 
 export const Organization = builder.loadableNodeRef("Organization", {
 	id: {
@@ -126,9 +126,9 @@ builder.queryFields((t) => ({
 				id: t.arg.globalID({ required: true }),
 			},
 			authScopes: async (_, args, ctx) => {
-				const userBelongsToOrg = ctx.user.memberships?.some(
-					(membership) =>
-						membership.organization.id === parseInt(args.id.id)
+				const userBelongsToOrg = ctx.user.orgMemberships?.some(
+					(orgMembership) =>
+						orgMembership.organization.id === parseInt(args.id.id)
 				);
 
 				return !!userBelongsToOrg;
@@ -205,9 +205,9 @@ builder.relayMutationField(
 					.returning()
 					.execute();
 
-				// Add roles
+				// Add org roles
 				const [role] = await db
-					.insert(roles)
+					.insert(orgRoles)
 					.values({
 						name: "admin",
 						organization_id: organization.id,
@@ -217,7 +217,7 @@ builder.relayMutationField(
 					.execute();
 
 				await db
-					.insert(roles)
+					.insert(orgRoles)
 					.values({
 						name: "user",
 						organization_id: organization.id,
@@ -227,10 +227,10 @@ builder.relayMutationField(
 
 				// Create membership
 				await db
-					.insert(memberships)
+					.insert(orgMemberships)
 					.values({
 						user_id: ctx.user.id,
-						role_id: role.id,
+						org_role_id: role.id,
 						organization_id: organization.id,
 					})
 					.execute();

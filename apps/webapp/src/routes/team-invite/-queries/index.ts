@@ -1,8 +1,8 @@
 import { graphql } from "gql.tada";
 
-export const GetInvite = graphql(`
-  query GetInvite($id: ID!) {
-    invite(id: $id) {
+export const GetOrgInvite = graphql(`
+  query GetOrgInvite($id: ID!) {
+    orgInvite(id: $id) {
       id
       email
       organization {
