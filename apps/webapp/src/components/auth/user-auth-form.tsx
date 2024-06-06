@@ -82,6 +82,7 @@ export const UserAuthForm = ({
                       autoCapitalize="none"
                       autoComplete="password"
                       autoCorrect="off"
+                      maxLength={50}
                     />
                   </FormControl>
                   <FormMessage />

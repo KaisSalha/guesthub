@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { FastifyRequest } from "fastify/types/request";
 import mercurius from "mercurius";
+import { NoSchemaIntrospectionCustomRule } from "graphql";
 import { User, UserInsert } from "../db/schemas/users.js";
 import { login, signup } from "../services/auth.js";
 import { schema } from "../gql/index.js";
@@ -88,5 +89,8 @@ export const publicRoutes = async (app: FastifyInstance) => {
 		schema,
 		context: createContext,
 		graphiql: config.isDev,
+		validationRules: !config.isDev
+			? [NoSchemaIntrospectionCustomRule]
+			: undefined,
 	});
 };
