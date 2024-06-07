@@ -10,7 +10,7 @@ export const injectUser = fp(async function (
 	app.decorate("user", null);
 
 	app.addHook("onRequest", async (request, reply) => {
-		if (config.isDev && request.headers["x-debug-user"]) {
+		if (config.isDevOrTest && request.headers["x-debug-user"]) {
 			const user = await db.query.users.findFirst({
 				where: (users, { eq }) =>
 					eq(users.email, request.headers["x-debug-user"] as string),

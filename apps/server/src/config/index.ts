@@ -43,7 +43,12 @@ export const config = {
 	PORT: process.env.PORT ? parseInt(process.env.PORT, 10) : 3000,
 	HOST: process.env.HOST || "127.0.0.1",
 	ENV: process.env.NODE_ENV,
+	isTest: process.env.NODE_ENV === "test",
 	isDev: process.env.NODE_ENV === "development",
+	isDevOrTest:
+		process.env.NODE_ENV === "development" ||
+		process.env.NODE_ENV === "test",
+	isStaging: process.env.NODE_ENV === "staging",
 	isProd: process.env.NODE_ENV === "production",
 	DB: {
 		host: process.env.DATABASE_HOST,
@@ -69,27 +74,28 @@ export const config = {
 	},
 	OPENAI_API_KEY: process.env.OPENAI_API_KEY,
 	RESEND_API_KEY: process.env.RESEND_API_KEY,
-};
+	SERVER_CONFIG: () => {
+		if (config.isDevOrTest) {
+			return {
+				https: {
+					key: fs.readFileSync(
+						path.join(
+							path.dirname(fileURLToPath(import.meta.url)),
+							"../../../../.certs/localhost-key.pem"
+						)
+					),
+					cert: fs.readFileSync(
+						path.join(
+							path.dirname(fileURLToPath(import.meta.url)),
+							"../../../../.certs/localhost.pem"
+						)
+					),
+				},
+			};
+		}
 
-export const SERVER_CONFIG = {
-	dev: () => ({
-		https: {
-			key: fs.readFileSync(
-				path.join(
-					path.dirname(fileURLToPath(import.meta.url)),
-					"../../../../.certs/localhost-key.pem"
-				)
-			),
-			cert: fs.readFileSync(
-				path.join(
-					path.dirname(fileURLToPath(import.meta.url)),
-					"../../../../.certs/localhost.pem"
-				)
-			),
-		},
-		logger: config.LOGGER,
-	}),
-	prod: () => ({
-		logger: config.LOGGER,
-	}),
+		return {
+			logger: config.LOGGER,
+		};
+	},
 };

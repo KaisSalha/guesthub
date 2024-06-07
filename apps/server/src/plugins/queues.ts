@@ -12,6 +12,8 @@ export const queues = fp(async function (app: FastifyInstance): Promise<void> {
 		parentPort?.postMessage({ type: "error", error });
 	});
 
+	if (config.isTest) return;
+
 	const worker = config.isDev
 		? new Worker(new URL(import.meta.resolve("tsx/cli")), {
 				argv: ["./src/queues/index.ts"],

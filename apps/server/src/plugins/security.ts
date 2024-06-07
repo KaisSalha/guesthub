@@ -5,10 +5,9 @@ import { config } from "../config/index.js";
 export const security = fp(async function (
 	app: FastifyInstance
 ): Promise<void> {
-	if (!config.isDev) app.register(import("@fastify/helmet"));
-
+	app.register(import("@fastify/helmet"));
 	app.register(import("@fastify/cors"), {
-		origin: config.isDev
+		origin: config.isDevOrTest
 			? /https?:\/\/(\w+\.)*guesthub\.(internal)(:\d+)?(\/.*)?$/
 			: /https?:\/\/(\w+\.)*guesthub\.(ai)(:\d+)?(\/.*)?$/,
 		methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
