@@ -1,19 +1,12 @@
 {
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "6",
-      "when": 1717556743329,
-      "tag": "0000_confused_randall",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1717556845731,
-      "tag": "0001_whole_molten_man",
+      "version": "7",
+      "when": 1717818236078,
+      "tag": "0000_magenta_sharon_carter",
       "breakpoints": true
     }
   ]

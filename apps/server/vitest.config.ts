@@ -5,5 +5,7 @@ export default defineConfig({
 		globals: true,
 		environment: "node",
 		include: ["src/**/*.test.ts"],
+		reporters: ["default", "html"],
+		setupFiles: ["./src/test/setup.ts"],
 	},
 });

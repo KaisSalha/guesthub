@@ -3,3 +3,4 @@ dist
 .eslintcache
 .env
 tsconfig.tsbuildinfo
+html

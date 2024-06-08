@@ -1,10 +1,4 @@
 DO $$ BEGIN
- CREATE TYPE "public"."invite_status" AS ENUM('pending', 'accepted', 'declined');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
  CREATE TYPE "public"."org_invite_status" AS ENUM('pending', 'accepted', 'declined');
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -15,25 +9,6 @@ DO $$ BEGIN
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "invites" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"email" varchar(256) NOT NULL,
-	"organization_id" integer NOT NULL,
-	"role_id" integer NOT NULL,
-	"status" "invite_status" DEFAULT 'pending' NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "memberships" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer NOT NULL,
-	"organization_id" integer NOT NULL,
-	"role_id" integer NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL
-);
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "organizations" (
 	"id" serial PRIMARY KEY NOT NULL,
@@ -81,15 +56,6 @@ CREATE TABLE IF NOT EXISTS "org_roles" (
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "roles" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"name" varchar(256) NOT NULL,
-	"organization_id" integer NOT NULL,
-	"permissions" json DEFAULT '{}'::json NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "sessions" (
 	"id" text PRIMARY KEY NOT NULL,
 	"user_id" integer NOT NULL,
@@ -108,36 +74,6 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "users_email_unique" UNIQUE("email")
 );
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "invites" ADD CONSTRAINT "invites_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "invites" ADD CONSTRAINT "invites_role_id_roles_id_fk" FOREIGN KEY ("role_id") REFERENCES "public"."roles"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "memberships" ADD CONSTRAINT "memberships_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "memberships" ADD CONSTRAINT "memberships_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "memberships" ADD CONSTRAINT "memberships_role_id_roles_id_fk" FOREIGN KEY ("role_id") REFERENCES "public"."roles"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "organizations" ADD CONSTRAINT "organizations_owner_id_users_id_fk" FOREIGN KEY ("owner_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
@@ -182,24 +118,13 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "roles" ADD CONSTRAINT "roles_organization_id_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."organizations"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
  ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
-CREATE UNIQUE INDEX IF NOT EXISTS "invites_email_org_idx" ON "invites" ("email","organization_id");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "memberships_user_idx" ON "memberships" ("user_id");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "memberships_organization_idx" ON "memberships" ("organization_id");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "memberships_role_idx" ON "memberships" ("role_id");--> statement-breakpoint
-CREATE UNIQUE INDEX IF NOT EXISTS "memberships_user_organization_idx" ON "memberships" ("user_id","organization_id");--> statement-breakpoint
-CREATE UNIQUE INDEX IF NOT EXISTS "org_invites_email_org_idx" ON "org_invites" ("email","organization_id");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "org_memberships_user_idx" ON "org_memberships" ("user_id");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "org_memberships_organization_idx" ON "org_memberships" ("organization_id");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "org_memberships_role_idx" ON "org_memberships" ("org_role_id");--> statement-breakpoint
-CREATE UNIQUE INDEX IF NOT EXISTS "org_memberships_user_organization_idx" ON "org_memberships" ("user_id","organization_id");
+CREATE UNIQUE INDEX IF NOT EXISTS "org_invites_email_org_idx" ON "org_invites" USING btree ("email","organization_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "org_memberships_user_idx" ON "org_memberships" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "org_memberships_organization_idx" ON "org_memberships" USING btree ("organization_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "org_memberships_role_idx" ON "org_memberships" USING btree ("org_role_id");--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "org_memberships_user_organization_idx" ON "org_memberships" USING btree ("user_id","organization_id");

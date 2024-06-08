@@ -13,7 +13,7 @@ esbuild
 		format: "esm",
 		bundle: false,
 		splitting: true,
-		sourcemap: true,
+		sourcemap: false,
 		loader: {
 			".js": "jsx",
 			".jsx": "jsx",

@@ -1,220 +1,9 @@
 {
-  "id": "bf72f1d9-b9e2-471f-9991-b89556db509b",
+  "id": "e2c898d0-1e04-4ddb-9700-d1adde8c7f42",
   "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.invites": {
-      "name": "invites",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "email": {
-          "name": "email",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "organization_id": {
-          "name": "organization_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "role_id": {
-          "name": "role_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "status": {
-          "name": "status",
-          "type": "invite_status",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'pending'"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "invites_email_org_idx": {
-          "name": "invites_email_org_idx",
-          "columns": [
-            "email",
-            "organization_id"
-          ],
-          "isUnique": true
-        }
-      },
-      "foreignKeys": {
-        "invites_organization_id_organizations_id_fk": {
-          "name": "invites_organization_id_organizations_id_fk",
-          "tableFrom": "invites",
-          "tableTo": "organizations",
-          "columnsFrom": [
-            "organization_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "invites_role_id_roles_id_fk": {
-          "name": "invites_role_id_roles_id_fk",
-          "tableFrom": "invites",
-          "tableTo": "roles",
-          "columnsFrom": [
-            "role_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.memberships": {
-      "name": "memberships",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "organization_id": {
-          "name": "organization_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "role_id": {
-          "name": "role_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {
-        "memberships_user_idx": {
-          "name": "memberships_user_idx",
-          "columns": [
-            "user_id"
-          ],
-          "isUnique": false
-        },
-        "memberships_organization_idx": {
-          "name": "memberships_organization_idx",
-          "columns": [
-            "organization_id"
-          ],
-          "isUnique": false
-        },
-        "memberships_role_idx": {
-          "name": "memberships_role_idx",
-          "columns": [
-            "role_id"
-          ],
-          "isUnique": false
-        },
-        "memberships_user_organization_idx": {
-          "name": "memberships_user_organization_idx",
-          "columns": [
-            "user_id",
-            "organization_id"
-          ],
-          "isUnique": true
-        }
-      },
-      "foreignKeys": {
-        "memberships_user_id_users_id_fk": {
-          "name": "memberships_user_id_users_id_fk",
-          "tableFrom": "memberships",
-          "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "memberships_organization_id_organizations_id_fk": {
-          "name": "memberships_organization_id_organizations_id_fk",
-          "tableFrom": "memberships",
-          "tableTo": "organizations",
-          "columnsFrom": [
-            "organization_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "memberships_role_id_roles_id_fk": {
-          "name": "memberships_role_id_roles_id_fk",
-          "tableFrom": "memberships",
-          "tableTo": "roles",
-          "columnsFrom": [
-            "role_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "public.organizations": {
       "name": "organizations",
       "schema": "",
@@ -387,10 +176,23 @@
         "org_invites_email_org_idx": {
           "name": "org_invites_email_org_idx",
           "columns": [
-            "email",
-            "organization_id"
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "organization_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": true
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -471,31 +273,68 @@
         "org_memberships_user_idx": {
           "name": "org_memberships_user_idx",
           "columns": [
-            "user_id"
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "org_memberships_organization_idx": {
           "name": "org_memberships_organization_idx",
           "columns": [
-            "organization_id"
+            {
+              "expression": "organization_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "org_memberships_role_idx": {
           "name": "org_memberships_role_idx",
           "columns": [
-            "org_role_id"
+            {
+              "expression": "org_role_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         },
         "org_memberships_user_organization_idx": {
           "name": "org_memberships_user_organization_idx",
           "columns": [
-            "user_id",
-            "organization_id"
+            {
+              "expression": "user_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "organization_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": true
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -591,69 +430,6 @@
         "org_roles_organization_id_organizations_id_fk": {
           "name": "org_roles_organization_id_organizations_id_fk",
           "tableFrom": "org_roles",
-          "tableTo": "organizations",
-          "columnsFrom": [
-            "organization_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.roles": {
-      "name": "roles",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(256)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "organization_id": {
-          "name": "organization_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "permissions": {
-          "name": "permissions",
-          "type": "json",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'{}'::json"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "roles_organization_id_organizations_id_fk": {
-          "name": "roles_organization_id_organizations_id_fk",
-          "tableFrom": "roles",
           "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
@@ -787,15 +563,6 @@
     }
   },
   "enums": {
-    "public.invite_status": {
-      "name": "invite_status",
-      "schema": "public",
-      "values": [
-        "pending",
-        "accepted",
-        "declined"
-      ]
-    },
     "public.org_invite_status": {
       "name": "org_invite_status",
       "schema": "public",

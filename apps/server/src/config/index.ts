@@ -14,7 +14,8 @@ if (
 	!process.env.DATABASE_PORT ||
 	!process.env.DATABASE_USER ||
 	!process.env.DATABASE_PASSWORD ||
-	!process.env.SCHEMA_NAME
+	!process.env.DATABASE_NAME ||
+	!process.env.DATABASE_TEST_NAME
 ) {
 	throw new Error("DATABASE_KEYS_NOT_SET");
 }
@@ -56,7 +57,8 @@ export const config = {
 		user: process.env.DATABASE_USER,
 		password: process.env.DATABASE_PASSWORD,
 		database: process.env.SCHEMA_NAME,
-		url: `postgres://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.SCHEMA_NAME}`,
+		url: `postgres://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}`,
+		test: `postgres://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_TEST_NAME}`,
 		pgBoss: `postgres://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}`,
 	},
 	CACHE_PRIVACY: process.env.CACHE_PRIVACY || "public",
