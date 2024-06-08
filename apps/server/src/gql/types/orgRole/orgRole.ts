@@ -1,12 +1,15 @@
-import { builder } from "../builder.js";
-import { db } from "../../db/index.js";
-import { OrgRole as OrgRoleType, orgRoles } from "../../db/schemas/orgRoles.js";
-import { Organization } from "./organization.js";
+import { builder } from "../../builder.js";
+import { db } from "../../../db/index.js";
+import {
+	OrgRole as OrgRoleType,
+	orgRoles,
+} from "../../../db/schemas/orgRoles.js";
+import { Organization } from "../organization/organization.js";
 import {
 	getAdminPermissions,
 	getUserPermissions,
-} from "../../services/permissions.js";
-import { resolveWindowedConnection } from "../../utils/resolveWindowedConnection.js";
+} from "../../../services/permissions.js";
+import { resolveWindowedConnection } from "../../../utils/resolveWindowedConnection.js";
 import { count, eq } from "drizzle-orm";
 
 export const OrgRole = builder.loadableNodeRef("OrgRole", {

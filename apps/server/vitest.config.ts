@@ -6,6 +6,6 @@ export default defineConfig({
 		environment: "node",
 		include: ["src/**/*.test.ts"],
 		reporters: ["default", "html"],
-		setupFiles: ["./src/test/setup.ts"],
+		globalSetup: ["./src/test/global-setup.ts"],
 	},
 });

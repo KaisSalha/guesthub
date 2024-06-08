@@ -1,14 +1,17 @@
-import { builder } from "../builder.js";
-import { db } from "../../db/index.js";
+import { builder } from "../../builder.js";
+import { db } from "../../../db/index.js";
 import {
 	Organization as OrganizationType,
 	organizations,
-} from "../../db/schemas/organizations.js";
-import { User } from "./user.js";
+} from "../../../db/schemas/organizations.js";
+import { User } from "../user/user.js";
 import { encodeGlobalID } from "@pothos/plugin-relay";
-import { orgRoles } from "../../db/schemas/orgRoles.js";
-import { ADMIN_PERMISSIONS, PERMISSIONS } from "../../services/permissions.js";
-import { orgMemberships } from "../../db/schemas/orgMemberships.js";
+import { orgRoles } from "../../../db/schemas/orgRoles.js";
+import {
+	ADMIN_PERMISSIONS,
+	PERMISSIONS,
+} from "../../../services/permissions.js";
+import { orgMemberships } from "../../../db/schemas/orgMemberships.js";
 
 export const Organization = builder.loadableNodeRef("Organization", {
 	id: {
