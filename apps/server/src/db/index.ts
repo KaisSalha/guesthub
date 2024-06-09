@@ -1,7 +1,9 @@
 import { config } from "../config/index.js";
 import { drizzle } from "drizzle-orm/node-postgres";
 import schema from "./schema.js";
-import { Pool } from "pg";
+import pkg from "pg";
+
+const { Pool } = pkg;
 
 export const pool = new Pool({
 	connectionString: config.isTest ? config.DB.test : config.DB.url,

@@ -19,7 +19,12 @@ export const privateRoutes = async (app: FastifyInstance) => {
 		"/generate-file-upload-presigned-url",
 		async (
 			req: FastifyRequest<{
-				Body: { filename: string; contentType: string; path: string };
+				Body: {
+					filename: string;
+					contentType: string;
+					path: string;
+					access?: "public" | "private";
+				};
 			}>
 		) => {
 			return {
@@ -27,6 +32,7 @@ export const privateRoutes = async (app: FastifyInstance) => {
 					file_name: req.body.filename,
 					file_type: req.body.contentType,
 					path: req.body.path,
+					access: req.body.access,
 				}),
 				readUrl: await generateReadPresignedUrl({
 					file_name: req.body.filename,

@@ -54,14 +54,16 @@ export const generateFileUploadPresignedUrl = async ({
 	file_name,
 	file_type,
 	path,
+	access = "private",
 }: {
 	file_name: string;
 	file_type: string;
 	path: string;
+	access?: "public" | "private";
 }) => {
 	const command = new PutObjectCommand({
 		Bucket: config.S3.BUCKET_NAME,
-		Key: `${path}/${file_name}`,
+		Key: `${access}/${path}/${file_name}`,
 		ContentType: file_type,
 	});
 

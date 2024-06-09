@@ -90,48 +90,14 @@ OrgInvite.implement({
 });
 
 builder.queryFields((t) => ({
-	orgInvite: t
-		.withAuth({
-			isAuthenticated: true,
-		})
-		.field({
-			type: OrgInvite,
-			nullable: true,
-			args: {
-				id: t.arg.globalID({ required: true }),
-			},
-			authScopes: async (_, args, ctx) => {
-				if (!ctx.user) {
-					throw new Error("User required");
-				}
-
-				const [invitation] = await db
-					.select()
-					.from(orgInvites)
-					.where(eq(orgInvites.id, args.id.id));
-
-				if (!invitation) {
-					return false;
-				}
-
-				if (ctx.user.type === "guest") {
-					const invitationBelongsToUser =
-						invitation.email === ctx.user.email;
-
-					return !!invitationBelongsToUser;
-				}
-
-				// If invitation belongs to org the user is a member of
-				const invitationBelongsToOrg = ctx.user.orgMemberships?.some(
-					(orgMembership) =>
-						orgMembership.organization.id ===
-						invitation.organization_id
-				);
-
-				return !!invitationBelongsToOrg;
-			},
-			resolve: (_root, args) => args.id.id,
-		}),
+	orgInvite: t.field({
+		type: OrgInvite,
+		nullable: true,
+		args: {
+			id: t.arg.globalID({ required: true }),
+		},
+		resolve: (_root, args) => args.id.id,
+	}),
 	userOrgInvites: t
 		.withAuth({
 			isAuthenticated: true,

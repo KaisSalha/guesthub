@@ -179,7 +179,6 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
-  hello: Scalars['String']['output'];
   me?: Maybe<User>;
   node?: Maybe<Node>;
   nodes: Array<Maybe<Node>>;

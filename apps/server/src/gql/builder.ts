@@ -151,10 +151,4 @@ builder.addScalarType("TimeZone", TimeZoneResolver);
 builder.queryType({});
 builder.mutationType({});
 
-builder.queryField("hello", (t) =>
-	t.string({
-		resolve: () => "hello, world!",
-	})
-);
-
 export { builder };

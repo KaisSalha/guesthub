@@ -10,9 +10,6 @@ import { OrganizationMembershipFactory } from "../../../test/factories/org-membe
 import { resend } from "../../../lib/resend.js";
 import { resetDbTables } from "../../../test/reset-db-tables.js";
 
-const app = buildServer();
-const client = createMercuriusTestClient(app);
-
 describe("orgInvites", async () => {
 	beforeEach(() => {
 		vi.restoreAllMocks();
@@ -25,10 +22,6 @@ describe("orgInvites", async () => {
 	const user = await UserFactory({ type: "org" });
 
 	const user2 = await UserFactory({ type: "org" });
-
-	client.setHeaders({
-		"x-debug-user": user.email,
-	});
 
 	const organization = await OrganizationFactory({ owner_id: user.id });
 
@@ -64,6 +57,8 @@ describe("orgInvites", async () => {
 	const orgInviteId = encodeGlobalID("OrgInvite", orgInvite.id);
 
 	it("queries an existing org invite", async () => {
+		const client = createMercuriusTestClient(buildServer());
+
 		const result = await client.query<any, { id: string }>(
 			`
 				query GetOrgInvite($id: ID!) {
@@ -94,6 +89,12 @@ describe("orgInvites", async () => {
 	});
 
 	it("invites a user to join an organization", async () => {
+		const client = createMercuriusTestClient(buildServer());
+
+		client.setHeaders({
+			"x-debug-user": user.email,
+		});
+
 		const resendSpy = vi
 			.spyOn(resend.emails, "send")
 			.mockImplementation(() => {
@@ -136,6 +137,12 @@ describe("orgInvites", async () => {
 	});
 
 	it("gives an error if you invite to an org that you aren't a member of", async () => {
+		const client = createMercuriusTestClient(buildServer());
+
+		client.setHeaders({
+			"x-debug-user": user.email,
+		});
+
 		const result = await client.mutate<
 			any,
 			{ input: { email: string; orgId: string; orgRoleId: string } }
@@ -169,6 +176,12 @@ describe("orgInvites", async () => {
 	});
 
 	it("gives an error if you don't have permissions", async () => {
+		const client = createMercuriusTestClient(buildServer());
+
+		client.setHeaders({
+			"x-debug-user": user.email,
+		});
+
 		client.setHeaders({
 			"x-debug-user": user2.email,
 		});

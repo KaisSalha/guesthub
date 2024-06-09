@@ -44,8 +44,6 @@ const Profile = () => {
 
   if (!inviteId || !data?.orgInvite) return <div>Not found</div>;
 
-  console.log(data.orgInvite.user);
-
   return (
     <Layout>
       <Card className="md:w-fit md:p-20" variant="desktopOnly">
@@ -78,7 +76,7 @@ const Profile = () => {
               await updateUser({
                 variables: {
                   input: {
-                    avatar_url,
+                    avatar_url: avatar_url.split("?")[0],
                     first_name,
                     last_name,
                   },
