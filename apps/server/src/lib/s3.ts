@@ -30,15 +30,17 @@ export const generateReadPresignedUrl = async ({
 	duration = 1800, // URL expires in 30 minutes
 	file_name,
 	path,
+	access = "private",
 }: {
 	url?: string;
 	duration?: number;
 	file_name?: string;
 	path?: string;
+	access?: "public" | "private";
 }) => {
 	const Key = url
 		? extractParametersFromUrl(url).path
-		: `${path}/${file_name}`;
+		: `${access}/${path}/${file_name}`;
 
 	const command = new GetObjectCommand({
 		Bucket: config.S3.BUCKET_NAME,

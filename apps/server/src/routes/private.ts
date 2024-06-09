@@ -37,6 +37,7 @@ export const privateRoutes = async (app: FastifyInstance) => {
 				readUrl: await generateReadPresignedUrl({
 					file_name: req.body.filename,
 					path: req.body.path,
+					access: req.body.access,
 				}),
 			};
 		}
