@@ -159,6 +159,11 @@ builder.queryFields((t) => ({
 					throw new Error("User required");
 				}
 
+				const filter = eq(
+					orgInvites.organization_id,
+					parseInt(args.orgId.id)
+				);
+
 				return await resolveWindowedConnection(
 					{ args },
 					async ({ limit }) => {
@@ -166,15 +171,13 @@ builder.queryFields((t) => ({
 							db
 								.select()
 								.from(orgInvites)
-								.where(
-									eq(
-										orgInvites.organization_id,
-										parseInt(args.orgId.id)
-									)
-								)
+								.where(filter)
 								.limit(limit)
 								.offset(args.offset),
-							db.select({ value: count() }).from(orgInvites),
+							db
+								.select({ value: count() })
+								.from(orgInvites)
+								.where(filter),
 						]);
 
 						return {

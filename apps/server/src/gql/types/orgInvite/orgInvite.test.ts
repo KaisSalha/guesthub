@@ -19,6 +19,8 @@ describe("orgInvites", async () => {
 		await resetDbTables();
 	});
 
+	const client = createMercuriusTestClient(buildServer());
+
 	const user = await UserFactory({ type: "org" });
 
 	const user2 = await UserFactory({ type: "org" });
@@ -54,11 +56,14 @@ describe("orgInvites", async () => {
 		org_role_id: orgRole.id,
 	});
 
+	await OrganizationInviteFactory({
+		organization_id: otherOrganization.id,
+		org_role_id: orgRole.id,
+	});
+
 	const orgInviteId = encodeGlobalID("OrgInvite", orgInvite.id);
 
 	it("queries an existing org invite", async () => {
-		const client = createMercuriusTestClient(buildServer());
-
 		const result = await client.query<any, { id: string }>(
 			`
 				query GetOrgInvite($id: ID!) {
@@ -88,9 +93,55 @@ describe("orgInvites", async () => {
 		expect(result.data.orgInvite.id).toBe(orgInviteId);
 	});
 
-	it("invites a user to join an organization", async () => {
-		const client = createMercuriusTestClient(buildServer());
+	it("queries paginated org invites", async () => {
+		client.setHeaders({
+			"x-debug-user": user.email,
+		});
 
+		const result = await client.query<
+			any,
+			{ orgId: string; first: number; offset: number }
+		>(
+			`
+				query GetOrgInvites($first: Int!, $offset: Int!, $orgId: ID!) {
+					orgTeamInvites(first: $first, offset: $offset, orgId: $orgId) {
+					totalCount
+					edges {
+						node {
+							id
+							email
+							status
+							role {
+								id
+								name
+								permissions
+							}
+							created_at
+							updated_at
+						}
+					}
+					pageInfo {
+						hasNextPage
+						hasPreviousPage
+						startCursor
+						endCursor
+						}
+					}
+				}
+			`,
+			{
+				variables: {
+					first: 10,
+					offset: 0,
+					orgId: encodeGlobalID("Organization", organization.id),
+				},
+			}
+		);
+
+		expect(result.data.orgTeamInvites.totalCount).toBe(1);
+	});
+
+	it("invites a user to join an organization", async () => {
 		client.setHeaders({
 			"x-debug-user": user.email,
 		});
@@ -137,8 +188,6 @@ describe("orgInvites", async () => {
 	});
 
 	it("gives an error if you invite to an org that you aren't a member of", async () => {
-		const client = createMercuriusTestClient(buildServer());
-
 		client.setHeaders({
 			"x-debug-user": user.email,
 		});
@@ -176,14 +225,8 @@ describe("orgInvites", async () => {
 	});
 
 	it("gives an error if you don't have permissions", async () => {
-		const client = createMercuriusTestClient(buildServer());
-
 		client.setHeaders({
 			"x-debug-user": user.email,
-		});
-
-		client.setHeaders({
-			"x-debug-user": user2.email,
 		});
 
 		const result = await client.mutate<

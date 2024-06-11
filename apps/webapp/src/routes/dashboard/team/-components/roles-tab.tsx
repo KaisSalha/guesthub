@@ -37,7 +37,6 @@ export const RolesTab = () => {
         <SheetContent
           onPointerDownOutside={(e) => {
             if (tableRef.current?.contains(e.target as Node)) {
-              console.log("tableRef.current", tableRef.current);
               e.preventDefault();
               e.stopPropagation();
               return;

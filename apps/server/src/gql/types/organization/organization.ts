@@ -183,71 +183,64 @@ builder.relayMutationField(
 			isAuthenticated: true,
 		},
 		resolve: async (_root, args, ctx) => {
-			try {
-				if (!ctx.user) {
-					throw new Error("User required");
-				}
-
-				// Create org
-				const [organization] = await db
-					.insert(organizations)
-					.values({
-						name: args.input.name,
-						owner_id: ctx.user.id,
-						website: args.input.website,
-						logo_url: args.input.logo_url,
-						address: args.input.address,
-						city: args.input.city,
-						state: args.input.state,
-						country_code: args.input.country_code,
-						postal_code: args.input.postal_code,
-						timezone: args.input.timezone,
-						lat: args.input.lat,
-						lng: args.input.lng,
-					})
-					.returning()
-					.execute();
-
-				// Add org roles
-				const [role] = await db
-					.insert(orgRoles)
-					.values({
-						name: "admin",
-						organization_id: organization.id,
-						permissions: ADMIN_PERMISSIONS,
-					})
-					.returning()
-					.execute();
-
-				await db
-					.insert(orgRoles)
-					.values({
-						name: "user",
-						organization_id: organization.id,
-						permissions: PERMISSIONS,
-					})
-					.execute();
-
-				// Create membership
-				await db
-					.insert(orgMemberships)
-					.values({
-						user_id: ctx.user.id,
-						org_role_id: role.id,
-						organization_id: organization.id,
-					})
-					.execute();
-
-				return {
-					success: true,
-					organization,
-				};
-			} catch (error) {
-				console.log(error);
-				return {
-					success: false,
-				};
+			if (!ctx.user) {
+				throw new Error("User required");
 			}
+
+			// Create org
+			const [organization] = await db
+				.insert(organizations)
+				.values({
+					name: args.input.name,
+					owner_id: ctx.user.id,
+					website: args.input.website,
+					logo_url: args.input.logo_url,
+					address: args.input.address,
+					city: args.input.city,
+					state: args.input.state,
+					country_code: args.input.country_code,
+					postal_code: args.input.postal_code,
+					timezone: args.input.timezone,
+					lat: args.input.lat,
+					lng: args.input.lng,
+				})
+				.returning()
+				.execute();
+
+			// Add org roles
+			const [role] = await db
+				.insert(orgRoles)
+				.values({
+					name: "admin",
+					organization_id: organization.id,
+					permissions: ADMIN_PERMISSIONS,
+				})
+				.returning()
+				.execute();
+
+			await db
+				.insert(orgRoles)
+				.values({
+					name: "user",
+					organization_id: organization.id,
+					permissions: PERMISSIONS,
+				})
+				.execute();
+
+			// Create membership
+			await db
+				.insert(orgMemberships)
+				.values({
+					user_id: ctx.user.id,
+					org_role_id: role.id,
+					organization_id: organization.id,
+				})
+				.execute();
+
+			return {
+				success: true,
+				organization,
+			};
 		},
 	},
 	{

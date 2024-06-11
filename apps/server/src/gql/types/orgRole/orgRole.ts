@@ -101,19 +101,22 @@ builder.queryFields((t) => ({
 				return await resolveWindowedConnection(
 					{ args },
 					async ({ limit }) => {
+						const filter = eq(
+							orgRoles.organization_id,
+							parseInt(args.orgId.id)
+						);
+
 						const [items, totalCount] = await Promise.all([
 							db
 								.select()
 								.from(orgRoles)
-								.where(
-									eq(
-										orgRoles.organization_id,
-										parseInt(args.orgId.id)
-									)
-								)
+								.where(filter)
 								.limit(limit)
 								.offset(args.offset),
-							db.select({ value: count() }).from(orgRoles),
+							db
+								.select({ value: count() })
+								.from(orgRoles)
+								.where(filter),
 						]);
 
 						return {

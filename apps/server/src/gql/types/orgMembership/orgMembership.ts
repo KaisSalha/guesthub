@@ -95,19 +95,22 @@ builder.queryFields((t) => ({
 				return await resolveWindowedConnection(
 					{ args },
 					async ({ limit }) => {
+						const filter = eq(
+							orgMemberships.organization_id,
+							parseInt(args.orgId.id)
+						);
+
 						const [items, totalCount] = await Promise.all([
 							db
 								.select()
 								.from(orgMemberships)
-								.where(
-									eq(
-										orgMemberships.organization_id,
-										parseInt(args.orgId.id)
-									)
-								)
+								.where(filter)
 								.limit(limit)
 								.offset(args.offset),
-							db.select({ value: count() }).from(orgMemberships),
+							db
+								.select({ value: count() })
+								.from(orgMemberships)
+								.where(filter),
 						]);
 
 						return {
