@@ -26,7 +26,7 @@ const Events = () => {
           </Button>
         </div>
         <ScrollArea>
-          <div className="flex w-max space-x-4 p-2 md:p-0">
+          <div className="flex w-max space-x-4">
             <div className="flex flex-col gap-2 justify-center items-center border border-border border-dashed rounded-lg p-4 min-w-72 h-80 hover:cursor-pointer hover:opacity-85">
               <div className="p-1.5 rounded-full bg-background-inverted">
                 <Plus className="w-10 h-10 text-foreground-inverted" />
