@@ -13,7 +13,7 @@ export function Layout({ children }: LayoutProps) {
       <NavBar />
       <div className="px-2 md:px-6 py-16 md:py-4 flex-1 flex flex-col gap-6 max-w-full overflow-hidden">
         <Header />
-        <div className="flex-1overflow-hidden">{children}</div>
+        <div className="flex-1 overflow-hidden">{children}</div>
       </div>
     </div>
   );
