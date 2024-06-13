@@ -12,6 +12,8 @@ import {
 import { useAuth } from "@/hooks/use-auth";
 import { useMe } from "@/hooks/use-me";
 import { cn } from "@guesthub/ui/lib";
+import { useDocumentTitle } from "usehooks-ts";
+
 // import { NotificationCenter } from "./notification-center";
 
 interface HeaderProps {
@@ -35,6 +37,7 @@ export const useSetHeader = ({
   showSubtitleOnMobile = false,
 }: HeaderProps) => {
   const [_, setHeader] = useAtom(HeaderContext);
+  useDocumentTitle(`GuestHub | ${title}`);
 
   useEffect(() => {
     setHeader({
