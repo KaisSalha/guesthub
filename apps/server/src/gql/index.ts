@@ -4,5 +4,6 @@ import "./types/organization/organization.js";
 import "./types/orgInvite/orgInvite.js";
 import "./types/orgMembership/orgMembership.js";
 import "./types/orgRole/orgRole.js";
+import "./types/event/event.js";
 
 export const schema = builder.toSchema();

@@ -27,14 +27,14 @@ export const Organization = builder.loadableNodeRef("Organization", {
 		});
 
 		return ids.map((id) => {
-			const user = organizations.find(
+			const organization = organizations.find(
 				(organization) => organization.id == parseInt(id)
 			);
 
-			if (!user) {
-				return new Error(`User not found: ${id}`);
+			if (!organization) {
+				return new Error(`Organization not found: ${id}`);
 			}
-			return user;
+			return organization;
 		});
 	},
 });
@@ -82,6 +82,7 @@ Organization.implement({
 			type: "TimeZone",
 			resolve: (parent) => parent.timezone,
 		}),
+		plus_code: t.exposeString("plus_code", { nullable: true }),
 		lat: t.field({
 			type: "Latitude",
 			nullable: true,

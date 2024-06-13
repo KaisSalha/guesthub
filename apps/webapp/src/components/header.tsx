@@ -18,7 +18,7 @@ import { useDocumentTitle } from "usehooks-ts";
 
 interface HeaderProps {
   title: string;
-  subtitle?: string;
+  subtitle?: string | React.ReactNode;
   showOnMobile?: boolean;
   showSubtitleOnMobile?: boolean;
 }
@@ -37,7 +37,9 @@ export const useSetHeader = ({
   showSubtitleOnMobile = false,
 }: HeaderProps) => {
   const [_, setHeader] = useAtom(HeaderContext);
-  useDocumentTitle(`GuestHub | ${title}`);
+  useDocumentTitle(`GuestHub | ${title}`, {
+    preserveTitleOnUnmount: false,
+  });
 
   useEffect(() => {
     setHeader({
@@ -46,6 +48,15 @@ export const useSetHeader = ({
       showOnMobile,
       showSubtitleOnMobile,
     });
+
+    return () => {
+      setHeader({
+        title: "",
+        subtitle: "",
+        showOnMobile: false,
+        showSubtitleOnMobile: false,
+      });
+    };
   }, [setHeader, title, subtitle, showOnMobile, showSubtitleOnMobile]);
 };
 

@@ -4,6 +4,7 @@ import * as organizationsSchema from "./schemas/organizations.js";
 import * as orgRolesSchema from "./schemas/orgRoles.js";
 import * as orgMembershipsSchema from "./schemas/orgMemberships.js";
 import * as orgInvitesSchema from "./schemas/orgInvites.js";
+import * as eventsSchema from "./schemas/events.js";
 
 export default {
 	...usersSchema,
@@ -12,4 +13,5 @@ export default {
 	...orgRolesSchema,
 	...orgMembershipsSchema,
 	...orgInvitesSchema,
+	...eventsSchema,
 };
