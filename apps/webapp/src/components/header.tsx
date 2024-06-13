@@ -11,31 +11,44 @@ import {
 } from "@guesthub/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
 import { useMe } from "@/hooks/use-me";
+import { cn } from "@guesthub/ui/lib";
 // import { NotificationCenter } from "./notification-center";
 
 interface HeaderProps {
   title: string;
   subtitle?: string;
+  showOnMobile?: boolean;
+  showSubtitleOnMobile?: boolean;
 }
 
 const HeaderContext = atom<HeaderProps>({
   title: "",
   subtitle: "",
+  showOnMobile: false,
+  showSubtitleOnMobile: false,
 });
 
-export const useSetHeader = ({ title, subtitle }: HeaderProps) => {
+export const useSetHeader = ({
+  title,
+  subtitle,
+  showOnMobile = false,
+  showSubtitleOnMobile = false,
+}: HeaderProps) => {
   const [_, setHeader] = useAtom(HeaderContext);
 
   useEffect(() => {
     setHeader({
       title,
       subtitle,
+      showOnMobile,
+      showSubtitleOnMobile,
     });
-  }, [setHeader, title, subtitle]);
+  }, [setHeader, title, subtitle, showOnMobile, showSubtitleOnMobile]);
 };
 
 export const Header = () => {
-  const { title, subtitle } = useAtomValue(HeaderContext);
+  const { title, subtitle, showOnMobile, showSubtitleOnMobile } =
+    useAtomValue(HeaderContext);
   const { me } = useMe();
   const router = useRouter();
   const { logout } = useAuth();
@@ -43,12 +56,25 @@ export const Header = () => {
   if (!me) return null;
 
   return (
-    <div className="w-full hidden md:flex flex-row justify-between items-start relative">
+    <div
+      className={cn(
+        "w-full flex-row justify-between items-start relative",
+        showOnMobile && "flex",
+        !showOnMobile && "hidden md:flex"
+      )}
+    >
       <div className="w-fit flex flex-col items-start">
         <h1 className="text-xl font-bold">{title}</h1>
-        <p className="text-sm">{subtitle}</p>
+        <p
+          className={cn(
+            "text-sm",
+            !showSubtitleOnMobile && "hidden md:inline-block"
+          )}
+        >
+          {subtitle}
+        </p>
       </div>
-      <div className="flex flex-row gap-4 items-center">
+      <div className="flex-row gap-4 items-center hidden md:flex">
         {/* <NotificationCenter /> */}
         <DropdownMenu>
           <DropdownMenuTrigger>

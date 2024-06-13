@@ -1,10 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useSetHeader } from "@/components/header";
 import { ScrollArea, ScrollBar } from "@guesthub/ui/scroll-area";
 import { Plus } from "lucide-react";
 import { Button } from "@guesthub/ui/button";
 
 const Events = () => {
+  const navigate = useNavigate();
+
   useSetHeader({
     title: "Events",
     subtitle: "Create and manage event details and schedules",
@@ -18,7 +20,9 @@ const Events = () => {
           <Button
             size="sm"
             onClick={() => {
-              console.log("create event");
+              navigate({
+                to: "/dashboard/events/create-event",
+              });
             }}
             className="cursor-pointer"
           >
@@ -27,7 +31,14 @@ const Events = () => {
         </div>
         <ScrollArea>
           <div className="flex w-max space-x-4">
-            <div className="flex flex-col gap-2 justify-center items-center border border-border border-dashed rounded-lg p-4 min-w-72 h-80 hover:cursor-pointer hover:opacity-85">
+            <div
+              className="flex flex-col gap-2 justify-center items-center border border-border border-dashed rounded-lg p-4 min-w-72 h-80 hover:cursor-pointer hover:opacity-85"
+              onClick={() => {
+                navigate({
+                  to: "/dashboard/events/create-event",
+                });
+              }}
+            >
               <div className="p-1.5 rounded-full bg-background-inverted">
                 <Plus className="w-10 h-10 text-foreground-inverted" />
               </div>

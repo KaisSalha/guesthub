@@ -30,6 +30,7 @@ import { Route as DashboardEventsIndexImport } from './routes/dashboard/events/i
 import { Route as DashboardCalendarIndexImport } from './routes/dashboard/calendar/index'
 import { Route as DashboardAccountIndexImport } from './routes/dashboard/account/index'
 import { Route as TeamInviteSignupProfileIndexImport } from './routes/team-invite/signup/profile/index'
+import { Route as DashboardEventsCreateEventIndexImport } from './routes/dashboard/events/create-event/index'
 
 // Create/Update Routes
 
@@ -129,6 +130,12 @@ const TeamInviteSignupProfileIndexRoute =
     getParentRoute: () => rootRoute,
   } as any)
 
+const DashboardEventsCreateEventIndexRoute =
+  DashboardEventsCreateEventIndexImport.update({
+    path: '/events/create-event/',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -205,6 +212,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamInviteSignupIndexImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/events/create-event/': {
+      preLoaderRoute: typeof DashboardEventsCreateEventIndexImport
+      parentRoute: typeof DashboardImport
+    }
     '/team-invite/signup/profile/': {
       preLoaderRoute: typeof TeamInviteSignupProfileIndexImport
       parentRoute: typeof rootRoute
@@ -226,6 +237,7 @@ export const routeTree = rootRoute.addChildren([
     DashboardReportsIndexRoute,
     DashboardRequestsIndexRoute,
     DashboardTeamIndexRoute,
+    DashboardEventsCreateEventIndexRoute,
   ]),
   LoginIndexRoute,
   SignupIndexRoute,
