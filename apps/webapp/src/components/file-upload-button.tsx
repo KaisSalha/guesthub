@@ -7,6 +7,7 @@ interface BaseProps {
   children: React.ReactNode;
   buttonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   path: string;
+  access?: "public" | "private";
 }
 
 interface SingleFileUploadProps extends BaseProps {
@@ -25,7 +26,7 @@ type FileUploadButtonProps = ButtonProps &
   (SingleFileUploadProps | MultipleFileUploadProps);
 
 export const FileUploadButton = (props: FileUploadButtonProps) => {
-  const { multiple, children, buttonProps, path } = props;
+  const { multiple, children, buttonProps, path, access = "private" } = props;
   const { uploadFile, uploadFiles, isPending } = useUpload();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -33,13 +34,17 @@ export const FileUploadButton = (props: FileUploadButtonProps) => {
     const files = event.target.files;
     if (files) {
       if (multiple) {
-        const urls = await uploadFiles(Array.from(files), path);
+        const urls = await uploadFiles({
+          files: Array.from(files),
+          path,
+          access,
+        });
         if (props.onFilesUploaded) {
           props.onFilesUploaded(urls);
         }
       } else {
         const file = files[0];
-        const url = await uploadFile(file, path);
+        const url = await uploadFile({ file, path, access });
         if (props.onFileUploaded) {
           props.onFileUploaded(url);
         }

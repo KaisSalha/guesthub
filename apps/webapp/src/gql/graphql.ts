@@ -15,27 +15,27 @@ export type Scalars = {
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
   /** A country code as defined by ISO 3166-1 alpha-2 */
-  CountryCode: { input: any; output: any; }
+  CountryCode: { input: string; output: string; }
   /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  Date: { input: any; output: any; }
+  Date: { input: Date; output: Date; }
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  DateTime: { input: any; output: any; }
+  DateTime: { input: Date; output: Date; }
   /** A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address. */
-  Email: { input: any; output: any; }
+  Email: { input: string; output: string; }
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSON: { input: any; output: any; }
+  JSON: { input: Record<string, any>; output: Record<string, any>; }
   /** A field whose value is a valid decimal degrees latitude number (53.471): https://en.wikipedia.org/wiki/Latitude */
-  Latitude: { input: any; output: any; }
+  Latitude: { input: number; output: number; }
   /** A field whose value is a valid decimal degrees longitude number (53.471): https://en.wikipedia.org/wiki/Longitude */
-  Longitude: { input: any; output: any; }
+  Longitude: { input: number; output: number; }
   /** A string that cannot be passed as an empty value */
-  NonEmptyString: { input: any; output: any; }
+  NonEmptyString: { input: string; output: string; }
   /** S3 File URL with presigned URL generation */
-  S3File: { input: any; output: any; }
+  S3File: { input: string; output: string; }
   /** A field whose value exists in the standard IANA Time Zone Database: https://www.iana.org/time-zones */
-  TimeZone: { input: any; output: any; }
+  TimeZone: { input: string; output: string; }
   /** The javascript `Date` as integer. Type represents date and time as number of milliseconds from start of UNIX epoch. */
-  Timestamp: { input: any; output: any; }
+  Timestamp: { input: number; output: number; }
 };
 
 export type AcceptInvitationInput = {
@@ -428,14 +428,14 @@ export type User = Node & {
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: any, first_name?: string | null, last_name?: string | null, avatar_url?: any | null, type: string, created_at?: any | null, orgMemberships: Array<{ __typename?: 'OrgMembership', id: string, role: { __typename?: 'OrgRole', id: string, name: string, permissions: any }, organization: { __typename?: 'Organization', id: string, name: string, owner_id: string, website?: string | null, logo_url?: any | null, address: string, city: string, state?: string | null, country_code: any, postal_code?: string | null, timezone: any, lat?: any | null, lng?: any | null } }> } | null };
+export type GetMeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, email: string, first_name?: string | null, last_name?: string | null, avatar_url?: string | null, type: string, created_at?: number | null, orgMemberships: Array<{ __typename?: 'OrgMembership', id: string, role: { __typename?: 'OrgRole', id: string, name: string, permissions: Record<string, any> }, organization: { __typename?: 'Organization', id: string, name: string, owner_id: string, website?: string | null, logo_url?: string | null, address: string, city: string, state?: string | null, country_code: string, postal_code?: string | null, timezone: string, lat?: number | null, lng?: number | null } }> } | null };
 
 export type GetEventQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type GetEventQuery = { __typename?: 'Query', event?: { __typename?: 'Event', id: string, name: string, tagline?: string | null, banner_url?: any | null, logo_url?: any | null, updated_at?: any | null } | null };
+export type GetEventQuery = { __typename?: 'Query', event?: { __typename?: 'Event', id: string, name: string, tagline?: string | null, banner_url?: string | null, logo_url?: string | null, updated_at?: number | null } | null };
 
 export type CreateEventMutationVariables = Exact<{
   input: CreateEventInput;
@@ -456,7 +456,7 @@ export type GetOrgEventsQuery = { __typename?: 'Query', orgEvents: { __typename?
         & { ' $fragmentRefs'?: { 'GetEvents_EventsFragment': GetEvents_EventsFragment } }
       ) } | null>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
 
-export type GetEvents_EventsFragment = { __typename?: 'Event', id: string, name: string, tagline?: string | null, banner_url?: any | null, logo_url?: any | null, start_time: any, end_time: any, address: string, city: string } & { ' $fragmentName'?: 'GetEvents_EventsFragment' };
+export type GetEvents_EventsFragment = { __typename?: 'Event', id: string, name: string, tagline?: string | null, banner_url?: string | null, logo_url?: string | null, start_time: number, end_time: number, address: string, city: string } & { ' $fragmentName'?: 'GetEvents_EventsFragment' };
 
 export type GetOrgRolesQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -470,7 +470,7 @@ export type GetOrgRolesQuery = { __typename?: 'Query', orgRoles: { __typename?: 
         & { ' $fragmentRefs'?: { 'GetOrgRoles_RolesFragment': GetOrgRoles_RolesFragment } }
       ) } | null>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
 
-export type GetOrgRoles_RolesFragment = { __typename?: 'OrgRole', id: string, name: string, permissions: any, updated_at?: any | null } & { ' $fragmentName'?: 'GetOrgRoles_RolesFragment' };
+export type GetOrgRoles_RolesFragment = { __typename?: 'OrgRole', id: string, name: string, permissions: Record<string, any>, updated_at?: number | null } & { ' $fragmentName'?: 'GetOrgRoles_RolesFragment' };
 
 export type InviteTeamMemberForm_RolesFragment = { __typename?: 'OrgRole', id: string, name: string } & { ' $fragmentName'?: 'InviteTeamMemberForm_RolesFragment' };
 
@@ -493,7 +493,7 @@ export type GetOrgInvitesQuery = { __typename?: 'Query', orgTeamInvites?: { __ty
         & { ' $fragmentRefs'?: { 'GetOrgInvites_InvitesFragment': GetOrgInvites_InvitesFragment } }
       ) } | null>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } | null };
 
-export type GetOrgInvites_InvitesFragment = { __typename?: 'OrgInvite', id: string, email: any, status: OrgInviteStatus, created_at?: any | null, updated_at?: any | null, role: { __typename?: 'OrgRole', id: string, name: string, permissions: any } } & { ' $fragmentName'?: 'GetOrgInvites_InvitesFragment' };
+export type GetOrgInvites_InvitesFragment = { __typename?: 'OrgInvite', id: string, email: string, status: OrgInviteStatus, created_at?: number | null, updated_at?: number | null, role: { __typename?: 'OrgRole', id: string, name: string, permissions: Record<string, any> } } & { ' $fragmentName'?: 'GetOrgInvites_InvitesFragment' };
 
 export type GetOrgMembersQueryVariables = Exact<{
   first: Scalars['Int']['input'];
@@ -507,7 +507,7 @@ export type GetOrgMembersQuery = { __typename?: 'Query', orgMembers: { __typenam
         & { ' $fragmentRefs'?: { 'GetOrgMembers_MembersFragment': GetOrgMembers_MembersFragment } }
       ) } | null>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
 
-export type GetOrgMembers_MembersFragment = { __typename?: 'OrgMembership', id: string, updated_at?: any | null, user: { __typename?: 'User', id: string, email: any, full_name: string, avatar_url?: any | null, type: string }, role: { __typename?: 'OrgRole', id: string, name: string, permissions: any } } & { ' $fragmentName'?: 'GetOrgMembers_MembersFragment' };
+export type GetOrgMembers_MembersFragment = { __typename?: 'OrgMembership', id: string, updated_at?: number | null, user: { __typename?: 'User', id: string, email: string, full_name: string, avatar_url?: string | null, type: string }, role: { __typename?: 'OrgRole', id: string, name: string, permissions: Record<string, any> } } & { ' $fragmentName'?: 'GetOrgMembers_MembersFragment' };
 
 export type TeamTabQueryQueryVariables = Exact<{
   orgId: Scalars['ID']['input'];
@@ -538,7 +538,7 @@ export type GetOrgInviteQueryVariables = Exact<{
 }>;
 
 
-export type GetOrgInviteQuery = { __typename?: 'Query', orgInvite?: { __typename?: 'OrgInvite', id: string, email: any, organization: { __typename?: 'Organization', id: string, name: string, logo_url?: any | null }, user?: { __typename?: 'User', id: string, email: any, profile_completed: boolean } | null } | null };
+export type GetOrgInviteQuery = { __typename?: 'Query', orgInvite?: { __typename?: 'OrgInvite', id: string, email: string, organization: { __typename?: 'Organization', id: string, name: string, logo_url?: string | null }, user?: { __typename?: 'User', id: string, email: string, profile_completed: boolean } | null } | null };
 
 export type AcceptInvitationMutationVariables = Exact<{
   input: AcceptInvitationInput;

@@ -134,8 +134,8 @@ export const formatDateWindow = ({
   ts2,
   options,
 }: {
-  ts1: Date;
-  ts2: Date;
+  ts1: Date | number;
+  ts2: Date | number;
   options?: FormatOptions;
 }) => {
   return `${formatTimestamp(ts1, "DATE", options)} - ${formatTimestamp(

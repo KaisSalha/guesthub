@@ -79,7 +79,7 @@ const Events = () => {
                 key={node.id}
                 onClick={() => onEventClick(node.id)}
               >
-                <img src={node.banner_url} alt={node.name} />
+                <img src={node.banner_url!} alt={node.name} />
                 <Card.Header className="px-3 py-4">
                   <Card.Title>{node.name}</Card.Title>
                 </Card.Header>

@@ -67,7 +67,7 @@ export const useMe = () => {
     () =>
       selectedMembership?.organization.owner_id === data?.me?.id
         ? OWNER_PERMISSIONS
-        : selectedMembership?.role?.permissions,
+        : (selectedMembership?.role?.permissions as PERMISSIONS),
     [
       data?.me?.id,
       selectedMembership?.organization.owner_id,

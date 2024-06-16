@@ -15,6 +15,21 @@ const config: CodegenConfig = {
   generates: {
     "src/gql/": {
       preset: "client",
+      config: {
+        scalars: {
+          DateTime: "Date",
+          JSON: "Record<string, any>",
+          Date: "Date",
+          Timestamp: "number",
+          Email: "string",
+          CountryCode: "string",
+          Latitude: "number",
+          Longitude: "number",
+          NonEmptyString: "string",
+          TimeZone: "string",
+          S3File: "string",
+        },
+      },
     },
   },
 };
