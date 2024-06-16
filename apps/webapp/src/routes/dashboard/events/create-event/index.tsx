@@ -46,7 +46,7 @@ const CreateEvent = () => {
     CreateEventMutationVariables
   >(CreateEvent.mutations.createEvent, {
     update(cache) {
-      cache.evict({ fieldName: "me" });
+      cache.evict({ fieldName: "orgEvents" });
       cache.gc();
     },
   });

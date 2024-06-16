@@ -117,6 +117,8 @@ builder.scalarType("S3File", {
 	serialize: async (value: { url: string; duration?: number }) => {
 		// Ensure the value is of the expected format
 		if (typeof value === "object" && "url" in value) {
+			if (value.url.includes("/public/")) return value.url;
+
 			return await generateReadPresignedUrl({
 				url: value.url,
 				duration: value.duration,

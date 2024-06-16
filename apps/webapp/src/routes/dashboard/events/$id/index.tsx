@@ -3,6 +3,7 @@ import { useSetHeader } from "@/components/header";
 import { graphql } from "gql.tada";
 import { useQuery } from "@apollo/client";
 import { GetEventQuery, GetEventQueryVariables } from "@/gql/graphql";
+import { client } from "@/lib/apollo-client";
 
 const Event = () => {
   const { id } = Route.useParams();
@@ -35,5 +36,11 @@ Event.query = graphql(/* GraphQL */ `
 `);
 
 export const Route = createFileRoute("/dashboard/events/$id/")({
+  loader: async ({ params: { id } }) => {
+    await client.query({
+      query: Event.query,
+      variables: { id },
+    });
+  },
   component: Event,
 });

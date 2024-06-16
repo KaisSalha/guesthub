@@ -119,8 +119,8 @@ export const RolesTab = () => {
                 enableSorting: false,
                 enableHiding: false,
                 meta: {
-                  headerClass: "w-fit min-w-2 md:max-w-2",
-                  cellClass: "w-fit min-w-2 md:max-w-2",
+                  headerClass: "w-fit min-w-3 md:max-w-3",
+                  cellClass: "w-fit min-w-3 md:max-w-3",
                 },
               },
               {

@@ -14,7 +14,22 @@ type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
   ? I
   : never;
 
-export type Unmasked<TFrag, TDepth extends number = 9> = TDepth extends 0
+type FlattenedRefs<TFrag, TDepth extends number> = TDepth extends 0
+  ? TFrag
+  : TFrag extends { " $fragmentRefs"?: infer TFragRefs }
+    ? FlattenedRefs<
+        Prettify<
+          Omit<TFrag, " $fragmentRefs" | " $fragmentName"> &
+            Omit<
+              UnionToIntersection<ValuesOf<NonNullable<TFragRefs>>>,
+              " $fragmentName"
+            >
+        >,
+        Decr[TDepth]
+      >
+    : TFrag;
+
+export type Unmasked<TFrag, TDepth extends number = 1> = TDepth extends 0
   ? TFrag
   : FlattenedRefs<TFrag, TDepth> extends infer TFlattened
     ? {
@@ -28,18 +43,3 @@ export type Unmasked<TFrag, TDepth extends number = 9> = TDepth extends 0
             : TFlattened[TField];
       }
     : never;
-
-type FlattenedRefs<TFrag, TDepth extends number> = TFrag extends {
-  " $fragmentRefs"?: infer TFragRefs;
-}
-  ? FlattenedRefs<
-      Prettify<
-        Omit<TFrag, " $fragmentRefs" | " $fragmentName"> &
-          Omit<
-            UnionToIntersection<ValuesOf<NonNullable<TFragRefs>>>,
-            " $fragmentName"
-          >
-      >,
-      TDepth
-    >
-  : TFrag;

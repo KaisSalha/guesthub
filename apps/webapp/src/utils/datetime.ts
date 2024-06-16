@@ -129,6 +129,22 @@ export const formatDateTimeWindow = ({
   )}`;
 };
 
+export const formatDateWindow = ({
+  ts1,
+  ts2,
+  options,
+}: {
+  ts1: Date;
+  ts2: Date;
+  options?: FormatOptions;
+}) => {
+  return `${formatTimestamp(ts1, "DATE", options)} - ${formatTimestamp(
+    ts2,
+    "DATE",
+    options
+  )}`;
+};
+
 export const getNextDayOfWeek = ({
   dayOfWeek,
   date = new Date(),

@@ -5,11 +5,32 @@ import { useEffect, useMemo } from "react";
 import { atomWithStorage } from "jotai/utils";
 import { useAtom } from "jotai";
 import { OWNER_PERMISSIONS, PERMISSIONS } from "@/utils/permissions";
+import { client } from "@/lib/apollo-client";
+import { jotaiStore } from "@/lib/jotai-store";
 
-const selectedMembershipIdAtom = atomWithStorage<string | undefined>(
+export const selectedMembershipIdAtom = atomWithStorage<string | undefined>(
   "selectedMembership",
   undefined
 );
+
+export const getMe = async () => {
+  const { data } = await client.query<GetMeQuery>({
+    query: useMe.query,
+  });
+
+  const selectedMembershipId = jotaiStore.get(selectedMembershipIdAtom);
+
+  if (!selectedMembershipId) {
+    jotaiStore.set(selectedMembershipIdAtom, data?.me?.orgMemberships[0]?.id);
+  }
+
+  return {
+    me: data?.me,
+    selectedMembership: data?.me?.orgMemberships.find(
+      (orgMembership) => orgMembership.id === selectedMembershipId
+    ),
+  };
+};
 
 export const useMe = () => {
   const { data, loading, error, client, refetch } = useQuery<GetMeQuery>(
