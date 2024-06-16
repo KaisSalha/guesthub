@@ -262,7 +262,7 @@ describe("events", async () => {
 						orgId: encodeGlobalID("Organization", organization.id),
 						name: "Test Event",
 						start_time: "2022-01-01T00:00:00",
-						end_time: "2022-01-01T00:00:00",
+						end_time: "2022-01-01T10:00:00",
 						tagline: "Test Event Tagline",
 						website: "https://test.com",
 						logo_url: "https://test.com/logo.png",
@@ -283,6 +283,73 @@ describe("events", async () => {
 
 		expect(result.data.createEvent.event.id).toBeDefined();
 		expect(result.data.createEvent.event.name).toBe("Test Event");
+	});
+
+	it("throws an error creating an event if end time is less than start time", async () => {
+		client.setHeaders({
+			"x-debug-user": user.email,
+		});
+
+		const result = await client.query<
+			any,
+			{
+				input: {
+					orgId: string;
+					name: string;
+					start_time: string;
+					end_time: string;
+					tagline: string;
+					website: string;
+					logo_url: string;
+					banner_url: string;
+					plus_code: string;
+					lat: number;
+					lng: number;
+					address: string;
+					city: string;
+					state: string;
+					country_code: string;
+					postal_code: string;
+					timezone: string;
+				};
+			}
+		>(
+			`
+                mutation CreateEvent($input: CreateEventInput!) {
+                    createEvent(input: $input) {
+                        event {
+                            id
+                            name
+                        }
+                    }
+                }
+            `,
+			{
+				variables: {
+					input: {
+						orgId: encodeGlobalID("Organization", organization.id),
+						name: "Test Event",
+						start_time: "2022-01-02T00:00:00",
+						end_time: "2022-01-01T00:00:00",
+						tagline: "Test Event Tagline",
+						website: "https://test.com",
+						logo_url: "https://test.com/logo.png",
+						banner_url: "https://test.com/banner.png",
+						address: "123 Main St",
+						city: "San Francisco",
+						state: "CA",
+						country_code: "US",
+						postal_code: "94101",
+						plus_code: "1234567890",
+						lat: 37.774929,
+						lng: -122.398468,
+						timezone: "America/Los_Angeles",
+					},
+				},
+			}
+		);
+
+		expect(result.errors).toBeDefined();
 	});
 
 	it("gives an error if the user doesn't belong to the organization", async () => {

@@ -277,6 +277,10 @@ builder.relayMutationField(
 				throw new Error("User required");
 			}
 
+			if (args.input.end_time <= args.input.start_time) {
+				throw new Error("End time must be greater than start time");
+			}
+
 			// Create org
 			const [event] = await db
 				.insert(events)

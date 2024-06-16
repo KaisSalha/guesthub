@@ -56,31 +56,36 @@ const CreateEvent = () => {
   return (
     <div className="flex flex-col gap-10 mb-28">
       <Form
-        formSchema={z.object({
-          banner_url: z.string().min(1, { message: "Banner is required" }),
-          logo_url: z.string().min(1, { message: "Logo is required" }),
-          name: z.string().min(2, { message: "Name is required" }),
-          tagline: z.optional(z.string()),
-          website: z.optional(
-            z.string().trim().url({ message: "Invalid URL" })
-          ),
-          address: z.string().min(5, { message: "Address is required" }),
-          city: z.string().min(2, { message: "City is required" }),
-          state: z.optional(z.string().min(2, { message: "Invalid state" })),
-          postal_code: z.optional(
-            z.string().min(2, { message: "Invalid postal code" })
-          ),
-          country_code: z
-            .string()
-            .length(2, { message: "Country is required" }),
-          timezone: z.string().min(2, { message: "Invalid timezone" }),
-          start_time: z.date({
-            required_error: "Start time is required",
-          }),
-          end_time: z.date({
-            required_error: "End time is required",
-          }),
-        })}
+        formSchema={z
+          .object({
+            banner_url: z.string().min(1, { message: "Banner is required" }),
+            logo_url: z.string().min(1, { message: "Logo is required" }),
+            name: z.string().min(2, { message: "Name is required" }),
+            tagline: z.optional(z.string()),
+            website: z.optional(
+              z.string().trim().url({ message: "Invalid URL" })
+            ),
+            address: z.string().min(5, { message: "Address is required" }),
+            city: z.string().min(2, { message: "City is required" }),
+            state: z.optional(z.string().min(2, { message: "Invalid state" })),
+            postal_code: z.optional(
+              z.string().min(2, { message: "Invalid postal code" })
+            ),
+            country_code: z
+              .string()
+              .length(2, { message: "Country is required" }),
+            timezone: z.string().min(2, { message: "Invalid timezone" }),
+            start_time: z.date({
+              required_error: "Start time is required",
+            }),
+            end_time: z.date({
+              required_error: "End time is required",
+            }),
+          })
+          .refine((schema) => schema.end_time > schema.start_time, {
+            message: "End time must be greater than start time",
+            path: ["end_time"],
+          })}
         onSubmit={async (formData) => {
           if (!selectedMembership?.organization.id) {
             return;
