@@ -13,8 +13,8 @@ import { Input } from "@guesthub/ui/input";
 import { Button } from "@guesthub/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@guesthub/ui/avatar";
 import { User } from "lucide-react";
-import { ImageUploadModalButton } from "../image-upload-modal-button";
 import { useMe } from "@/hooks/use-me";
+import { ImageUploadModal } from "../image-upload-modal";
 
 interface Props {
   onSubmit: (values: {
@@ -60,19 +60,22 @@ export const UserProfileForm = ({ onSubmit, loading }: Props) => {
                       </AvatarFallback>
                     </Avatar>
                     <FormControl>
-                      <ImageUploadModalButton
+                      <ImageUploadModal
                         onFileUploaded={(url) => {
                           form.setValue("avatar_url", url);
                         }}
                         {...field}
-                        variant="outline"
                         path="avatars"
                         filename={me!.id}
                         circularCrop
                         aspect={1}
+                        title="Profile picture"
+                        access="public"
                       >
-                        Upload a profile picture
-                      </ImageUploadModalButton>
+                        <Button type="button" variant="outline">
+                          Upload a profile picture
+                        </Button>
+                      </ImageUploadModal>
                     </FormControl>
                   </div>
                   <FormMessage />

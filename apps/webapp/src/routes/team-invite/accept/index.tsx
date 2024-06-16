@@ -11,6 +11,7 @@ import {
   AcceptInvitationMutation,
   GetOrgInviteQuery,
   GetMeDocument,
+  GetOrgInviteQueryVariables,
 } from "@/gql/graphql";
 import { Card } from "@guesthub/ui/card";
 import { GetOrgInvite } from "../-queries";
@@ -23,13 +24,13 @@ const Accept = () => {
   const { refetch } = useMe();
   const navigate = useNavigate();
   const { inviteId } = Route.useSearch();
-  const { data, loading: isLoadingInvite } = useQuery<GetOrgInviteQuery>(
-    GetOrgInvite,
-    {
-      variables: { id: inviteId },
-      skip: !inviteId || isLoading,
-    }
-  );
+  const { data, loading: isLoadingInvite } = useQuery<
+    GetOrgInviteQuery,
+    GetOrgInviteQueryVariables
+  >(GetOrgInvite, {
+    variables: { id: inviteId },
+    skip: !inviteId || isLoading,
+  });
   const [acceptInvitation, { loading: isLoadingAccept }] =
     useMutation<AcceptInvitationMutation>(Accept.mutation, {
       update(cache) {

@@ -13,7 +13,6 @@ import {
 import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "@guesthub/ui/avatar";
 import { Building2 } from "lucide-react";
-import { ImageUploadModalButton } from "@/components/image-upload-modal-button";
 import locationTimezone from "node-location-timezone";
 import { Combobox } from "@guesthub/ui/combobox";
 import { useTheme } from "next-themes";
@@ -22,6 +21,7 @@ import { graphql } from "gql.tada";
 import { useMutation } from "@apollo/client";
 import { useMe } from "@/hooks/use-me";
 import { toast } from "sonner";
+import { ImageUploadModal } from "@/components/image-upload-modal";
 
 const Organization = () => {
   const { me } = useMe();
@@ -81,16 +81,6 @@ const Organization = () => {
                 postal_code,
                 timezone,
                 country_code,
-              }: {
-                logo_url: string;
-                name: string;
-                website: string;
-                address: string;
-                city: string;
-                state?: string;
-                postal_code?: string;
-                timezone: string;
-                country_code: string;
               }) => {
                 const { errors } = await createOrganization({
                   variables: {
@@ -151,18 +141,21 @@ const Organization = () => {
                             </AvatarFallback>
                           </Avatar>
                           <FormControl>
-                            <ImageUploadModalButton
+                            <ImageUploadModal
                               onFileUploaded={(url) => {
                                 form.setValue("logo_url", url);
                               }}
                               {...field}
-                              variant="outline"
                               path="organizations/logos"
                               filename={me!.id}
                               aspect={1}
+                              title="Organization logo"
+                              access="public"
                             >
-                              Upload a logo
-                            </ImageUploadModalButton>
+                              <Button type="button" variant="outline">
+                                Upload a logo
+                              </Button>
+                            </ImageUploadModal>
                           </FormControl>
                         </div>
                         <FormMessage />

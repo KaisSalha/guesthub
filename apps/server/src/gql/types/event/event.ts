@@ -131,7 +131,7 @@ Event.implement({
 });
 
 builder.queryFields((t) => ({
-	orgEvent: t
+	event: t
 		.withAuth({
 			isAuthenticated: true,
 		})
@@ -205,3 +205,119 @@ builder.queryFields((t) => ({
 			},
 		}),
 }));
+
+builder.relayMutationField(
+	"createEvent",
+	{
+		inputFields: (t) => ({
+			orgId: t.globalID({ required: true }),
+			name: t.field({
+				type: "NonEmptyString",
+				required: true,
+			}),
+			address: t.field({
+				type: "NonEmptyString",
+				required: true,
+			}),
+			city: t.field({
+				type: "NonEmptyString",
+				required: true,
+			}),
+			state: t.string({ required: false }),
+			country_code: t.field({
+				type: "CountryCode",
+				required: true,
+			}),
+			postal_code: t.string({ required: false }),
+			timezone: t.field({
+				type: "TimeZone",
+				required: true,
+			}),
+			start_time: t.field({
+				type: "Timestamp",
+				required: true,
+			}),
+			end_time: t.field({
+				type: "Timestamp",
+				required: true,
+			}),
+			tagline: t.string({ required: false }),
+			website: t.string({ required: false }),
+			logo_url: t.string({ required: false }),
+			banner_url: t.string({ required: false }),
+			plus_code: t.string({ required: false }),
+			lat: t.field({
+				type: "Latitude",
+				required: false,
+			}),
+			lng: t.field({
+				type: "Longitude",
+				required: false,
+			}),
+		}),
+	},
+	{
+		authScopes: async (_, args, ctx) => {
+			if (!ctx.user) {
+				throw new Error("User required");
+			}
+
+			const membership = ctx.user.orgMemberships?.find(
+				(orgMembership) =>
+					orgMembership.organization.id ===
+					parseInt(args.input.orgId.id)
+			);
+
+			if (!membership) return false;
+
+			return membership.role.permissions.CAN_UPDATE_EVENT;
+		},
+		resolve: async (_root, args, ctx) => {
+			if (!ctx.user) {
+				throw new Error("User required");
+			}
+
+			// Create org
+			const [event] = await db
+				.insert(events)
+				.values({
+					name: args.input.name,
+					tagline: args.input.tagline,
+					organization_id: parseInt(args.input.orgId.id),
+					created_by_id: ctx.user.id,
+					website: args.input.website,
+					logo_url: args.input.logo_url,
+					banner_url: args.input.banner_url,
+					address: args.input.address,
+					city: args.input.city,
+					state: args.input.state,
+					country_code: args.input.country_code,
+					postal_code: args.input.postal_code,
+					timezone: args.input.timezone,
+					lat: args.input.lat,
+					lng: args.input.lng,
+					start_time: args.input.start_time,
+					end_time: args.input.end_time,
+				})
+				.returning()
+				.execute();
+
+			return {
+				success: true,
+				event,
+			};
+		},
+	},
+	{
+		outputFields: (t) => ({
+			success: t.boolean({
+				resolve: (result) => result.success,
+			}),
+			event: t.field({
+				type: Event,
+				nullable: true,
+				resolve: (result) => result?.event,
+			}),
+		}),
+	}
+);

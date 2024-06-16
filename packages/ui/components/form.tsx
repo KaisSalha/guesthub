@@ -89,8 +89,10 @@ FormItem.displayName = "FormItem";
 
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & {
+    optional?: boolean;
+  }
+>(({ className, optional, ...props }, ref) => {
   const { error, formItemId } = useFormField();
 
   return (
@@ -99,7 +101,10 @@ const FormLabel = React.forwardRef<
       className={cn(error && "text-foreground-destructive", className)}
       htmlFor={formItemId}
       {...props}
-    />
+    >
+      {props.children}
+      {optional && <span className="text-foreground-subtle"> (optional)</span>}
+    </Label>
   );
 });
 FormLabel.displayName = "FormLabel";
@@ -180,43 +185,40 @@ interface FormProps<TFormValues extends FieldValues> {
   ) => React.ReactNode;
   className?: string;
   mode?: "onBlur" | "onChange" | "onSubmit" | "onTouched" | "all" | undefined;
+  formRef?: React.Ref<{
+    submit: () => void;
+  }>;
 }
 
-type Ref =
-  | {
-      submit: () => void;
-    }
-  | null
-  | undefined;
+const Form = <TFormValues extends FieldValues>({
+  formSchema,
+  defaultValues,
+  onSubmit,
+  fields,
+  className,
+  mode = "onBlur",
+  formRef,
+}: FormProps<TFormValues>) => {
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues,
+    mode,
+  });
 
-const Form = React.forwardRef<Ref, FormProps<any>>(
-  (
-    { formSchema, defaultValues, onSubmit, fields, className, mode = "onBlur" },
-    ref
-  ) => {
-    const form = useForm({
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      /* @ts-ignore */
-      resolver: zodResolver(formSchema),
-      defaultValues,
-      mode,
-    });
+  React.useImperativeHandle(formRef, () => ({
+    submit() {
+      form.handleSubmit(onSubmit)();
+    },
+  }));
 
-    React.useImperativeHandle(ref, () => ({
-      submit() {
-        form.handleSubmit(onSubmit)();
-      },
-    }));
-
-    return (
-      <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
-          {fields(form)}
-        </form>
-      </FormProvider>
-    );
-  }
-);
+  return (
+    <FormProvider {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className={className}>
+        {fields(form)}
+      </form>
+    </FormProvider>
+  );
+};
 
 export {
   useFormField,

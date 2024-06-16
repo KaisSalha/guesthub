@@ -13,14 +13,20 @@ interface FileUploadProgress {
   url: string;
 }
 
-const getPresignedUploadUrl = async (
-  filename: string,
-  contentType: string,
-  path: string
-): Promise<PresignedUrlResponse> => {
+const getPresignedUploadUrl = async ({
+  filename,
+  contentType,
+  path,
+  access,
+}: {
+  filename: string;
+  contentType: string;
+  path: string;
+  access?: "public" | "private";
+}): Promise<PresignedUrlResponse> => {
   const response = await axios.post<PresignedUrlResponse>(
     `${import.meta.env.VITE_API_ENDPOINT}/generate-file-upload-presigned-url`,
-    { filename, contentType, path },
+    { filename, contentType, path, access },
     {
       withCredentials: true,
     }
@@ -41,12 +47,21 @@ export const useUpload = () => {
 
   // Mutation for single file upload
   const singleFileMutation = useMutation({
-    mutationFn: async ({ file, path }: { file: File; path: string }) => {
-      const presignedUrl = await getPresignedUploadUrl(
-        file.name,
-        file.type,
-        path
-      );
+    mutationFn: async ({
+      file,
+      path,
+      access,
+    }: {
+      file: File;
+      path: string;
+      access?: "public" | "private";
+    }) => {
+      const presignedUrl = await getPresignedUploadUrl({
+        filename: file.name,
+        contentType: file.type,
+        path,
+        access,
+      });
 
       await axios.put(presignedUrl.url, file, {
         headers: {
@@ -65,12 +80,21 @@ export const useUpload = () => {
 
   // Mutation for multiple file uploads
   const multipleFilesMutation = useMutation({
-    mutationFn: async ({ file, path }: { file: File; path: string }) => {
-      const presignedUrl = await getPresignedUploadUrl(
-        file.name,
-        file.type,
-        path
-      );
+    mutationFn: async ({
+      file,
+      path,
+      access,
+    }: {
+      file: File;
+      path: string;
+      access?: "public" | "private";
+    }) => {
+      const presignedUrl = await getPresignedUploadUrl({
+        filename: file.name,
+        contentType: file.type,
+        path,
+        access,
+      });
 
       await axios.put(presignedUrl.url, file, {
         headers: {
@@ -97,14 +121,30 @@ export const useUpload = () => {
   });
 
   // Function to upload a single file
-  const uploadFile = async (file: File, path: string) => {
+  const uploadFile = async ({
+    file,
+    path,
+    access,
+  }: {
+    file: File;
+    path: string;
+    access?: "public" | "private";
+  }) => {
     setProgress(0);
-    const url = await singleFileMutation.mutateAsync({ file, path });
+    const url = await singleFileMutation.mutateAsync({ file, path, access });
     return url; // Return the URL
   };
 
   // Function to upload multiple files
-  const uploadFiles = async (files: File[], path: string) => {
+  const uploadFiles = async ({
+    files,
+    path,
+    access,
+  }: {
+    files: File[];
+    path: string;
+    access?: "public" | "private";
+  }) => {
     const initialFilesProgress = files.map((file) => ({
       file,
       progress: 0,
@@ -113,7 +153,9 @@ export const useUpload = () => {
     setFilesProgress(initialFilesProgress);
 
     const urls = await Promise.all(
-      files.map((file) => multipleFilesMutation.mutateAsync({ file, path }))
+      files.map((file) =>
+        multipleFilesMutation.mutateAsync({ file, path, access })
+      )
     );
     return urls; // Return the URLs
   };

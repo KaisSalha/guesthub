@@ -63,13 +63,7 @@ export const InviteTeamMemberForm = ({
             email: z.string().email().min(1, { message: "Email is required" }),
             role: z.string().min(1, { message: "Role is required" }),
           })}
-          onSubmit={async ({
-            email,
-            role,
-          }: {
-            email: string;
-            role: string;
-          }) => {
+          onSubmit={async ({ email, role }) => {
             if (!email || !role || !selectedMembership) {
               return;
             }
@@ -137,7 +131,7 @@ export const InviteTeamMemberForm = ({
               />
             </div>
           )}
-          ref={formRef}
+          formRef={formRef}
         />
       </div>
       <DialogFooter className="mt-4">

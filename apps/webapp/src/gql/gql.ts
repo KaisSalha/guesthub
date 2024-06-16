@@ -14,6 +14,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query GetMe {\n    me {\n      id\n      email\n      first_name\n      last_name\n      avatar_url\n      type\n      created_at\n      orgMemberships {\n        id\n        role {\n          id\n          name\n          permissions\n        }\n        organization {\n          id\n          name\n          owner_id\n          website\n          logo_url\n          address\n          city\n          state\n          country_code\n          postal_code\n          timezone\n          lat\n          lng\n        }\n      }\n    }\n  }\n": types.GetMeDocument,
+    "\n  query GetEvent($id: ID!) {\n    event(id: $id) {\n      id\n      name\n      tagline\n      banner_url\n      logo_url\n      updated_at\n    }\n  }\n": types.GetEventDocument,
+    "\n    mutation CreateEvent($input: CreateEventInput!) {\n      createEvent(input: $input) {\n        success\n        event {\n          id\n        }\n      }\n    }\n  ": types.CreateEventDocument,
     "\n  query GetOrgRoles($first: Int!, $offset: Int!, $orgId: ID!) {\n    orgRoles(first: $first, offset: $offset, orgId: $orgId) {\n      totalCount\n      edges {\n        node {\n          ...GetOrgRoles_Roles\n        }\n      }\n      pageInfo {\n        hasNextPage\n        hasPreviousPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n\n  fragment GetOrgRoles_Roles on OrgRole {\n    id\n    name\n    permissions\n    updated_at\n  }\n": types.GetOrgRolesDocument,
     "\n    fragment InviteTeamMemberForm_roles on OrgRole {\n      id\n      name\n    }\n  ": types.InviteTeamMemberForm_RolesFragmentDoc,
     "\n  mutation InviteTeamMemberForm_inviteTeamMember(\n    $input: InviteTeamMemberInput!\n  ) {\n    inviteTeamMember(input: $input) {\n      invite {\n        id\n      }\n    }\n  }\n": types.InviteTeamMemberForm_InviteTeamMemberDocument,
@@ -45,6 +47,14 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetMe {\n    me {\n      id\n      email\n      first_name\n      last_name\n      avatar_url\n      type\n      created_at\n      orgMemberships {\n        id\n        role {\n          id\n          name\n          permissions\n        }\n        organization {\n          id\n          name\n          owner_id\n          website\n          logo_url\n          address\n          city\n          state\n          country_code\n          postal_code\n          timezone\n          lat\n          lng\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetMe {\n    me {\n      id\n      email\n      first_name\n      last_name\n      avatar_url\n      type\n      created_at\n      orgMemberships {\n        id\n        role {\n          id\n          name\n          permissions\n        }\n        organization {\n          id\n          name\n          owner_id\n          website\n          logo_url\n          address\n          city\n          state\n          country_code\n          postal_code\n          timezone\n          lat\n          lng\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetEvent($id: ID!) {\n    event(id: $id) {\n      id\n      name\n      tagline\n      banner_url\n      logo_url\n      updated_at\n    }\n  }\n"): (typeof documents)["\n  query GetEvent($id: ID!) {\n    event(id: $id) {\n      id\n      name\n      tagline\n      banner_url\n      logo_url\n      updated_at\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation CreateEvent($input: CreateEventInput!) {\n      createEvent(input: $input) {\n        success\n        event {\n          id\n        }\n      }\n    }\n  "): (typeof documents)["\n    mutation CreateEvent($input: CreateEventInput!) {\n      createEvent(input: $input) {\n        success\n        event {\n          id\n        }\n      }\n    }\n  "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

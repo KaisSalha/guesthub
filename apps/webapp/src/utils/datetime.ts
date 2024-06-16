@@ -16,6 +16,7 @@ import {
   toZonedTime,
   fromZonedTime,
 } from "date-fns-tz";
+import { TimeValue } from "react-aria";
 
 export enum TimestampFormat {
   ISO_DATE = "yyyy-MM-dd", // 2023-09-20
@@ -191,3 +192,14 @@ export const convertToHours = (seconds: number | null) => {
 };
 
 export const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+export const setTime = ({ date, time }: { date: Date; time: TimeValue }) => {
+  const updatedDate = new Date(date);
+
+  updatedDate.setHours(time.hour);
+  updatedDate.setMinutes(time.minute);
+  updatedDate.setSeconds(time.second);
+  updatedDate.setMilliseconds(time.millisecond);
+
+  return updatedDate;
+};
