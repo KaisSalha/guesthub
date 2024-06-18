@@ -31,7 +31,7 @@ const Details = () => {
 
   return (
     <div className="w-full flex flex-col-reverse md:flex-row gap-5 md:gap-10 xl:gap-20">
-      <div className="flex flex-col gap-2 md:gap-10 md:w-4/6 max-w-screen-md">
+      <div className="flex flex-col gap-2 md:gap-6 md:w-4/6 max-w-screen-md">
         <AspectRatio
           ratio={1.91 / 1}
           className="border-b border-border-subtle pb-4 md:p-0"
@@ -52,52 +52,43 @@ const Details = () => {
             </AvatarFallback>
           </Avatar>
         </AspectRatio>
-        <Card variant="desktopOnly" className="border-b border-border-subtle">
-          <Card.Header>
-            <Card.Title>Event Details:</Card.Title>
-          </Card.Header>
-          <Card.Content className="px-4">
-            <div className="pb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex flex-row gap-2 md:col-span-2">
-                <span className="font-semibold">ID:</span>
-                <span>{data.event.id}</span>
-              </div>
-              <div className="flex flex-row gap-2 col-start-1 md:col-span-2">
-                <span className="font-semibold">Name:</span>
-                <span>{data.event.name}</span>
-              </div>
-              <div className="flex flex-row gap-2 col-start-1 md:col-span-2">
-                <span className="font-semibold">Tagline:</span>
-                <span>{data.event.tagline}</span>
-              </div>
-              <div className="flex flex-row gap-2">
-                <span className="font-semibold">Start Time:</span>
-                <span>
-                  {formatTimestamp(data.event.start_time, "DATE_TIME", {
-                    timeZone: selectedMembership?.organization.timezone,
-                  })}
-                </span>
-              </div>
-              <div className="flex flex-row gap-2">
-                <span className="font-semibold">End Time:</span>
-                <span>
-                  {formatTimestamp(data.event.end_time, "DATE_TIME", {
-                    timeZone: selectedMembership?.organization.timezone,
-                  })}
-                </span>
-              </div>
+        <div className="flex flex-col gap-4 px-2 border-b border-border-subtle">
+          <h2 className="text-lg font-bold">Details:</h2>
+          <div className="pb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-row gap-2 md:col-span-2">
+              <span className="font-semibold">ID:</span>
+              <span>{data.event.id}</span>
             </div>
-          </Card.Content>
-        </Card>
+            <div className="flex flex-row gap-2 col-start-1 md:col-span-2">
+              <span className="font-semibold">Name:</span>
+              <span>{data.event.name}</span>
+            </div>
+            <div className="flex flex-row gap-2 col-start-1 md:col-span-2">
+              <span className="font-semibold">Tagline:</span>
+              <span>{data.event.tagline}</span>
+            </div>
+            <div className="flex flex-row gap-2">
+              <span className="font-semibold">Start Time:</span>
+              <span>
+                {formatTimestamp(data.event.start_time, "DATE_TIME", {
+                  timeZone: selectedMembership?.organization.timezone,
+                })}
+              </span>
+            </div>
+            <div className="flex flex-row gap-2">
+              <span className="font-semibold">End Time:</span>
+              <span>
+                {formatTimestamp(data.event.end_time, "DATE_TIME", {
+                  timeZone: selectedMembership?.organization.timezone,
+                })}
+              </span>
+            </div>
+          </div>
+        </div>
 
-        <Card
-          variant="desktopOnly"
-          className="border-b border-border-subtle pb-4 md:p-0"
-        >
-          <Card.Header>
-            <Card.Title>Agenda:</Card.Title>
-          </Card.Header>
-        </Card>
+        <div className="flex flex-col gap-4 px-2">
+          <h2 className="text-lg font-bold">Agenda:</h2>
+        </div>
       </div>
       <div className="flex flex-col gap-2 md:gap-4 md:w-2/6 max-w-96">
         <div className="border-b border-border-subtle md:border-none">
