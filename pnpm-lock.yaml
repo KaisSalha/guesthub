@@ -295,8 +295,8 @@ importers:
   apps/webapp:
     dependencies:
       '@apollo/client':
-        specifier: ^3.10.1
-        version: 3.10.1(@types/react@18.3.3)(graphql@16.8.1)(react-dom@18.3.1)(react@18.3.1)
+        specifier: ^3.10.5
+        version: 3.10.5(@types/react@18.3.3)(graphql@16.8.1)(react-dom@18.3.1)(react@18.3.1)
       '@graphql-typed-document-node/core':
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.8.1)
@@ -304,14 +304,14 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       '@hookform/resolvers':
-        specifier: ^3.3.4
-        version: 3.3.4(react-hook-form@7.51.3)
+        specifier: ^3.6.0
+        version: 3.6.0(react-hook-form@7.52.0)
       '@internationalized/date':
         specifier: ^3.5.4
         version: 3.5.4
       '@nerdwallet/apollo-cache-policies':
         specifier: ^3.3.0
-        version: 3.3.0(@apollo/client@3.10.1)(react@18.3.1)
+        version: 3.3.0(@apollo/client@3.10.5)(react@18.3.1)
       '@novu/headless':
         specifier: ^0.24.2
         version: 0.24.2
@@ -319,32 +319,32 @@ importers:
         specifier: ^0.24.2
         version: 0.24.2(@types/react@18.3.3)(acorn@8.11.3)(react-dom@18.3.1)(react@18.3.1)
       '@tanstack/query-sync-storage-persister':
-        specifier: ^5.36.0
-        version: 5.36.0
+        specifier: ^5.45.0
+        version: 5.45.0
       '@tanstack/react-query':
-        specifier: ^5.36.0
-        version: 5.36.0(react@18.3.1)
+        specifier: ^5.45.1
+        version: 5.45.1(react@18.3.1)
       '@tanstack/react-query-persist-client':
-        specifier: ^5.36.0
-        version: 5.36.0(@tanstack/react-query@5.36.0)(react@18.3.1)
+        specifier: ^5.45.1
+        version: 5.45.1(@tanstack/react-query@5.45.1)(react@18.3.1)
       '@tanstack/react-router':
         specifier: ^1.31.1
-        version: 1.31.1(react-dom@18.3.1)(react@18.3.1)
+        version: 1.38.1(react-dom@18.3.1)(react@18.3.1)
       '@tanstack/react-table':
-        specifier: ^8.16.0
-        version: 8.16.0(react-dom@18.3.1)(react@18.3.1)
+        specifier: ^8.17.3
+        version: 8.17.3(react-dom@18.3.1)(react@18.3.1)
       '@tanstack/router-cli':
-        specifier: ^1.30.0
-        version: 1.30.0
+        specifier: ^1.37.0
+        version: 1.37.0
       '@tanstack/router-devtools':
         specifier: ^1.31.1
-        version: 1.31.1(csstype@3.1.3)(react-dom@18.3.1)(react@18.3.1)
+        version: 1.38.1(@tanstack/react-router@1.38.1)(csstype@3.1.3)(react-dom@18.3.1)(react@18.3.1)
       '@tanstack/router-vite-plugin':
         specifier: ^1.30.0
-        version: 1.30.0(vite@5.2.10)
+        version: 1.38.0(vite@5.2.10)
       axios:
-        specifier: ^1.6.8
-        version: 1.6.8(debug@4.3.4)
+        specifier: ^1.7.2
+        version: 1.7.2(debug@4.3.4)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -361,8 +361,8 @@ importers:
         specifier: ^3.1.3
         version: 3.1.3(date-fns@3.6.0)
       gql.tada:
-        specifier: ^1.7.5
-        version: 1.7.5(graphql@16.8.1)(svelte@4.2.16)(typescript@5.4.5)
+        specifier: ^1.7.6
+        version: 1.7.6(graphql@16.8.1)(svelte@4.2.16)(typescript@5.4.5)
       graphql:
         specifier: 16.8.1
         version: 16.8.1
@@ -370,11 +370,11 @@ importers:
         specifier: ^5.0.3
         version: 5.0.3(@types/node@20.12.7)(graphql@16.8.1)(typescript@5.4.5)
       jotai:
-        specifier: ^2.8.0
-        version: 2.8.0(@types/react@18.3.3)(react@18.3.1)
+        specifier: ^2.8.3
+        version: 2.8.3(@types/react@18.3.3)(react@18.3.1)
       lucide-react:
-        specifier: ^0.376.0
-        version: 0.376.0(react@18.3.1)
+        specifier: ^0.395.0
+        version: 0.395.0(react@18.3.1)
       next-themes:
         specifier: ^0.3.0
         version: 0.3.0(react-dom@18.3.1)(react@18.3.1)
@@ -394,8 +394,8 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       react-hook-form:
-        specifier: 7.51.3
-        version: 7.51.3(react@18.3.1)
+        specifier: 7.52.0
+        version: 7.52.0(react@18.3.1)
       react-image-crop:
         specifier: ^11.0.5
         version: 11.0.5(react@18.3.1)
@@ -409,7 +409,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0(react@18.3.1)
       zod:
-        specifier: ^3.23.4
+        specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
       '@0no-co/graphqlsp':
@@ -712,6 +712,18 @@ packages:
       typescript: 5.4.5
     transitivePeerDependencies:
       - encoding
+    dev: true
+
+  /@0no-co/graphqlsp@1.12.8(graphql@16.8.1)(typescript@5.4.5):
+    resolution: {integrity: sha512-arW3ZzifyKIJhehoAlsP069AX73EN6q358bOCf+8z00PmfPR2DSxq7uGGSj0oFNe3vEDtGYl88HmFEWQ+0+dwQ==}
+    peerDependencies:
+      graphql: 16.8.1
+      typescript: ^5.0.0
+    dependencies:
+      '@gql.tada/internal': 1.0.1(graphql@16.8.1)(typescript@5.4.5)
+      graphql: 16.8.1
+      typescript: 5.4.5
+    dev: false
 
   /@aashutoshrathi/word-wrap@1.2.6:
     resolution: {integrity: sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==}
@@ -728,8 +740,8 @@ packages:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  /@apollo/client@3.10.1(@types/react@18.3.3)(graphql@16.8.1)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-QNacQBZzJla5UQ/LLBXJWM7/1v1C5cfpMQPAFjW4hg4T54wHWbg4Dr+Dp6N+hy/ygu8tepdM+/y/5VFLZhovlQ==}
+  /@apollo/client@3.10.5(@types/react@18.3.3)(graphql@16.8.1)(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-bZh5wLAT8b4KdEmqnqiQeDUttnR+NJ+gDYSN8T+U0uFGN++5LO5PTwySih6kIU5ErGGGw4NHI94YdSET3uLuBA==}
     peerDependencies:
       graphql: 16.8.1
       graphql-ws: ^5.5.5
@@ -3509,21 +3521,20 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@gql.tada/cli-utils@1.3.9(graphql@16.8.1)(svelte@4.2.16)(typescript@5.4.5):
-    resolution: {integrity: sha512-oRb7SG/+csx9CiypSJTI21KaLfulOUnhX1vxg4FXi2snub9XShkGR2XnnlJVTAOZXY9Vcxti1NutAElxdDkycA==}
+  /@gql.tada/cli-utils@1.3.10(graphql@16.8.1)(svelte@4.2.16)(typescript@5.4.5):
+    resolution: {integrity: sha512-wmKW/4UuDR9rkgpXnzP2skftNO4Kc/LNkFImKXe0waus+ipvJLaV3dwQ1CghKQ1THzWl2KLp/yJ80BdFWA+HzA==}
     peerDependencies:
       graphql: 16.8.1
       typescript: ^5.0.0
     dependencies:
-      '@0no-co/graphqlsp': 1.12.1(typescript@5.4.5)
-      '@gql.tada/internal': 1.0.0(graphql@16.8.1)(typescript@5.4.5)
+      '@0no-co/graphqlsp': 1.12.8(graphql@16.8.1)(typescript@5.4.5)
+      '@gql.tada/internal': 1.0.1(graphql@16.8.1)(typescript@5.4.5)
       '@vue/compiler-dom': 3.4.27
       '@vue/language-core': 2.0.19(typescript@5.4.5)
       graphql: 16.8.1
       svelte2tsx: 0.7.8(svelte@4.2.16)(typescript@5.4.5)
       typescript: 5.4.5
     transitivePeerDependencies:
-      - encoding
       - svelte
     dev: false
 
@@ -3536,9 +3547,10 @@ packages:
       '@0no-co/graphql.web': 1.0.6(graphql@16.8.1)
       graphql: 16.8.1
       typescript: 5.4.5
+    dev: true
 
-  /@gql.tada/internal@1.0.0(graphql@16.8.1)(typescript@5.4.5):
-    resolution: {integrity: sha512-B55aIYyZn5ewdgMqoJciPAwF5DKYX6HBabTU+ap/dpNH3EgJrLomc8Y8w+MCxCyOx+dXL9OduT6eWnVr7J7Eyg==}
+  /@gql.tada/internal@1.0.1(graphql@16.8.1)(typescript@5.4.5):
+    resolution: {integrity: sha512-VglE9pEUqCD7YwytLehI1RiEpxJsEkO+8onrMI8DEFTcrn+Irv2tQfPUHBC0LjtY5sFgoodCSLIcnxyZOKggYA==}
     peerDependencies:
       graphql: 16.8.1
       typescript: ^5.0.0
@@ -4514,6 +4526,14 @@ packages:
       react-hook-form: 7.51.3(react@18.3.1)
     dev: false
 
+  /@hookform/resolvers@3.6.0(react-hook-form@7.52.0):
+    resolution: {integrity: sha512-UBcpyOX3+RR+dNnqBd0lchXpoL8p4xC21XP8H6Meb8uve5Br1GCnmg0PcBoKKqPKgGu9GHQ/oygcmPrQhetwqw==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
+    dependencies:
+      react-hook-form: 7.52.0(react@18.3.1)
+    dev: false
+
   /@humanwhocodes/config-array@0.11.14:
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
     engines: {node: '>=10.10.0'}
@@ -4700,13 +4720,13 @@ packages:
       os-filter-obj: 2.0.0
     dev: true
 
-  /@nerdwallet/apollo-cache-policies@3.3.0(@apollo/client@3.10.1)(react@18.3.1):
+  /@nerdwallet/apollo-cache-policies@3.3.0(@apollo/client@3.10.5)(react@18.3.1):
     resolution: {integrity: sha512-dG6YF91/Q6fjHR94wkON2E2QnFdJ4GpUgAdWWJkE+tJJSezACQLskKLKLk/O2JqmV+K3NEbOZjO70bt6aHByYQ==}
     peerDependencies:
       '@apollo/client': ^3.8.1
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@apollo/client': 3.10.1(@types/react@18.3.3)(graphql@16.8.1)(react-dom@18.3.1)(react@18.3.1)
+      '@apollo/client': 3.10.5(@types/react@18.3.3)(graphql@16.8.1)(react-dom@18.3.1)(react@18.3.1)
       graphql: 16.8.1
       lodash: 4.17.21
       react: 18.3.1
@@ -5187,7 +5207,7 @@ packages:
       '@novu/shared': 0.24.2
       '@tanstack/react-query': 4.36.1(react-dom@18.3.1)(react@18.3.1)
       acorn-jsx: 5.3.2(acorn@8.11.3)
-      axios: 1.6.8(debug@4.3.4)
+      axios: 1.7.2(debug@4.3.4)
       lodash.clonedeep: 4.5.0
       lodash.debounce: 4.0.8
       lodash.merge: 4.6.2
@@ -5210,7 +5230,7 @@ packages:
   /@novu/shared@0.24.2:
     resolution: {integrity: sha512-RaPf+wUxluGGPqv+QdRkXS+rNgbSTXe5Iu87vs+SyOzrV4R24lx8TAe3tpDLJTyMcs9sQ5eF5qyz0kwIGf7JiA==}
     dependencies:
-      axios: 1.6.8(debug@4.3.4)
+      axios: 1.7.2(debug@4.3.4)
       class-transformer: 0.5.1
       class-validator: 0.14.0
     transitivePeerDependencies:
@@ -9338,8 +9358,8 @@ packages:
       defer-to-connect: 2.0.1
     dev: true
 
-  /@tanstack/history@1.28.9:
-    resolution: {integrity: sha512-WgTFJhHaZnGZPyt0H11xFhGGDj1MtA1mrUmdAjB/nhVpmsAYXsSB5O+hkF9N66u7MjbNb405wTb9diBsztvI5w==}
+  /@tanstack/history@1.31.16:
+    resolution: {integrity: sha512-rahAZXlR879P7dngDH7BZwGYiODA9D5Hqo6nUHn9GAURcqZU5IW0ZiT54dPtV5EPES7muZZmknReYueDHs7FFQ==}
     engines: {node: '>=12'}
     dev: false
 
@@ -9347,31 +9367,31 @@ packages:
     resolution: {integrity: sha512-DJSilV5+ytBP1FbFcEJovv4rnnm/CokuVvrBEtW/Va9DvuJ3HksbXUJEpI0aV1KtuL4ZoO9AVE6PyNLzF7tLeA==}
     dev: false
 
-  /@tanstack/query-core@5.36.0:
-    resolution: {integrity: sha512-B5BD3pg/mztDR36i77hGcyySKKeYrbM5mnogOROTBi1SUml5ByRK7PGUUl16vvubvQC+mSnqziFG/VIy/DE3FQ==}
+  /@tanstack/query-core@5.45.0:
+    resolution: {integrity: sha512-RVfIZQmFUTdjhSAAblvueimfngYyfN6HlwaJUPK71PKd7yi43Vs1S/rdimmZedPWX/WGppcq/U1HOj7O7FwYxw==}
     dev: false
 
-  /@tanstack/query-persist-client-core@5.36.0:
-    resolution: {integrity: sha512-jvpbTL1KWrOmn3TwXI6t1vrBJ3sjHB+ARLM2KWVmFCAXhWh00hbS7NsQ90fMS2BMaWiOezFNt9zQ9dkaBnDMiw==}
+  /@tanstack/query-persist-client-core@5.45.0:
+    resolution: {integrity: sha512-iAETglkRB6FR1//185TcWGnMxkisJPnCrlvIhLpHzT4eKLmh4n4vq1Cys42YIJzM2il4YWf8P4refzdq4D5Vdw==}
     dependencies:
-      '@tanstack/query-core': 5.36.0
+      '@tanstack/query-core': 5.45.0
     dev: false
 
-  /@tanstack/query-sync-storage-persister@5.36.0:
-    resolution: {integrity: sha512-reuhFjWS2Ovj2xxx/wbuDJ1ag6rIPU5fi5kmdbBhkWCl0NQIUQHI00XZc5qUUvyZqSk00YHTWgBdLmzrsukeEQ==}
+  /@tanstack/query-sync-storage-persister@5.45.0:
+    resolution: {integrity: sha512-RSfPzp7Fb9C+gkak+26Gswpru0w8FEuVG9WxpPLEmE+B5Krx+gTNfLlcyxreHILaR2w7jzhKfqDd8S6lmYY8WA==}
     dependencies:
-      '@tanstack/query-core': 5.36.0
-      '@tanstack/query-persist-client-core': 5.36.0
+      '@tanstack/query-core': 5.45.0
+      '@tanstack/query-persist-client-core': 5.45.0
     dev: false
 
-  /@tanstack/react-query-persist-client@5.36.0(@tanstack/react-query@5.36.0)(react@18.3.1):
-    resolution: {integrity: sha512-TXEWubZ5UkGBySvrrUSbVz30N/JxWimb7QVRhQTPz/mdrk6QCdqWTZuKYfn7jzCE6+p1DjupnfwGJG2nhA0Wbw==}
+  /@tanstack/react-query-persist-client@5.45.1(@tanstack/react-query@5.45.1)(react@18.3.1):
+    resolution: {integrity: sha512-Hk5rh2ov7YdHSP16HWnDbHcEAS19yJIvjQWGNXP6JiwZWbNJgXpKOriEOvHxLC5FPfEXl5MnA8cHTWj31kJv8Q==}
     peerDependencies:
-      '@tanstack/react-query': ^5.36.0
-      react: ^18.0.0
+      '@tanstack/react-query': ^5.45.1
+      react: ^18 || ^19
     dependencies:
-      '@tanstack/query-persist-client-core': 5.36.0
-      '@tanstack/react-query': 5.36.0(react@18.3.1)
+      '@tanstack/query-persist-client-core': 5.45.0
+      '@tanstack/react-query': 5.45.1(react@18.3.1)
       react: 18.3.1
     dev: false
 
@@ -9393,23 +9413,23 @@ packages:
       use-sync-external-store: 1.2.0(react@18.3.1)
     dev: false
 
-  /@tanstack/react-query@5.36.0(react@18.3.1):
-    resolution: {integrity: sha512-BATvtM0rohwg7pRHUnxgeDiwLWRGZ8OM/4y8LImHVpecQWoH6Uhytu3Z8YV6V7hQ1sMQBFcUrGE1/e4MxR6YiA==}
+  /@tanstack/react-query@5.45.1(react@18.3.1):
+    resolution: {integrity: sha512-mYYfJujKg2kxmkRRjA6nn4YKG3ITsKuH22f1kteJ5IuVQqgKUgbaSQfYwVP0gBS05mhwxO03HVpD0t7BMN7WOA==}
     peerDependencies:
       react: ^18.0.0
     dependencies:
-      '@tanstack/query-core': 5.36.0
+      '@tanstack/query-core': 5.45.0
       react: 18.3.1
     dev: false
 
-  /@tanstack/react-router@1.31.1(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-FZ7wYCL4UXkkT+yB703RcrnD6WO9dqphnEDWoPQIkN3f4Zk28nZPHRew3dcpK8n9o33sZJbCW24PVAdbjmpdEQ==}
+  /@tanstack/react-router@1.38.1(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-ET/dJeNNUOYIRgfuadjXA3tL1Kqy8RF5P2+SNiIH+JU5ckibO/K4ZY3RIZ5O9jOXR5jg3vSgQd96EG8k87lgzg==}
     engines: {node: '>=12'}
     peerDependencies:
       react: '>=16.8'
       react-dom: '>=16.8'
     dependencies:
-      '@tanstack/history': 1.28.9
+      '@tanstack/history': 1.31.16
       '@tanstack/react-store': 0.2.1(react-dom@18.3.1)(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -9441,24 +9461,37 @@ packages:
       react-dom: 18.3.1(react@18.3.1)
     dev: false
 
-  /@tanstack/router-cli@1.30.0:
-    resolution: {integrity: sha512-UunXic+hHnGMj2jsHrLRdCvrXW9SHgDTmR/ZOobgijKnUH7dr4nlOjFHa8bX3TrEOqTytx9NTyYweF87M++DxQ==}
-    engines: {node: '>=12'}
-    hasBin: true
-    dependencies:
-      '@tanstack/router-generator': 1.30.0
-      chokidar: 3.6.0
-      yargs: 17.7.2
-    dev: false
-
-  /@tanstack/router-devtools@1.31.1(csstype@3.1.3)(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-vtxzLzPOHx0/5SXEXOHB4CSSUaMHnEOE1IyBTPxNBDizhGGImCxw8C74FoVzDSFQ2ED+4t6sPSLUA0m9FnnTWA==}
+  /@tanstack/react-table@8.17.3(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-5gwg5SvPD3lNAXPuJJz1fOCEZYk9/GeBFH3w/hCgnfyszOIzwkwgp5I7Q4MJtn0WECp84b5STQUDdmvGi8m3nA==}
     engines: {node: '>=12'}
     peerDependencies:
       react: '>=16.8'
       react-dom: '>=16.8'
     dependencies:
-      '@tanstack/react-router': 1.31.1(react-dom@18.3.1)(react@18.3.1)
+      '@tanstack/table-core': 8.17.3
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
+
+  /@tanstack/router-cli@1.37.0:
+    resolution: {integrity: sha512-JlhgNLUr5AffHuoAJXSG6wi12lNFXyuQ+0nG9Vw8WfQfqPoWEDIzg1BwXVTMr1g+G6TksXGoAE5WEoZXKP4BCg==}
+    engines: {node: '>=12'}
+    hasBin: true
+    dependencies:
+      '@tanstack/router-generator': 1.37.0
+      chokidar: 3.6.0
+      yargs: 17.7.2
+    dev: false
+
+  /@tanstack/router-devtools@1.38.1(@tanstack/react-router@1.38.1)(csstype@3.1.3)(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-HvSmQtvyRs+JMySJe+cLtYwE3xsdqNQlE7G0Erty+3mfXLH5HXyQkxL+tfj9fuiLx8PtbNrMJ6oskfB9ctXxTQ==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      '@tanstack/react-router': ^1.38.1
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@tanstack/react-router': 1.38.1(react-dom@18.3.1)(react@18.3.1)
       clsx: 2.1.1
       date-fns: 2.30.0
       goober: 2.1.14(csstype@3.1.3)
@@ -9468,16 +9501,16 @@ packages:
       - csstype
     dev: false
 
-  /@tanstack/router-generator@1.30.0:
-    resolution: {integrity: sha512-EOMm7wQRZURqnjL7pueIkMgCsTw/+4N1jtJUHTwaPRQcUsLHuAyy0GEMP6GMRcYqGrh7mb2HYFsVEcNd/1mn4g==}
+  /@tanstack/router-generator@1.37.0:
+    resolution: {integrity: sha512-sI1B1Zd1SjeY1Uc6Tehi4BfBEl+e5mR7c4COWYRkZRIC3P4870Q54t+7aMGDY/lw4Yd9J2vUcxZ7F4qiTgo62w==}
     engines: {node: '>=12'}
     dependencies:
       prettier: 3.2.5
       zod: 3.23.8
     dev: false
 
-  /@tanstack/router-vite-plugin@1.30.0(vite@5.2.10):
-    resolution: {integrity: sha512-UEp6f760tf5+lKKKKTRpOWSIneInlhsR0RTWY44oz/qhe2/VwB2I1qqlLJUz2960VuZSH3YMCvTP+wk1BFvCyQ==}
+  /@tanstack/router-vite-plugin@1.38.0(vite@5.2.10):
+    resolution: {integrity: sha512-DsMWVQYLZ3cXyVrG7F9hX7BMcsIOWHZxSdTTnCb9wNTVeXLPjp5y5n/k5CeY1zd9QynqAsj032As3W1+sdAlDg==}
     engines: {node: '>=12'}
     dependencies:
       '@babel/core': 7.24.5
@@ -9489,7 +9522,7 @@ packages:
       '@babel/template': 7.24.6
       '@babel/traverse': 7.24.6
       '@babel/types': 7.24.6
-      '@tanstack/router-generator': 1.30.0
+      '@tanstack/router-generator': 1.37.0
       '@types/babel__core': 7.20.5
       '@types/babel__generator': 7.6.8
       '@types/babel__template': 7.4.4
@@ -9507,6 +9540,11 @@ packages:
 
   /@tanstack/table-core@8.16.0:
     resolution: {integrity: sha512-dCG8vQGk4js5v88/k83tTedWOwjGnIyONrKpHpfmSJB8jwFHl8GSu1sBBxbtACVAPtAQgwNxl0rw1d3RqRM1Tg==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /@tanstack/table-core@8.17.3:
+    resolution: {integrity: sha512-mPBodDGVL+fl6d90wUREepHa/7lhsghg2A3vFpakEhrhtbIlgNAZiMr7ccTgak5qbHqF14Fwy+W1yFWQt+WmYQ==}
     engines: {node: '>=12'}
     dev: false
 
@@ -10620,8 +10658,8 @@ packages:
       is-retry-allowed: 2.2.0
     dev: false
 
-  /axios@1.6.8(debug@4.3.4):
-    resolution: {integrity: sha512-v/ZHtJDU39mDpyBoFVkETcd/uNdxrWRrg3bKpOKzXFA6Bvqopts6ALSMU3y6ijYxbw2B+wPrIv46egTzJXCLGQ==}
+  /axios@1.7.2(debug@4.3.4):
+    resolution: {integrity: sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==}
     dependencies:
       follow-redirects: 1.15.6(debug@4.3.4)
       form-data: 4.0.0
@@ -13350,18 +13388,17 @@ packages:
       responselike: 2.0.1
     dev: true
 
-  /gql.tada@1.7.5(graphql@16.8.1)(svelte@4.2.16)(typescript@5.4.5):
-    resolution: {integrity: sha512-GepPTee+FWSVVZQ7GiJHzsGNo7gOb59kcn4mUPYLlkbpeJfOUwpuoB05ZNaXG0W4qZVPd1I7R2UgMHBjY1lGlQ==}
+  /gql.tada@1.7.6(graphql@16.8.1)(svelte@4.2.16)(typescript@5.4.5):
+    resolution: {integrity: sha512-wuFq2qmWFFQETV1qz2rWqIJ65qlLxxpiuMEDOB7zqmWnKGHYQ2k/bttyDGOKwroK2cgPZ8TGhzzaUQj9MZmwxw==}
     hasBin: true
     peerDependencies:
       typescript: ^5.0.0
     dependencies:
       '@0no-co/graphql.web': 1.0.6(graphql@16.8.1)
-      '@gql.tada/cli-utils': 1.3.9(graphql@16.8.1)(svelte@4.2.16)(typescript@5.4.5)
-      '@gql.tada/internal': 1.0.0(graphql@16.8.1)(typescript@5.4.5)
+      '@gql.tada/cli-utils': 1.3.10(graphql@16.8.1)(svelte@4.2.16)(typescript@5.4.5)
+      '@gql.tada/internal': 1.0.1(graphql@16.8.1)(typescript@5.4.5)
       typescript: 5.4.5
     transitivePeerDependencies:
-      - encoding
       - graphql
       - svelte
     dev: false
@@ -14108,8 +14145,8 @@ packages:
     resolution: {integrity: sha512-KUXdbctm1uHVL8BYhnyHkgp3zDX5KW8ZhAKVFEfUbU2P8Alpzjb+48hHvjOdQIyPshoblhzsuqOwEEAbtHVirA==}
     dev: true
 
-  /jotai@2.8.0(@types/react@18.3.3)(react@18.3.1):
-    resolution: {integrity: sha512-yZNMC36FdLOksOr8qga0yLf14miCJlEThlp5DeFJNnqzm2+ZG7wLcJzoOyij5K6U6Xlc5ljQqPDlJRgqW0Y18g==}
+  /jotai@2.8.3(@types/react@18.3.3)(react@18.3.1):
+    resolution: {integrity: sha512-pR4plVvdbzB6zyt7VLLHPMAkcRSKhRIvZKd+qkifQLa3CEziEo1uwZjePj4acTmQrboiISBlYSdCz3gWcr1Nkg==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
       '@types/react': '>=17.0.0'
@@ -14570,6 +14607,14 @@ packages:
 
   /lucide-react@0.376.0(react@18.3.1):
     resolution: {integrity: sha512-g91IX3ERD6yUR1TL2dsL4BkcGygpZz/EsqjAeL/kcRQV0EApIOr/9eBfKhYOVyQIcGGuotFGjF3xKLHMEz+b7g==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.3.1
+    dev: false
+
+  /lucide-react@0.395.0(react@18.3.1):
+    resolution: {integrity: sha512-6hzdNH5723A4FLaYZWpK50iyZH8iS2Jq5zuPRRotOFkhu6kxxJiebVdJ72tCR5XkiIeYFOU5NUawFZOac+VeYw==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
@@ -16050,6 +16095,15 @@ packages:
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.3.1
+    dev: false
+
+  /react-hook-form@7.52.0(react@18.3.1):
+    resolution: {integrity: sha512-mJX506Xc6mirzLsmXUJyqlAI3Kj9Ph2RhplYhUVffeOQSnubK2uVqBFOBJmvKikvbFV91pxVXmDiR+QMF19x6A==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
     dependencies:
       react: 18.3.1
     dev: false
@@ -17901,7 +17955,7 @@ packages:
       vite: '>=3'
     dependencies:
       '@octokit/rest': 20.1.0
-      axios: 1.6.8(debug@4.3.4)
+      axios: 1.7.2(debug@4.3.4)
       debug: 4.3.4(supports-color@5.5.0)
       picocolors: 1.0.0
       vite: 5.2.10(@types/node@20.12.7)

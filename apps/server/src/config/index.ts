@@ -93,6 +93,11 @@ export const config = {
 						)
 					),
 				},
+				...(config.isDev
+					? {
+							logger: config.LOGGER,
+						}
+					: {}),
 			};
 		}
 
