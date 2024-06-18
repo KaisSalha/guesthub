@@ -91,7 +91,7 @@ const Events = () => {
                         ts1: node.start_time,
                         ts2: node.end_time,
                         options: {
-                          timeZone: selectedMembership?.organization.timezone,
+                          timeZone: node.timezone,
                         },
                       })}
                     </span>
@@ -110,7 +110,7 @@ const Events = () => {
               </Card>
             ))}
             <div
-              className="flex flex-col gap-2 justify-center items-center border border-border border-dashed rounded-xl p-4 min-w-72 h-80 hover:cursor-pointer hover:opacity-85"
+              className="flex flex-col gap-2 justify-center items-center border border-border border-dashed rounded-lg p-4 min-w-72 h-80 hover:cursor-pointer hover:opacity-85"
               onClick={() => {
                 navigate({
                   to: "/dashboard/events/create-event",
@@ -171,6 +171,7 @@ Events.query = graphql(/* GraphQL */ `
     end_time
     address
     city
+    timezone
   }
 `);
 

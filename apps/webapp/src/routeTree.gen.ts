@@ -37,7 +37,6 @@ import { Route as DashboardEventsIdRequestsIndexImport } from './routes/dashboar
 import { Route as DashboardEventsIdGuestsIndexImport } from './routes/dashboard/events/$id/guests/index'
 import { Route as DashboardEventsIdDetailsIndexImport } from './routes/dashboard/events/$id/details/index'
 import { Route as DashboardEventsIdContentIndexImport } from './routes/dashboard/events/$id/content/index'
-import { Route as DashboardEventsIdAgendaIndexImport } from './routes/dashboard/events/$id/agenda/index'
 
 // Create/Update Routes
 
@@ -174,12 +173,6 @@ const DashboardEventsIdDetailsIndexRoute =
 const DashboardEventsIdContentIndexRoute =
   DashboardEventsIdContentIndexImport.update({
     path: '/content/',
-    getParentRoute: () => DashboardEventsIdRoute,
-  } as any)
-
-const DashboardEventsIdAgendaIndexRoute =
-  DashboardEventsIdAgendaIndexImport.update({
-    path: '/agenda/',
     getParentRoute: () => DashboardEventsIdRoute,
   } as any)
 
@@ -341,13 +334,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamInviteSignupProfileIndexImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard/events/$id/agenda/': {
-      id: '/dashboard/events/$id/agenda/'
-      path: '/agenda'
-      fullPath: '/dashboard/events/$id/agenda'
-      preLoaderRoute: typeof DashboardEventsIdAgendaIndexImport
-      parentRoute: typeof DashboardEventsIdImport
-    }
     '/dashboard/events/$id/content/': {
       id: '/dashboard/events/$id/content/'
       path: '/content'
@@ -387,7 +373,6 @@ export const routeTree = rootRoute.addChildren({
     DashboardIndexRoute,
     DashboardEventsIdRoute: DashboardEventsIdRoute.addChildren({
       DashboardEventsIdIndexRoute,
-      DashboardEventsIdAgendaIndexRoute,
       DashboardEventsIdContentIndexRoute,
       DashboardEventsIdDetailsIndexRoute,
       DashboardEventsIdGuestsIndexRoute,
@@ -470,7 +455,6 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/dashboard",
       "children": [
         "/dashboard/events/$id/",
-        "/dashboard/events/$id/agenda/",
         "/dashboard/events/$id/content/",
         "/dashboard/events/$id/details/",
         "/dashboard/events/$id/guests/",
@@ -531,10 +515,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/team-invite/signup/profile/": {
       "filePath": "team-invite/signup/profile/index.tsx"
-    },
-    "/dashboard/events/$id/agenda/": {
-      "filePath": "dashboard/events/$id/agenda/index.tsx",
-      "parent": "/dashboard/events/$id"
     },
     "/dashboard/events/$id/content/": {
       "filePath": "dashboard/events/$id/content/index.tsx",

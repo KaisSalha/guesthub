@@ -131,7 +131,7 @@ const CreateEvent = () => {
         }}
         fields={(form) => (
           <div className="flex  items-center w-full">
-            <div className="flex flex-col gap-10 w-full max-w-[770px] px-0.5">
+            <div className="flex flex-col gap-10 w-full max-w-screen-md px-0.5">
               <FormField
                 control={form.control}
                 name="banner_url"

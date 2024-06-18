@@ -4,13 +4,13 @@ import { cn } from "../lib";
 import { VariantProps, cva } from "class-variance-authority";
 
 const cardVariants = cva(
-  "rounded-xl border border-border-subtle shadow-sm w-full overflow-hidden",
+  "rounded-lg border border-border-subtle shadow-sm w-full overflow-hidden",
   {
     variants: {
       variant: {
         default: "",
         desktopOnly:
-          "shadow-none md:rounded-xl border-0 md:border md:border-border-subtle md:shadow-sm",
+          "shadow-none md:rounded-lg border-0 md:border md:border-border-subtle md:shadow-sm",
         info: "bg-background-info border-none",
         success: "bg-background-success border-none",
         attention: "bg-background-attention border-none",
@@ -44,7 +44,7 @@ const CardHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6 pb-3", className)}
+    className={cn("flex flex-col space-y-1.5 p-4 md:py-6", className)}
     {...props}
   />
 ));
