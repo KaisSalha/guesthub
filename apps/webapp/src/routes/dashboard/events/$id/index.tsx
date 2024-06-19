@@ -12,6 +12,7 @@ import { Card } from "@guesthub/ui/card";
 import { formatDateWindow, formatTimestamp } from "@/utils/datetime";
 import { useMe } from "@/hooks/use-me";
 import { client } from "@/lib/apollo-client";
+import { Separator } from "@guesthub/ui/separator";
 
 const Overview = () => {
   const { selectedMembership } = useMe();
@@ -32,7 +33,10 @@ const Overview = () => {
 
   return (
     <div className="w-full flex flex-col md:flex-row gap-5 lg:gap-10 xl:gap-20 mb-10">
-      <Card className="flex flex-col md:w-4/6 max-w-screen-lg">
+      <Card
+        variant="desktopOnly"
+        className="flex flex-col md:w-4/6 max-w-screen-lg"
+      >
         <div className="relative">
           <AspectRatio ratio={1.91 / 1}>
             <Avatar className="w-full h-full rounded-none">
@@ -98,8 +102,9 @@ const Overview = () => {
           </div>
         </div>
       </Card>
+      <Separator className="md:hidden" />
       <div className="flex flex-col gap-5 md:gap-4 min-w-full md:min-w-0 md:w-2/6 max-w-96">
-        <Card>
+        <Card variant="desktopOnly">
           <div className="flex flex-row w-full gap-4 items-center p-2 md:p-4">
             <Avatar className="w-fit h-fit">
               <AvatarImage
@@ -118,7 +123,8 @@ const Overview = () => {
             </div>
           </div>
         </Card>
-        <Card>
+        <Separator className="md:hidden" />
+        <Card variant="desktopOnly">
           <Card.Content className="px-3 flex flex-col gap-2.5 w-full p-2 pb-4 md:p-4">
             <p className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
               <Calendar className="w-4 h-4" />
