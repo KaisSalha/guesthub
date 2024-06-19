@@ -31,7 +31,7 @@ const Overview = () => {
   }
 
   return (
-    <div className="w-full flex flex-col-reverse md:flex-row gap-5 lg:gap-10 xl:gap-20">
+    <div className="w-full flex flex-col md:flex-row gap-5 lg:gap-10 xl:gap-20 mb-10">
       <Card className="flex flex-col md:w-4/6 max-w-screen-lg">
         <div className="relative">
           <AspectRatio ratio={1.91 / 1}>
@@ -61,7 +61,7 @@ const Overview = () => {
             </AvatarFallback>
           </Avatar>
         </div>
-        <div className="flex flex-col gap-2 px-4 pb-10">
+        <div className="flex flex-col gap-2 px-4 pb-5 md:pb-10">
           <div className="flex flex-row gap-2 items-start mt-3">
             <div className="w-28" />
             <div className="flex flex-col">
@@ -72,8 +72,8 @@ const Overview = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-10">
-          <div className="flex flex-col md:flex-row px-4 md:px-6">
+        <div className="flex flex-col gap-5 md:gap-10">
+          <div className="flex flex-col md:flex-row px-4 md:px-6 gap-4 md:gap-0">
             <p className="flex flex-row gap-2 items-center text-foreground-subtle flex-1">
               <Calendar className="w-6 h-6" strokeWidth={1.25} />
               <div>
@@ -98,52 +98,48 @@ const Overview = () => {
           </div>
         </div>
       </Card>
-      <div className="flex flex-col gap-2 md:gap-4 md:w-2/6 max-w-96">
-        <div className="border-b border-border-subtle md:border-none">
-          <Card variant="desktopOnly">
-            <div className="flex flex-row w-full gap-4 items-center p-2 md:p-4">
-              <Avatar className="w-fit h-fit">
-                <AvatarImage
-                  src={data.event.created_by?.avatar_url ?? undefined}
-                  className="h-14 w-14"
-                />
-                <AvatarFallback className="bg-transparent border p-2 rounded-full">
-                  <User strokeWidth={1.25} className="h-10 w-10" />
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col gap-1">
-                <span className="font-medium">{`${data.event.created_by?.first_name} ${data.event.created_by?.last_name}`}</span>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {`Created on ${formatTimestamp(data.event.created_at, "DATE", { timeZone: selectedMembership?.organization.timezone })}`}
-                </span>
-              </div>
+      <div className="flex flex-col gap-5 md:gap-4 min-w-full md:min-w-0 md:w-2/6 max-w-96">
+        <Card>
+          <div className="flex flex-row w-full gap-4 items-center p-2 md:p-4">
+            <Avatar className="w-fit h-fit">
+              <AvatarImage
+                src={data.event.created_by?.avatar_url ?? undefined}
+                className="h-14 w-14"
+              />
+              <AvatarFallback className="bg-transparent border p-2 rounded-full">
+                <User strokeWidth={1.25} className="h-10 w-10" />
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col gap-1">
+              <span className="font-medium">{`${data.event.created_by?.first_name} ${data.event.created_by?.last_name}`}</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                {`Created on ${formatTimestamp(data.event.created_at, "DATE", { timeZone: selectedMembership?.organization.timezone })}`}
+              </span>
             </div>
-          </Card>
-        </div>
-        <div className="border-b border-border-subtle md:border-none">
-          <Card variant="desktopOnly">
-            <Card.Content className="px-3 flex flex-col gap-2.5 w-full p-2 pb-4 md:p-4">
-              <p className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
-                <Calendar className="w-4 h-4" />
-                <span>
-                  {formatDateWindow({
-                    ts1: data.event.start_date,
-                    ts2: data.event.end_date,
-                    options: {
-                      timeZone: data.event.timezone,
-                    },
-                  })}
-                </span>
-              </p>
-              <p className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
-                <MapPin className="w-4 h-4" />
-                <span>
-                  {data.event.address}, {data.event.city}
-                </span>
-              </p>
-            </Card.Content>
-          </Card>
-        </div>
+          </div>
+        </Card>
+        <Card>
+          <Card.Content className="px-3 flex flex-col gap-2.5 w-full p-2 pb-4 md:p-4">
+            <p className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
+              <Calendar className="w-4 h-4" />
+              <span>
+                {formatDateWindow({
+                  ts1: data.event.start_date,
+                  ts2: data.event.end_date,
+                  options: {
+                    timeZone: data.event.timezone,
+                  },
+                })}
+              </span>
+            </p>
+            <p className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
+              <MapPin className="w-4 h-4" />
+              <span>
+                {data.event.address}, {data.event.city}
+              </span>
+            </p>
+          </Card.Content>
+        </Card>
       </div>
     </div>
   );
