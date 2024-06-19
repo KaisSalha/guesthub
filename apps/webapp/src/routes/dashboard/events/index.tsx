@@ -88,8 +88,8 @@ const Events = () => {
                     <Calendar className="w-4 h-4" />
                     <span>
                       {formatDateWindow({
-                        ts1: node.start_time,
-                        ts2: node.end_time,
+                        ts1: node.start_date,
+                        ts2: node.end_date,
                         options: {
                           timeZone: node.timezone,
                         },
@@ -167,8 +167,8 @@ Events.query = graphql(/* GraphQL */ `
     tagline
     banner_url
     logo_url
-    start_time
-    end_time
+    start_date
+    end_date
     address
     city
     timezone

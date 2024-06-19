@@ -18,9 +18,6 @@ import { Combobox } from "@guesthub/ui/combobox";
 import locationTimezone from "node-location-timezone";
 import { Avatar, AvatarFallback, AvatarImage } from "@guesthub/ui/avatar";
 import { DatePicker } from "@guesthub/ui/date-picker";
-import { TimePicker } from "@guesthub/ui/time-picker";
-import { fromDate } from "@internationalized/date";
-import { setTime } from "@/utils/datetime";
 import { graphql } from "gql.tada";
 import { useMutation } from "@apollo/client";
 import {
@@ -29,6 +26,7 @@ import {
 } from "@/gql/graphql";
 import { useMe } from "@/hooks/use-me";
 import { toast } from "sonner";
+import { Textarea } from "@guesthub/ui/textarea";
 
 const CreateEvent = () => {
   const { selectedMembership, me } = useMe();
@@ -62,6 +60,9 @@ const CreateEvent = () => {
             logo_url: z.string().min(1, { message: "Logo is required" }),
             name: z.string().min(2, { message: "Name is required" }),
             tagline: z.optional(z.string()),
+            description: z
+              .string()
+              .min(1, { message: "Description is required" }),
             website: z.optional(
               z.string().trim().url({ message: "Invalid URL" })
             ),
@@ -75,16 +76,16 @@ const CreateEvent = () => {
               .string()
               .length(2, { message: "Country is required" }),
             timezone: z.string().min(2, { message: "Invalid timezone" }),
-            start_time: z.date({
-              required_error: "Start time is required",
+            start_date: z.date({
+              required_error: "Start date is required",
             }),
-            end_time: z.date({
-              required_error: "End time is required",
+            end_date: z.date({
+              required_error: "End date is required",
             }),
           })
-          .refine((schema) => schema.end_time > schema.start_time, {
-            message: "End time must be greater than start time",
-            path: ["end_time"],
+          .refine((schema) => schema.end_date > schema.start_date, {
+            message: "End date must be greater than start date",
+            path: ["end_date"],
           })}
         onSubmit={async (formData) => {
           if (!selectedMembership?.organization.id) {
@@ -97,8 +98,8 @@ const CreateEvent = () => {
                 ...formData,
                 logo_url: formData.logo_url.split("?")[0],
                 banner_url: formData.banner_url.split("?")[0],
-                start_time: formData.start_time.getTime(),
-                end_time: formData.end_time.getTime(),
+                start_date: formData.start_date.getTime(),
+                end_date: formData.end_date.getTime(),
                 orgId: selectedMembership?.organization.id,
               },
             },
@@ -119,6 +120,8 @@ const CreateEvent = () => {
           banner_url: "",
           logo_url: "",
           name: "",
+          tagline: "",
+          description: "",
           website: "",
           address: "",
           city: "",
@@ -126,8 +129,8 @@ const CreateEvent = () => {
           postal_code: undefined,
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           country_code: "",
-          start_time: undefined,
-          end_time: undefined,
+          start_date: undefined,
+          end_date: undefined,
         }}
         fields={(form) => (
           <div className="flex  items-center w-full">
@@ -252,6 +255,19 @@ const CreateEvent = () => {
                 />
                 <FormField
                   control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea {...field} autoComplete="off" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="website"
                   render={({ field }) => (
                     <FormItem>
@@ -362,63 +378,23 @@ const CreateEvent = () => {
                 <div className="flex flex-col md:flex-row justify-between md:items-end gap-6 md:gap-0">
                   <FormField
                     control={form.control}
-                    name="start_time"
+                    name="start_date"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Start time</FormLabel>
+                        <FormLabel>Start date</FormLabel>
                         <FormControl>
-                          <div className="flex flex-row gap-2">
-                            <DatePicker
-                              className="flex-1"
-                              date={field.value}
-                              onSelect={(date: Date | undefined) => {
-                                if (!date) return;
+                          <DatePicker
+                            className="flex-1"
+                            date={field.value}
+                            onSelect={(date: Date | undefined) => {
+                              if (!date) return;
 
-                                const updatedDate = new Date(date);
-                                const currentTime = field.value;
-
-                                if (!currentTime) {
-                                  form.setValue("start_time", date);
-                                  return;
-                                }
-
-                                updatedDate.setHours(currentTime.getHours());
-                                updatedDate.setMinutes(
-                                  currentTime.getMinutes()
-                                );
-                                updatedDate.setSeconds(
-                                  currentTime.getSeconds()
-                                );
-                                updatedDate.setMilliseconds(
-                                  currentTime.getMilliseconds()
-                                );
-
-                                form.setValue("start_time", updatedDate);
-                              }}
-                            />
-                            <TimePicker
-                              hideTimeZone
-                              value={
-                                field.value
-                                  ? fromDate(
-                                      field.value,
-                                      form.getValues("timezone")
-                                    )
-                                  : undefined
-                              }
-                              onChange={(time) => {
-                                if (!field.value) return;
-
-                                const updatedDate = setTime({
-                                  date: field.value,
-                                  time,
-                                });
-
-                                form.setValue("start_time", updatedDate);
-                              }}
-                              isDisabled={!field.value}
-                            />
-                          </div>
+                              form.setValue(
+                                "start_date",
+                                new Date(date.toISOString().split("T")[0])
+                              );
+                            }}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -427,63 +403,23 @@ const CreateEvent = () => {
                   <ArrowRight className="w-5 h-5 mb-2 hidden md:flex" />
                   <FormField
                     control={form.control}
-                    name="end_time"
+                    name="end_date"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>End time</FormLabel>
+                        <FormLabel>End date</FormLabel>
                         <FormControl>
-                          <div className="flex flex-row gap-2">
-                            <DatePicker
-                              className="flex-1"
-                              date={field.value}
-                              onSelect={(date: Date | undefined) => {
-                                if (!date) return;
+                          <DatePicker
+                            className="flex-1"
+                            date={field.value}
+                            onSelect={(date: Date | undefined) => {
+                              if (!date) return;
 
-                                const updatedDate = new Date(date);
-                                const currentTime = field.value;
-
-                                if (!currentTime) {
-                                  form.setValue("end_time", date);
-                                  return;
-                                }
-
-                                updatedDate.setHours(currentTime.getHours());
-                                updatedDate.setMinutes(
-                                  currentTime.getMinutes()
-                                );
-                                updatedDate.setSeconds(
-                                  currentTime.getSeconds()
-                                );
-                                updatedDate.setMilliseconds(
-                                  currentTime.getMilliseconds()
-                                );
-
-                                form.setValue("end_time", updatedDate);
-                              }}
-                            />
-                            <TimePicker
-                              hideTimeZone
-                              value={
-                                field.value
-                                  ? fromDate(
-                                      field.value,
-                                      form.getValues("timezone")
-                                    )
-                                  : undefined
-                              }
-                              onChange={(time) => {
-                                if (!field.value) return;
-
-                                const updatedDate = setTime({
-                                  date: field.value,
-                                  time,
-                                });
-
-                                form.setValue("end_time", updatedDate);
-                              }}
-                              isDisabled={!field.value}
-                            />
-                          </div>
+                              form.setValue(
+                                "end_date",
+                                new Date(date.toISOString().split("T")[0])
+                              );
+                            }}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

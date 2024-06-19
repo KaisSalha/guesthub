@@ -53,6 +53,7 @@ Event.implement({
 			resolve: (parent) => parent.created_by_id,
 		}),
 		tagline: t.exposeString("tagline", { nullable: true }),
+		description: t.exposeString("description", { nullable: true }),
 		website: t.exposeString("website", { nullable: true }),
 		logo_url: t.field({
 			type: "S3File",
@@ -103,13 +104,13 @@ Event.implement({
 				isAuthenticated: true,
 			},
 		}),
-		start_time: t.field({
-			type: "Timestamp",
-			resolve: (parent) => parent.start_time,
+		start_date: t.field({
+			type: "Date",
+			resolve: (parent) => parent.start_date,
 		}),
-		end_time: t.field({
-			type: "Timestamp",
-			resolve: (parent) => parent.end_time,
+		end_date: t.field({
+			type: "Date",
+			resolve: (parent) => parent.end_date,
 		}),
 		created_at: t.field({
 			type: "Timestamp",
@@ -215,6 +216,10 @@ builder.relayMutationField(
 				type: "NonEmptyString",
 				required: true,
 			}),
+			description: t.field({
+				type: "NonEmptyString",
+				required: true,
+			}),
 			address: t.field({
 				type: "NonEmptyString",
 				required: true,
@@ -233,11 +238,11 @@ builder.relayMutationField(
 				type: "TimeZone",
 				required: true,
 			}),
-			start_time: t.field({
+			start_date: t.field({
 				type: "Timestamp",
 				required: true,
 			}),
-			end_time: t.field({
+			end_date: t.field({
 				type: "Timestamp",
 				required: true,
 			}),
@@ -277,8 +282,8 @@ builder.relayMutationField(
 				throw new Error("User required");
 			}
 
-			if (args.input.end_time <= args.input.start_time) {
-				throw new Error("End time must be greater than start time");
+			if (args.input.end_date <= args.input.start_date) {
+				throw new Error("End date must be greater than start date");
 			}
 
 			// Create org
@@ -286,8 +291,11 @@ builder.relayMutationField(
 				.insert(events)
 				.values({
 					name: args.input.name,
+					description: args.input.description,
 					tagline: args.input.tagline,
 					organization_id: parseInt(args.input.orgId.id),
+					start_date: args.input.start_date,
+					end_date: args.input.end_date,
 					created_by_id: ctx.user.id,
 					website: args.input.website,
 					logo_url: args.input.logo_url,
@@ -300,8 +308,6 @@ builder.relayMutationField(
 					timezone: args.input.timezone,
 					lat: args.input.lat,
 					lng: args.input.lng,
-					start_time: args.input.start_time,
-					end_time: args.input.end_time,
 				})
 				.returning()
 				.execute();

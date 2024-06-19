@@ -102,8 +102,8 @@ describe("events", async () => {
                             node {
                                 id
                                 name
-                                start_time
-                                end_time
+                                start_date
+                                end_date
                                 created_by {
                                     id
                                 }
@@ -136,11 +136,11 @@ describe("events", async () => {
 		expect(result.data.orgEvents.edges[0].node.created_by.id).toBe(
 			encodeGlobalID("User", event.created_by_id)
 		);
-		expect(result.data.orgEvents.edges[0].node.start_time).toBe(
-			event.start_time.getTime()
+		expect(result.data.orgEvents.edges[0].node.start_date).toBe(
+			event.start_date.toISOString().split("T")[0]
 		);
-		expect(result.data.orgEvents.edges[0].node.end_time).toBe(
-			event.end_time.getTime()
+		expect(result.data.orgEvents.edges[0].node.end_date).toBe(
+			event.end_date.toISOString().split("T")[0]
 		);
 		expect(result.data.orgEvents.edges[0].node.updated_at).toBe(
 			event.updated_at.getTime()
@@ -188,8 +188,8 @@ describe("events", async () => {
                             node {
                                 id
                                 name
-                                start_time
-                                end_time
+                                start_date
+                                end_date
                                 created_by {
                                     id
                                 }
@@ -228,9 +228,10 @@ describe("events", async () => {
 				input: {
 					orgId: string;
 					name: string;
-					start_time: string;
-					end_time: string;
+					start_date: string;
+					end_date: string;
 					tagline: string;
+					description: string;
 					website: string;
 					logo_url: string;
 					banner_url: string;
@@ -261,9 +262,10 @@ describe("events", async () => {
 					input: {
 						orgId: encodeGlobalID("Organization", organization.id),
 						name: "Test Event",
-						start_time: "2022-01-01T00:00:00",
-						end_time: "2022-01-01T10:00:00",
+						start_date: "2022-01-01T00:00:00",
+						end_date: "2022-01-02T10:00:00",
 						tagline: "Test Event Tagline",
+						description: "Test Event Description",
 						website: "https://test.com",
 						logo_url: "https://test.com/logo.png",
 						banner_url: "https://test.com/banner.png",
@@ -296,9 +298,10 @@ describe("events", async () => {
 				input: {
 					orgId: string;
 					name: string;
-					start_time: string;
-					end_time: string;
+					start_date: string;
+					end_date: string;
 					tagline: string;
+					description: string;
 					website: string;
 					logo_url: string;
 					banner_url: string;
@@ -329,9 +332,10 @@ describe("events", async () => {
 					input: {
 						orgId: encodeGlobalID("Organization", organization.id),
 						name: "Test Event",
-						start_time: "2022-01-02T00:00:00",
-						end_time: "2022-01-01T00:00:00",
+						start_date: "2022-01-02",
+						end_date: "2022-01-01",
 						tagline: "Test Event Tagline",
+						description: "Test Event Description",
 						website: "https://test.com",
 						logo_url: "https://test.com/logo.png",
 						banner_url: "https://test.com/banner.png",
@@ -363,9 +367,10 @@ describe("events", async () => {
 				input: {
 					orgId: string;
 					name: string;
-					start_time: string;
-					end_time: string;
+					start_date: string;
+					end_date: string;
 					tagline: string;
+					description: string;
 					website: string;
 					logo_url: string;
 					banner_url: string;
@@ -396,9 +401,10 @@ describe("events", async () => {
 					input: {
 						orgId: encodeGlobalID("Organization", organization2.id),
 						name: "Test Event",
-						start_time: "2022-01-01T00:00:00",
-						end_time: "2022-01-01T00:00:00",
+						start_date: "2022-01-01",
+						end_date: "2022-01-01",
 						tagline: "Test Event Tagline",
+						description: "Test Event Description",
 						website: "https://test.com",
 						logo_url: "https://test.com/logo.png",
 						banner_url: "https://test.com/banner.png",

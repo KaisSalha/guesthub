@@ -15,6 +15,20 @@
       "when": 1718247621426,
       "tag": "0001_sharp_bushwacker",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1718749856040,
+      "tag": "0002_narrow_orphan",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1718750048234,
+      "tag": "0003_aromatic_mandarin",
+      "breakpoints": true
     }
   ]
 }

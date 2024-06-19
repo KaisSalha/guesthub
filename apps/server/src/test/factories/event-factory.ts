@@ -16,6 +16,8 @@ export const EventFactory = async ({
 		.insert(events)
 		.values({
 			name: faker.company.name(),
+			description: faker.lorem.sentence(),
+			tagline: faker.lorem.sentence(),
 			organization_id,
 			created_by_id,
 			address: faker.location.streetAddress(),
@@ -24,8 +26,8 @@ export const EventFactory = async ({
 			timezone: faker.location.timeZone(),
 			website: faker.internet.url(),
 			logo_url: faker.image.avatarGitHub(),
-			start_time: faker.date.recent(),
-			end_time: faker.date.future(),
+			start_date: faker.date.recent(),
+			end_date: faker.date.future(),
 			...props,
 		})
 		.returning();
