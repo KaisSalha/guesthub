@@ -116,7 +116,7 @@ const Overview = () => {
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col gap-1">
-              <span className="font-medium">{`${data.event.created_by?.first_name} ${data.event.created_by?.last_name}`}</span>
+              <span className="font-medium">{`${data.event.created_by?.full_name}`}</span>
               <span className="text-sm text-gray-500 dark:text-gray-400">
                 {`Created on ${formatTimestamp(data.event.created_at, "DATE", { timeZone: selectedMembership?.organization.timezone })}`}
               </span>
@@ -168,8 +168,7 @@ Overview.query = graphql(/* GraphQL */ `
       city
       created_by {
         id
-        first_name
-        last_name
+        full_name
         avatar_url
       }
       created_at

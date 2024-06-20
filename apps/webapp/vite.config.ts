@@ -3,6 +3,7 @@ import path from "path";
 import { defineConfig } from "vite";
 import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import mkcert from "vite-plugin-mkcert";
+import Unfonts from "unplugin-fonts/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -16,6 +17,16 @@ export default defineConfig({
     }),
     react(),
     TanStackRouterVite(),
+    Unfonts({
+      google: {
+        families: [
+          {
+            name: "Inter",
+            styles: "wght@100;200;300;400;500;600;700;800;900",
+          },
+        ],
+      },
+    }),
   ],
   server: {
     port: 3001,
