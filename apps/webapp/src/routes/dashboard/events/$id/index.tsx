@@ -55,7 +55,7 @@ const Overview = () => {
               </AvatarFallback>
             </Avatar>
           </AspectRatio>
-          <Avatar className="absolute -bottom-[4.5rem] left-4 w-28 h-28 rounded-md border border-border-subtle">
+          <Avatar className="absolute -bottom-[4.5rem] left-1/2 transform -translate-x-1/2 md:left-4 md:translate-x-0 w-28 h-28 rounded-md border border-border-subtle">
             <AvatarImage
               src={data.event.logo_url || undefined}
               className="h-28 w-28"
@@ -65,9 +65,9 @@ const Overview = () => {
             </AvatarFallback>
           </Avatar>
         </div>
-        <div className="flex flex-col gap-2 px-4 pb-5 md:pb-10">
-          <div className="flex flex-row gap-2 items-start mt-3">
-            <div className="w-28" />
+        <div className="flex flex-col gap-2 px-4 pb-5 md:pb-10 pt-20 md:pt-0">
+          <div className="flex flex-row gap-2 items-start justify-center md:justify-normal mt-3">
+            <div className="w-28 hidden md:flex" />
             <div className="flex flex-col">
               <p className="text-xl font-bold">{data.event.name}</p>
               <p className="text-sm text-foreground-subtle">
@@ -77,8 +77,8 @@ const Overview = () => {
           </div>
         </div>
         <div className="flex flex-col gap-5 md:gap-10">
-          <div className="flex flex-col md:flex-row px-4 md:px-6 gap-4 md:gap-0">
-            <p className="flex flex-row gap-2 items-center text-foreground-subtle flex-1">
+          <div className="flex flex-col lg:flex-row px-4 md:px-6 gap-4 lg:gap-0">
+            <p className="flex flex-row gap-2 items-center text-foreground-subtle flex-1 text-sm">
               <Calendar className="w-6 h-6" strokeWidth={1.25} />
               <div>
                 {formatDateWindow({
@@ -90,7 +90,7 @@ const Overview = () => {
                 })}
               </div>
             </p>
-            <p className="flex flex-row gap-2 items-center text-foreground-subtle flex-1">
+            <p className="flex flex-row gap-2 items-center text-foreground-subtle flex-1 text-sm">
               <MapPin className="w-6 h-6" strokeWidth={1.25} />
               <span>
                 {data.event.address}, {data.event.city}
