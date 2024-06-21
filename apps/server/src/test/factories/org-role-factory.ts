@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { db } from "../../db/index.js";
-import { orgRoles, OrgRoleInsert } from "../../db/schemas/orgRoles.js";
+import { orgRoles, OrgRoleInsert } from "../../db/schemas/org-roles.js";
 import { ADMIN_PERMISSIONS, PERMISSIONS } from "../../services/permissions.js";
 
 interface OrganizationRoleFactoryProps extends Partial<OrgRoleInsert> {

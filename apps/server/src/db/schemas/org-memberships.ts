@@ -1,4 +1,4 @@
-import { orgRoles } from "./orgRoles.js";
+import { orgRoles } from "./org-roles.js";
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import {
 	pgTable,

@@ -8,18 +8,18 @@ import {
 	OrgInvite as OrgInviteType,
 	orgInviteStatusEnumType,
 	orgInvites,
-} from "../../../db/schemas/orgInvites.js";
+} from "../../../db/schemas/org-invites.js";
 import { Organization } from "../organization/organization.js";
-import { OrgRole } from "../orgRole/orgRole.js";
+import { OrgRole } from "../org-role/org-role.js";
 import { resolveWindowedConnection } from "../../../utils/resolveWindowedConnection.js";
 import { resend } from "../../../lib/resend.js";
 import { InviteEmail } from "../../../emails/org/invite-team-member.js";
 import { organizations } from "../../../db/schemas/organizations.js";
 import { getCityAddress } from "../../../utils/address.js";
 import { users } from "../../../db/schemas/users.js";
-import { orgMemberships } from "../../../db/schemas/orgMemberships.js";
+import { orgMemberships } from "../../../db/schemas/org-memberships.js";
 import { User } from "../user/user.js";
-import { OrgMembership } from "../orgMembership/orgMembership.js";
+import { OrgMembership } from "../org-membership/org-membership.js";
 import { emailsUsersLoader } from "../../loaders/emails-users-loader.js";
 
 const OrgInviteStatus = builder.enumType("OrgInviteStatus", {

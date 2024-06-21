@@ -6,12 +6,12 @@ import {
 } from "../../../db/schemas/organizations.js";
 import { User } from "../user/user.js";
 import { encodeGlobalID } from "@pothos/plugin-relay";
-import { orgRoles } from "../../../db/schemas/orgRoles.js";
+import { orgRoles } from "../../../db/schemas/org-roles.js";
 import {
 	ADMIN_PERMISSIONS,
 	PERMISSIONS,
 } from "../../../services/permissions.js";
-import { orgMemberships } from "../../../db/schemas/orgMemberships.js";
+import { orgMemberships } from "../../../db/schemas/org-memberships.js";
 
 export const Organization = builder.loadableNodeRef("Organization", {
 	id: {

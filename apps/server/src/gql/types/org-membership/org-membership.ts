@@ -3,9 +3,9 @@ import { db } from "../../../db/index.js";
 import {
 	OrgMembership as OrgMembershipType,
 	orgMemberships,
-} from "../../../db/schemas/orgMemberships.js";
+} from "../../../db/schemas/org-memberships.js";
 import { Organization } from "../organization/organization.js";
-import { OrgRole } from "../orgRole/orgRole.js";
+import { OrgRole } from "../org-role/org-role.js";
 import { User } from "../user/user.js";
 import { resolveWindowedConnection } from "../../../utils/resolveWindowedConnection.js";
 import { count, eq } from "drizzle-orm";

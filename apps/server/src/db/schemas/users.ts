@@ -1,10 +1,10 @@
 import { timeFields } from "./helpers/time.js";
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { pgEnum, pgTable, serial, varchar } from "drizzle-orm/pg-core";
-import { orgRoles } from "./orgRoles.js";
+import { orgRoles } from "./org-roles.js";
 import { organizations } from "./organizations.js";
-import { orgInvites } from "./orgInvites.js";
-import { orgMemberships } from "./orgMemberships.js";
+import { orgInvites } from "./org-invites.js";
+import { orgMemberships } from "./org-memberships.js";
 
 export const userTypeEnum = pgEnum("user_type", ["org", "guest"]);
 

@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { db } from "../../db/index.js";
-import { orgInvites, OrgInviteInsert } from "../../db/schemas/orgInvites.js";
+import { orgInvites, OrgInviteInsert } from "../../db/schemas/org-invites.js";
 
 interface OrganizationInviteFactoryProps extends Partial<OrgInviteInsert> {
 	organization_id: number;

@@ -2,7 +2,7 @@ import { db } from "../../db/index.js";
 import {
 	orgMemberships,
 	OrgMembershipInsert,
-} from "../../db/schemas/orgMemberships.js";
+} from "../../db/schemas/org-memberships.js";
 
 interface OrganizationMembershipFactoryProps
 	extends Partial<OrgMembershipInsert> {

@@ -3,8 +3,8 @@ import { integer, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 import { users } from "./users.js";
 import { locationFields } from "./helpers/location.js";
 import { timeFields } from "./helpers/time.js";
-import { orgRoles } from "./orgRoles.js";
-import { orgInvites } from "./orgInvites.js";
+import { orgRoles } from "./org-roles.js";
+import { orgInvites } from "./org-invites.js";
 
 export const organizations = pgTable("organizations", {
 	id: serial("id").primaryKey(),

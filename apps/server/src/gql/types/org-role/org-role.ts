@@ -3,7 +3,7 @@ import { db } from "../../../db/index.js";
 import {
 	OrgRole as OrgRoleType,
 	orgRoles,
-} from "../../../db/schemas/orgRoles.js";
+} from "../../../db/schemas/org-roles.js";
 import { Organization } from "../organization/organization.js";
 import {
 	getAdminPermissions,

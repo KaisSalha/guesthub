@@ -1,9 +1,9 @@
 import { builder } from "../../builder.js";
 import { db } from "../../../db/index.js";
 import { User as UserType, users } from "../../../db/schemas/users.js";
-import { OrgMembership } from "../orgMembership/orgMembership.js";
+import { OrgMembership } from "../org-membership/org-membership.js";
 import { eq } from "drizzle-orm";
-import { OrgInvite } from "../orgInvite/orgInvite.js";
+import { OrgInvite } from "../org-invite/org-invite.js";
 import { userOrgInvitesLoader } from "../../loaders/user-org-invites-loader.js";
 
 export const User = builder.loadableNodeRef("User", {

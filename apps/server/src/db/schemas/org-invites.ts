@@ -7,7 +7,7 @@ import {
 	uniqueIndex,
 } from "drizzle-orm/pg-core";
 import { organizations } from "./organizations.js";
-import { orgRoles } from "./orgRoles.js";
+import { orgRoles } from "./org-roles.js";
 import { timeFields } from "./helpers/time.js";
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { users } from "./users.js";
