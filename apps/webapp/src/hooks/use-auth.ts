@@ -58,7 +58,7 @@ export const useAuth = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password, type: "org" }),
+        body: JSON.stringify({ email, password }),
       }
     );
 

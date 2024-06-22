@@ -20,7 +20,7 @@ describe("events", async () => {
 
 	const client = createMercuriusTestClient(buildServer());
 
-	const user = await UserFactory({ type: "org" });
+	const user = await UserFactory();
 
 	const organization = await OrganizationFactory({ owner_id: user.id });
 
@@ -40,7 +40,7 @@ describe("events", async () => {
 		created_by_id: user.id,
 	});
 
-	const user2 = await UserFactory({ type: "org" });
+	const user2 = await UserFactory();
 
 	const organization2 = await OrganizationFactory({ owner_id: user2.id });
 

@@ -14,7 +14,7 @@ export const publicRoutes = async (app: FastifyInstance) => {
 			"/signup",
 			async (
 				req: FastifyRequest<{
-					Body: Pick<UserInsert, "email" | "password" | "type">;
+					Body: Pick<UserInsert, "email" | "password">;
 				}>,
 				reply
 			) => {
@@ -22,7 +22,6 @@ export const publicRoutes = async (app: FastifyInstance) => {
 					const cookie = await signup({
 						email: req.body.email,
 						password: req.body.password,
-						type: req.body.type,
 					});
 
 					reply.header("Set-Cookie", cookie.serialize());

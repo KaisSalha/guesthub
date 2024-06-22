@@ -16,7 +16,7 @@ describe("user", async () => {
 		await resetDbTables();
 	});
 
-	const user = await UserFactory({ type: "org" });
+	const user = await UserFactory();
 
 	client.setHeaders({
 		"x-debug-user": user.email,

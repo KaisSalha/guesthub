@@ -47,6 +47,31 @@ export type AcceptInvitationPayload = {
   success: Scalars['Boolean']['output'];
 };
 
+export type Activity = Node & {
+  __typename?: 'Activity';
+  action: ActivityAction;
+  created_at?: Maybe<Scalars['Timestamp']['output']>;
+  id: Scalars['ID']['output'];
+  meta: Scalars['JSON']['output'];
+  object_id: Scalars['String']['output'];
+  organization: Organization;
+  updated_at?: Maybe<Scalars['Timestamp']['output']>;
+  user: User;
+};
+
+export enum ActivityAction {
+  CanceledEvent = 'CANCELED_EVENT',
+  CreatedEvent = 'CREATED_EVENT',
+  DeletedEvent = 'DELETED_EVENT',
+  InvitedToEvent = 'INVITED_TO_EVENT',
+  InvitedToOrganization = 'INVITED_TO_ORGANIZATION',
+  JoinedEvent = 'JOINED_EVENT',
+  JoinedOrganization = 'JOINED_ORGANIZATION',
+  LeftOrganization = 'LEFT_ORGANIZATION',
+  UpdatedEvent = 'UPDATED_EVENT',
+  UpdatedOrganization = 'UPDATED_ORGANIZATION'
+}
+
 export type CreateEventInput = {
   address: Scalars['NonEmptyString']['input'];
   banner_url?: InputMaybe<Scalars['String']['input']>;
@@ -245,6 +270,7 @@ export type Query = {
   me?: Maybe<User>;
   node?: Maybe<Node>;
   nodes: Array<Maybe<Node>>;
+  orgActivities: QueryOrgActivitiesConnection;
   orgAllRoles: Array<OrgRole>;
   orgEvents: QueryOrgEventsConnection;
   orgInvite?: Maybe<OrgInvite>;
@@ -268,6 +294,16 @@ export type QueryNodeArgs = {
 
 export type QueryNodesArgs = {
   ids: Array<Scalars['ID']['input']>;
+};
+
+
+export type QueryOrgActivitiesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset: Scalars['Int']['input'];
+  orgId: Scalars['ID']['input'];
 };
 
 
@@ -332,6 +368,19 @@ export type QueryUserOrgInvitesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset: Scalars['Int']['input'];
+};
+
+export type QueryOrgActivitiesConnection = {
+  __typename?: 'QueryOrgActivitiesConnection';
+  edges: Array<Maybe<QueryOrgActivitiesConnectionEdge>>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
+};
+
+export type QueryOrgActivitiesConnectionEdge = {
+  __typename?: 'QueryOrgActivitiesConnectionEdge';
+  cursor: Scalars['String']['output'];
+  node: Activity;
 };
 
 export type QueryOrgEventsConnection = {

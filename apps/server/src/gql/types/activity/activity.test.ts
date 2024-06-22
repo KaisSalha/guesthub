@@ -7,7 +7,11 @@ import { OrganizationRoleFactory } from "../../../test/factories/org-role-factor
 import { OrganizationMembershipFactory } from "../../../test/factories/org-membership-factory.js";
 import { resetDbTables } from "../../../test/reset-db-tables.js";
 import { encodeGlobalID } from "@pothos/plugin-relay";
-import { ActivitiesFactory } from "../../../test/factories/activity-factory.js";
+import {
+	ActivitiesFactory,
+	ActivityFactory,
+} from "../../../test/factories/activity-factory.js";
+import { EventFactory } from "../../../test/factories/event-factory.js";
 
 describe("orgMemberships", async () => {
 	beforeEach(() => {
@@ -29,9 +33,20 @@ describe("orgMemberships", async () => {
 		is_admin: true,
 	});
 
+	const event = await EventFactory({
+		organization_id: organization.id,
+		created_by_id: user.id,
+	});
+
 	await ActivitiesFactory({
 		organization_id: organization.id,
 		user_id: user.id,
+	});
+
+	await ActivityFactory({
+		organization_id: organization.id,
+		user_id: user.id,
+		event_id: event.id,
 	});
 
 	await OrganizationMembershipFactory({
@@ -49,6 +64,11 @@ describe("orgMemberships", async () => {
 		is_admin: false,
 	});
 
+	const event2 = await EventFactory({
+		organization_id: organization2.id,
+		created_by_id: user2.id,
+	});
+
 	await OrganizationMembershipFactory({
 		organization_id: organization2.id,
 		user_id: user2.id,
@@ -60,7 +80,13 @@ describe("orgMemberships", async () => {
 		user_id: user2.id,
 	});
 
-	it("queries paginated activites of an organization", async () => {
+	await ActivityFactory({
+		organization_id: organization2.id,
+		user_id: user2.id,
+		event_id: event2.id,
+	});
+
+	it("queries paginated activities of an organization", async () => {
 		client.setHeaders({
 			"x-debug-user": user.email,
 		});
@@ -99,7 +125,35 @@ describe("orgMemberships", async () => {
 			}
 		);
 
-		expect(result.data.orgActivities.totalCount).toBe(2);
+		expect(result.data.orgActivities.totalCount).toBe(3);
+	});
+
+	it("queries paginated activities of an event", async () => {
+		client.setHeaders({
+			"x-debug-user": user.email,
+		});
+
+		const result = await client.query<
+			any,
+			{ first: number; offset: number; eventId: string }
+		>(
+			`
+				query GetEventActivities($first: Int!, $offset: Int!, $eventId: ID!) {
+					eventActivities(first: $first, offset: $offset, eventId: $eventId) {
+						totalCount
+					}
+				}
+			`,
+			{
+				variables: {
+					first: 10,
+					offset: 0,
+					eventId: encodeGlobalID("Event", event.id),
+				},
+			}
+		);
+
+		expect(result.data.eventActivities.totalCount).toBe(1);
 	});
 
 	it("gives an error if you don't belong to the organization", async () => {
@@ -138,6 +192,35 @@ describe("orgMemberships", async () => {
 					first: 10,
 					offset: 0,
 					orgId: encodeGlobalID("Organization", organization2.id),
+				},
+			}
+		);
+
+		expect(result.errors).toBeDefined();
+	});
+
+	it("gives an error if you don't belong to the event", async () => {
+		client.setHeaders({
+			"x-debug-user": user.email,
+		});
+
+		const result = await client.query<
+			any,
+			{ first: number; offset: number; eventId: string; orgId: string }
+		>(
+			`
+				query GetEventActivities($first: Int!, $offset: Int!, $eventId: ID!, $orgId: ID!) {
+					eventActivities(first: $first, offset: $offset, eventId: $eventId, orgId: $orgId) {
+						totalCount
+					}
+				}
+			`,
+			{
+				variables: {
+					first: 10,
+					offset: 0,
+					orgId: encodeGlobalID("Organization", organization.id),
+					eventId: encodeGlobalID("Event", event2.id),
 				},
 			}
 		);

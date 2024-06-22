@@ -9,6 +9,7 @@ import {
 import { resolveWindowedConnection } from "../../../utils/resolveWindowedConnection.js";
 import { count, eq } from "drizzle-orm";
 import { Organization } from "../organization/organization.js";
+import { events } from "../../../db/schemas/events.js";
 
 const ActivityAction = builder.enumType("ActivityAction", {
 	values: Object.values(ACTIVITIES_ACTION_ENUM),
@@ -78,6 +79,7 @@ Activity.implement({
 	}),
 });
 
+// TODO: migrate this to a subscription
 builder.queryFields((t) => ({
 	orgActivities: t
 		.withAuth({
@@ -105,6 +107,62 @@ builder.queryFields((t) => ({
 						const filter = eq(
 							activities.organization_id,
 							parseInt(args.orgId.id)
+						);
+
+						const [items, totalCount] = await Promise.all([
+							db
+								.select()
+								.from(activities)
+								.where(filter)
+								.limit(limit)
+								.offset(args.offset),
+							db
+								.select({ value: count() })
+								.from(activities)
+								.where(filter),
+						]);
+
+						return {
+							items,
+							totalCount: totalCount[0].value,
+						};
+					}
+				);
+			},
+		}),
+	eventActivities: t
+		.withAuth({
+			isAuthenticated: true,
+		})
+		.connection({
+			type: Activity,
+			args: {
+				offset: t.arg.int({ required: true }),
+				eventId: t.arg.globalID({ required: true }),
+			},
+			authScopes: async (_, args, ctx) => {
+				const event = await db.query.events.findFirst({
+					where: eq(events.id, parseInt(args.eventId.id)),
+				});
+
+				if (!event) {
+					return false;
+				}
+
+				const userBelongsToOrg = ctx.user.orgMemberships?.some(
+					(orgMembership) =>
+						orgMembership.organization.id === event.organization_id
+				);
+
+				return !!userBelongsToOrg;
+			},
+			resolve: async (_parent, args) => {
+				return await resolveWindowedConnection(
+					{ args },
+					async ({ limit }) => {
+						const filter = eq(
+							activities.event_id,
+							parseInt(args.eventId.id)
 						);
 
 						const [items, totalCount] = await Promise.all([
