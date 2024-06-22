@@ -48,6 +48,21 @@ const Event = () => {
           }),
       },
       {
+        title: "Details",
+        selected:
+          routerState.location.pathname.startsWith(
+            `/dashboard/events/${encodeURIComponent(id)}/details`
+          ) ||
+          routerState.location.pathname === `/dashboard/events/${id}/details`,
+        onClick: () =>
+          router.navigate({
+            to: "/dashboard/events/$id/details",
+            params: {
+              id,
+            },
+          }),
+      },
+      {
         title: "Agenda",
         selected:
           routerState.location.pathname.startsWith(

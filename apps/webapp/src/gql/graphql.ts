@@ -267,6 +267,7 @@ export type PageInfo = {
 export type Query = {
   __typename?: 'Query';
   event?: Maybe<Event>;
+  eventActivities: QueryEventActivitiesConnection;
   me?: Maybe<User>;
   node?: Maybe<Node>;
   nodes: Array<Maybe<Node>>;
@@ -284,6 +285,16 @@ export type Query = {
 
 export type QueryEventArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryEventActivitiesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  eventId: Scalars['ID']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset: Scalars['Int']['input'];
 };
 
 
@@ -368,6 +379,19 @@ export type QueryUserOrgInvitesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset: Scalars['Int']['input'];
+};
+
+export type QueryEventActivitiesConnection = {
+  __typename?: 'QueryEventActivitiesConnection';
+  edges: Array<Maybe<QueryEventActivitiesConnectionEdge>>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int']['output'];
+};
+
+export type QueryEventActivitiesConnectionEdge = {
+  __typename?: 'QueryEventActivitiesConnectionEdge';
+  cursor: Scalars['String']['output'];
+  node: Activity;
 };
 
 export type QueryOrgActivitiesConnection = {
