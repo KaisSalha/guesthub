@@ -5,5 +5,6 @@ import "./types/org-invite/org-invite.js";
 import "./types/org-membership/org-membership.js";
 import "./types/org-role/org-role.js";
 import "./types/event/event.js";
+import "./types/activity/activity.js";
 
 export const schema = builder.toSchema();

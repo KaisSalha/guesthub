@@ -73,11 +73,6 @@ User.implement({
 						}
 					: null,
 		}),
-		type: t.exposeString("type", {
-			authScopes: {
-				isAuthenticated: true,
-			},
-		}),
 		orgMemberships: t.loadableGroup({
 			type: OrgMembership,
 			authScopes: {

@@ -95,7 +95,6 @@ useMe.query = graphql(/* GraphQL */ `
       first_name
       last_name
       avatar_url
-      type
       created_at
       orgMemberships {
         id

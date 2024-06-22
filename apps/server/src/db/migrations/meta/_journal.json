@@ -29,6 +29,13 @@
       "when": 1718750048234,
       "tag": "0003_aromatic_mandarin",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1719008325656,
+      "tag": "0004_lonely_scrambler",
+      "breakpoints": true
     }
   ]
 }

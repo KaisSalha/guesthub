@@ -3,7 +3,7 @@ import { users, UserInsert } from "../db/schemas/users.js";
 import { db } from "../db/index.js";
 import { lucia } from "../lib/auth.js";
 
-export const signup = async ({ email, password, type }: UserInsert) => {
+export const signup = async ({ email, password }: UserInsert) => {
 	const hashedPassword = await new Argon2id().hash(password);
 
 	const [user] = await db
@@ -11,7 +11,6 @@ export const signup = async ({ email, password, type }: UserInsert) => {
 		.values({
 			email: email.toLowerCase(),
 			password: hashedPassword,
-			type,
 		})
 		.returning()
 		.execute();
@@ -24,7 +23,6 @@ export const signup = async ({ email, password, type }: UserInsert) => {
 		email: user.email,
 		first_name: user.first_name,
 		last_name: user.last_name,
-		type: user.type,
 	});
 
 	return lucia.createSessionCookie(session.id);
@@ -55,7 +53,6 @@ export const login = async ({
 		email: user.email,
 		first_name: user.first_name,
 		last_name: user.last_name,
-		type: user.type,
 	});
 
 	return lucia.createSessionCookie(session.id);

@@ -25,7 +25,6 @@ export const orgMembers = graphql(/* GraphQL */ `
       email
       full_name
       avatar_url
-      type
     }
     role {
       id

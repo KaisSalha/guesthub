@@ -11,7 +11,7 @@ export const injectMemberships = fp(async function (
 	app: FastifyInstance
 ): Promise<void> {
 	app.addHook("onRequest", async (request) => {
-		if (request.user && request.user.type === "org") {
+		if (request.user) {
 			const orgMemberships = await db.query.orgMemberships.findMany({
 				where: (orgMemberships, { eq }) =>
 					eq(orgMemberships.user_id, request.user!.id),

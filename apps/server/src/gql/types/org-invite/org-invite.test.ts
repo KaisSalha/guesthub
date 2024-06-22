@@ -21,9 +21,9 @@ describe("orgInvites", async () => {
 
 	const client = createMercuriusTestClient(buildServer());
 
-	const user = await UserFactory({ type: "org" });
+	const user = await UserFactory();
 
-	const user2 = await UserFactory({ type: "org" });
+	const user2 = await UserFactory();
 
 	const organization = await OrganizationFactory({ owner_id: user.id });
 

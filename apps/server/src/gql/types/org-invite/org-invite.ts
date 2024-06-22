@@ -6,7 +6,7 @@ import { builder } from "../../builder.js";
 import { db } from "../../../db/index.js";
 import {
 	OrgInvite as OrgInviteType,
-	orgInviteStatusEnumType,
+	ORG_INVITE_STATUS_ENUM,
 	orgInvites,
 } from "../../../db/schemas/org-invites.js";
 import { Organization } from "../organization/organization.js";
@@ -23,7 +23,7 @@ import { OrgMembership } from "../org-membership/org-membership.js";
 import { emailsUsersLoader } from "../../loaders/emails-users-loader.js";
 
 const OrgInviteStatus = builder.enumType("OrgInviteStatus", {
-	values: orgInviteStatusEnumType,
+	values: Object.values(ORG_INVITE_STATUS_ENUM),
 });
 
 export const OrgInvite = builder.loadableNodeRef("OrgInvite", {
@@ -234,7 +234,10 @@ builder.relayMutationField(
 							orgInvites.organization_id,
 							parseInt(args.input.orgId.id)
 						),
-						inArray(orgInvites.status, ["pending", "accepted"])
+						inArray(orgInvites.status, [
+							ORG_INVITE_STATUS_ENUM.PENDING,
+							ORG_INVITE_STATUS_ENUM.ACCEPTED,
+						])
 					)
 				);
 
@@ -371,7 +374,7 @@ builder.relayMutationField(
 			await db.transaction(async (tx) => {
 				const [invite] = await tx
 					.update(orgInvites)
-					.set({ status: "accepted" })
+					.set({ status: ORG_INVITE_STATUS_ENUM.ACCEPTED })
 					.where(eq(orgInvites.id, args.input.inviteId.id))
 					.returning();
 

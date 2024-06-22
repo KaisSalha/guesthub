@@ -17,7 +17,7 @@ export const OrganizationMembershipFactory = async ({
 	org_role_id,
 	...props
 }: OrganizationMembershipFactoryProps) => {
-	const [role] = await db
+	const [membership] = await db
 		.insert(orgMemberships)
 		.values({
 			organization_id,
@@ -27,5 +27,5 @@ export const OrganizationMembershipFactory = async ({
 		})
 		.returning();
 
-	return role;
+	return membership;
 };

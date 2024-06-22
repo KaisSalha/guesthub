@@ -2,7 +2,6 @@ import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import {
 	date,
 	integer,
-	pgEnum,
 	pgTable,
 	serial,
 	text,
@@ -13,13 +12,6 @@ import { users } from "./users.js";
 import { locationFields } from "./helpers/location.js";
 import { timeFields } from "./helpers/time.js";
 import { organizations } from "./organizations.js";
-
-export const eventStatusEnum = pgEnum("event_status", [
-	"scheduled",
-	"ongoing",
-	"completed",
-	"canceled",
-]);
 
 export const events = pgTable("events", {
 	id: serial("id").primaryKey(),

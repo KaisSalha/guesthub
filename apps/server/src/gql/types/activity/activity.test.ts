@@ -7,6 +7,7 @@ import { OrganizationRoleFactory } from "../../../test/factories/org-role-factor
 import { OrganizationMembershipFactory } from "../../../test/factories/org-membership-factory.js";
 import { resetDbTables } from "../../../test/reset-db-tables.js";
 import { encodeGlobalID } from "@pothos/plugin-relay";
+import { ActivitiesFactory } from "../../../test/factories/activity-factory.js";
 
 describe("orgMemberships", async () => {
 	beforeEach(() => {
@@ -21,13 +22,16 @@ describe("orgMemberships", async () => {
 
 	const user = await UserFactory();
 
-	const user2 = await UserFactory();
-
 	const organization = await OrganizationFactory({ owner_id: user.id });
 
 	const orgRole = await OrganizationRoleFactory({
 		organization_id: organization.id,
 		is_admin: true,
+	});
+
+	await ActivitiesFactory({
+		organization_id: organization.id,
+		user_id: user.id,
 	});
 
 	await OrganizationMembershipFactory({
@@ -36,15 +40,9 @@ describe("orgMemberships", async () => {
 		org_role_id: orgRole.id,
 	});
 
-	await OrganizationMembershipFactory({
-		organization_id: organization.id,
-		user_id: user2.id,
-		org_role_id: orgRole.id,
-	});
+	const user2 = await UserFactory();
 
-	const user3 = await UserFactory();
-
-	const organization2 = await OrganizationFactory({ owner_id: user3.id });
+	const organization2 = await OrganizationFactory({ owner_id: user2.id });
 
 	const orgRole2 = await OrganizationRoleFactory({
 		organization_id: organization2.id,
@@ -53,11 +51,16 @@ describe("orgMemberships", async () => {
 
 	await OrganizationMembershipFactory({
 		organization_id: organization2.id,
-		user_id: user3.id,
+		user_id: user2.id,
 		org_role_id: orgRole2.id,
 	});
 
-	it("queries paginated members of an organization", async () => {
+	await ActivitiesFactory({
+		organization_id: organization2.id,
+		user_id: user2.id,
+	});
+
+	it("queries paginated activites of an organization", async () => {
 		client.setHeaders({
 			"x-debug-user": user.email,
 		});
@@ -67,23 +70,14 @@ describe("orgMemberships", async () => {
 			{ orgId: string; first: number; offset: number }
 		>(
 			`
-				query GetOrgMembers($first: Int!, $offset: Int!, $orgId: ID!) {
-                    orgMembers(first: $first, offset: $offset, orgId: $orgId) {
+				query GetOrgActivities($first: Int!, $offset: Int!, $orgId: ID!) {
+                    orgActivities(first: $first, offset: $offset, orgId: $orgId) {
                         totalCount
                         edges {
                             node {
                                 id
-                                user {
-                                    id
-                                    email
-                                    full_name
-                                    avatar_url
-                                }
-                                role {
-                                    id
-                                    name
-                                    permissions
-                                }
+                                action
+                                object_id
                                 updated_at
                             }
                         }
@@ -105,7 +99,7 @@ describe("orgMemberships", async () => {
 			}
 		);
 
-		expect(result.data.orgMembers.totalCount).toBe(2);
+		expect(result.data.orgActivities.totalCount).toBe(2);
 	});
 
 	it("gives an error if you don't belong to the organization", async () => {
@@ -118,24 +112,15 @@ describe("orgMemberships", async () => {
 			{ first: number; offset: number; orgId: string }
 		>(
 			`
-				query GetOrgMembers($first: Int!, $offset: Int!, $orgId: ID!) {
-                    orgMembers(first: $first, offset: $offset, orgId: $orgId) {
+				query GetOrgActivities($first: Int!, $offset: Int!, $orgId: ID!) {
+                    orgActivities(first: $first, offset: $offset, orgId: $orgId) {
                         totalCount
                         edges {
                             node {
                                 id
-                                user {
-                                    id
-                                    email
-                                    full_name
-                                    avatar_url
-                                    type
-                                }
-                                role {
-                                    id
-                                    name
-                                    permissions
-                                }
+                                action
+                                object_id
+                                created_at
                                 updated_at
                             }
                         }

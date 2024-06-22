@@ -12,17 +12,16 @@ import { timeFields } from "./helpers/time.js";
 import { InferInsertModel, InferSelectModel, relations } from "drizzle-orm";
 import { users } from "./users.js";
 
-export const orgInviteStatusEnum = pgEnum("org_invite_status", [
-	"pending",
-	"accepted",
-	"declined",
-]);
+export enum ORG_INVITE_STATUS_ENUM {
+	PENDING = "pending",
+	ACCEPTED = "accepted",
+	DECLINED = "declined",
+}
 
-export const orgInviteStatusEnumType = [
-	"pending",
-	"accepted",
-	"declined",
-] as const;
+export const orgInviteStatusEnum = pgEnum(
+	"org_invite_status",
+	Object.values(ORG_INVITE_STATUS_ENUM) as [string, ...string[]]
+);
 
 export const orgInvites = pgTable(
 	"org_invites",
@@ -35,7 +34,10 @@ export const orgInvites = pgTable(
 		org_role_id: integer("org_role_id")
 			.notNull()
 			.references(() => orgRoles.id),
-		status: orgInviteStatusEnum("status").notNull().default("pending"),
+		status: orgInviteStatusEnum("status")
+			.notNull()
+			.default("pending")
+			.$type<ORG_INVITE_STATUS_ENUM>(),
 		...timeFields,
 	},
 	(table) => {
