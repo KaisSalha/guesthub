@@ -20,7 +20,7 @@ const EmptyState = ({ description }: { description: string }) => {
   );
 };
 
-function NotificationItem({
+const NotificationItem = ({
   id,
   description,
   createdAt,
@@ -34,7 +34,7 @@ function NotificationItem({
   from?: string;
   to?: string;
   markMessageAsRead?: (id: string) => void;
-}) {
+}) => {
   return (
     <div className="flex items-between justify-between space-x-4 px-3 py-3 hover:bg-background-subtle">
       <div>
@@ -62,9 +62,9 @@ function NotificationItem({
       )}
     </div>
   );
-}
+};
 
-export function NotificationCenter() {
+export const NotificationCenter = () => {
   const [isOpen, setOpen] = useState(false);
   const {
     hasUnseenNotificaitons,
@@ -194,4 +194,4 @@ export function NotificationCenter() {
       </PopoverContent>
     </Popover>
   );
-}
+};

@@ -12,7 +12,7 @@ export interface NavProps {
   }[];
 }
 
-export function NavItem({ links, isCollapsed }: NavProps) {
+export const NavItem = ({ links, isCollapsed }: NavProps) => {
   return (
     <div data-collapsed={isCollapsed}>
       <nav className="grid gap-1.5">
@@ -59,4 +59,4 @@ export function NavItem({ links, isCollapsed }: NavProps) {
       </nav>
     </div>
   );
-}
+};

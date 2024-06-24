@@ -7,7 +7,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-export function Layout({ children }: LayoutProps) {
+export const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="h-full min-h-screen flex">
       <NavBar />
@@ -17,4 +17,4 @@ export function Layout({ children }: LayoutProps) {
       </div>
     </div>
   );
-}
+};

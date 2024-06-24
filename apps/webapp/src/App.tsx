@@ -24,7 +24,7 @@ const loadDevTools = () => {
   return Promise.resolve();
 };
 
-function App() {
+const App = () => {
   const [queryClient] = useState(() => new QueryClient(queryClientOptions));
 
   useEffect(() => {
@@ -56,6 +56,6 @@ function App() {
       <Toaster />
     </>
   );
-}
+};
 
 export default App;
