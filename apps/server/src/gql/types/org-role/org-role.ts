@@ -5,10 +5,7 @@ import {
 	orgRoles,
 } from "../../../db/schemas/org-roles.js";
 import { Organization } from "../organization/organization.js";
-import {
-	getAdminPermissions,
-	getUserPermissions,
-} from "../../../services/permissions.js";
+import { getOrgPermissions } from "../../../services/org-permissions.js";
 import { resolveWindowedConnection } from "../../../utils/resolveWindowedConnection.js";
 import { count, eq } from "drizzle-orm";
 
@@ -54,13 +51,9 @@ OrgRole.implement({
 		permissions: t.field({
 			type: "JSON",
 			resolve: (parent) => {
-				if (parent.name === "admin")
-					return getAdminPermissions({
-						permissions: parent.permissions,
-					});
-
-				return getUserPermissions({
+				return getOrgPermissions({
 					permissions: parent.permissions,
+					role: parent.name,
 				});
 			},
 		}),
@@ -122,14 +115,10 @@ builder.queryFields((t) => ({
 						return {
 							items: items.map((item) => ({
 								...item,
-								permissions:
-									item.name === "admin"
-										? getAdminPermissions({
-												permissions: item.permissions,
-											})
-										: getUserPermissions({
-												permissions: item.permissions,
-											}),
+								permissions: getOrgPermissions({
+									permissions: item.permissions,
+									role: item.name,
+								}),
 							})),
 							totalCount: totalCount[0].value,
 						};

@@ -1,11 +1,7 @@
 import { FastifyInstance } from "fastify";
 import fp from "fastify-plugin";
 import { db } from "../db/index.js";
-import {
-	OWNER_PERMISSIONS,
-	getAdminPermissions,
-	getUserPermissions,
-} from "../services/permissions.js";
+import { getOrgPermissions } from "../services/org-permissions.js";
 
 export const injectMemberships = fp(async function (
 	app: FastifyInstance
@@ -27,19 +23,14 @@ export const injectMemberships = fp(async function (
 					...orgMembership,
 					role: {
 						...orgMembership.role,
-						permissions:
-							orgMembership.organization.owner_id ===
-							request.user!.id
-								? OWNER_PERMISSIONS
-								: orgMembership.role.name === "admin"
-									? getAdminPermissions({
-											permissions:
-												orgMembership.role.permissions,
-										})
-									: getUserPermissions({
-											permissions:
-												orgMembership.role.permissions,
-										}),
+						permissions: getOrgPermissions({
+							permissions: orgMembership.role.permissions,
+							role:
+								orgMembership.organization.owner_id ===
+								request.user!.id
+									? "owner"
+									: orgMembership.role.name,
+						}),
 					},
 				})),
 			};

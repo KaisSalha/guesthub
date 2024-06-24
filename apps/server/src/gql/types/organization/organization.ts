@@ -8,9 +8,9 @@ import { User } from "../user/user.js";
 import { encodeGlobalID } from "@pothos/plugin-relay";
 import { orgRoles } from "../../../db/schemas/org-roles.js";
 import {
-	ADMIN_PERMISSIONS,
+	getOrgPermissions,
 	PERMISSIONS,
-} from "../../../services/permissions.js";
+} from "../../../services/org-permissions.js";
 import { orgMemberships } from "../../../db/schemas/org-memberships.js";
 
 export const Organization = builder.loadableNodeRef("Organization", {
@@ -214,7 +214,9 @@ builder.relayMutationField(
 				.values({
 					name: "admin",
 					organization_id: organization.id,
-					permissions: ADMIN_PERMISSIONS,
+					permissions: getOrgPermissions({
+						role: "admin",
+					}),
 				})
 				.returning()
 				.execute();

@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { db } from "../../db/index.js";
 import { orgRoles, OrgRoleInsert } from "../../db/schemas/org-roles.js";
-import { ADMIN_PERMISSIONS, PERMISSIONS } from "../../services/permissions.js";
+import { getOrgPermissions } from "../../services/org-permissions.js";
 
 interface OrganizationRoleFactoryProps extends Partial<OrgRoleInsert> {
 	organization_id: number;
@@ -17,7 +17,9 @@ export const OrganizationRoleFactory = async ({
 		.insert(orgRoles)
 		.values({
 			name: faker.company.buzzPhrase(),
-			permissions: is_admin ? ADMIN_PERMISSIONS : PERMISSIONS,
+			permissions: getOrgPermissions({
+				role: is_admin ? "admin" : "user",
+			}),
 			organization_id,
 			...props,
 		})
