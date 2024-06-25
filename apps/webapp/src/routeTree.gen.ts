@@ -34,9 +34,9 @@ import { Route as TeamInviteSignupProfileIndexImport } from './routes/team-invit
 import { Route as DashboardEventsCreateEventIndexImport } from './routes/dashboard/events/create-event/index'
 import { Route as DashboardEventsIdIndexImport } from './routes/dashboard/events/$id/index'
 import { Route as DashboardEventsIdRequestsIndexImport } from './routes/dashboard/events/$id/requests/index'
-import { Route as DashboardEventsIdGuestsIndexImport } from './routes/dashboard/events/$id/guests/index'
 import { Route as DashboardEventsIdDetailsIndexImport } from './routes/dashboard/events/$id/details/index'
 import { Route as DashboardEventsIdContentIndexImport } from './routes/dashboard/events/$id/content/index'
+import { Route as DashboardEventsIdAttendeesIndexImport } from './routes/dashboard/events/$id/attendees/index'
 import { Route as DashboardEventsIdAgendaIndexImport } from './routes/dashboard/events/$id/agenda/index'
 
 // Create/Update Routes
@@ -159,12 +159,6 @@ const DashboardEventsIdRequestsIndexRoute =
     getParentRoute: () => DashboardEventsIdRoute,
   } as any)
 
-const DashboardEventsIdGuestsIndexRoute =
-  DashboardEventsIdGuestsIndexImport.update({
-    path: '/guests/',
-    getParentRoute: () => DashboardEventsIdRoute,
-  } as any)
-
 const DashboardEventsIdDetailsIndexRoute =
   DashboardEventsIdDetailsIndexImport.update({
     path: '/details/',
@@ -174,6 +168,12 @@ const DashboardEventsIdDetailsIndexRoute =
 const DashboardEventsIdContentIndexRoute =
   DashboardEventsIdContentIndexImport.update({
     path: '/content/',
+    getParentRoute: () => DashboardEventsIdRoute,
+  } as any)
+
+const DashboardEventsIdAttendeesIndexRoute =
+  DashboardEventsIdAttendeesIndexImport.update({
+    path: '/attendees/',
     getParentRoute: () => DashboardEventsIdRoute,
   } as any)
 
@@ -348,6 +348,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardEventsIdAgendaIndexImport
       parentRoute: typeof DashboardEventsIdImport
     }
+    '/dashboard/events/$id/attendees/': {
+      id: '/dashboard/events/$id/attendees/'
+      path: '/attendees'
+      fullPath: '/dashboard/events/$id/attendees'
+      preLoaderRoute: typeof DashboardEventsIdAttendeesIndexImport
+      parentRoute: typeof DashboardEventsIdImport
+    }
     '/dashboard/events/$id/content/': {
       id: '/dashboard/events/$id/content/'
       path: '/content'
@@ -360,13 +367,6 @@ declare module '@tanstack/react-router' {
       path: '/details'
       fullPath: '/dashboard/events/$id/details'
       preLoaderRoute: typeof DashboardEventsIdDetailsIndexImport
-      parentRoute: typeof DashboardEventsIdImport
-    }
-    '/dashboard/events/$id/guests/': {
-      id: '/dashboard/events/$id/guests/'
-      path: '/guests'
-      fullPath: '/dashboard/events/$id/guests'
-      preLoaderRoute: typeof DashboardEventsIdGuestsIndexImport
       parentRoute: typeof DashboardEventsIdImport
     }
     '/dashboard/events/$id/requests/': {
@@ -388,9 +388,9 @@ export const routeTree = rootRoute.addChildren({
     DashboardEventsIdRoute: DashboardEventsIdRoute.addChildren({
       DashboardEventsIdIndexRoute,
       DashboardEventsIdAgendaIndexRoute,
+      DashboardEventsIdAttendeesIndexRoute,
       DashboardEventsIdContentIndexRoute,
       DashboardEventsIdDetailsIndexRoute,
-      DashboardEventsIdGuestsIndexRoute,
       DashboardEventsIdRequestsIndexRoute,
     }),
     DashboardAccountIndexRoute,
@@ -471,9 +471,9 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/dashboard/events/$id/",
         "/dashboard/events/$id/agenda/",
+        "/dashboard/events/$id/attendees/",
         "/dashboard/events/$id/content/",
         "/dashboard/events/$id/details/",
-        "/dashboard/events/$id/guests/",
         "/dashboard/events/$id/requests/"
       ]
     },
@@ -536,16 +536,16 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "dashboard/events/$id/agenda/index.tsx",
       "parent": "/dashboard/events/$id"
     },
+    "/dashboard/events/$id/attendees/": {
+      "filePath": "dashboard/events/$id/attendees/index.tsx",
+      "parent": "/dashboard/events/$id"
+    },
     "/dashboard/events/$id/content/": {
       "filePath": "dashboard/events/$id/content/index.tsx",
       "parent": "/dashboard/events/$id"
     },
     "/dashboard/events/$id/details/": {
       "filePath": "dashboard/events/$id/details/index.tsx",
-      "parent": "/dashboard/events/$id"
-    },
-    "/dashboard/events/$id/guests/": {
-      "filePath": "dashboard/events/$id/guests/index.tsx",
       "parent": "/dashboard/events/$id"
     },
     "/dashboard/events/$id/requests/": {

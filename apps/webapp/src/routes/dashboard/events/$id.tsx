@@ -63,6 +63,21 @@ const Event = () => {
           }),
       },
       {
+        title: "Attendees",
+        selected:
+          routerState.location.pathname.startsWith(
+            `/dashboard/events/${encodeURIComponent(id)}/attendees`
+          ) ||
+          routerState.location.pathname === `/dashboard/events/${id}/attendees`,
+        onClick: () =>
+          router.navigate({
+            to: "/dashboard/events/$id/attendees",
+            params: {
+              id,
+            },
+          }),
+      },
+      {
         title: "Agenda",
         selected:
           routerState.location.pathname.startsWith(
@@ -72,21 +87,6 @@ const Event = () => {
         onClick: () =>
           router.navigate({
             to: "/dashboard/events/$id/agenda",
-            params: {
-              id,
-            },
-          }),
-      },
-      {
-        title: "Guests",
-        selected:
-          routerState.location.pathname.startsWith(
-            `/dashboard/events/${encodeURIComponent(id)}/guests`
-          ) ||
-          routerState.location.pathname === `/dashboard/events/${id}/guests`,
-        onClick: () =>
-          router.navigate({
-            to: "/dashboard/events/$id/guests",
             params: {
               id,
             },
