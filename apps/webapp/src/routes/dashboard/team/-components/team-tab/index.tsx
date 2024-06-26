@@ -78,22 +78,22 @@ export const TeamTab = () => {
                       table.toggleAllPageRowsSelected(!!value)
                     }
                     aria-label="Select all"
-                    className="translate-y-[2px]"
                   />
                 ),
                 cell: ({ row }) => (
-                  <Checkbox
-                    checked={row.getIsSelected()}
-                    onCheckedChange={(value) => row.toggleSelected(!!value)}
-                    aria-label="Select row"
-                    className="translate-y-[2px]"
-                  />
+                  <div>
+                    <Checkbox
+                      checked={row.getIsSelected()}
+                      onCheckedChange={(value) => row.toggleSelected(!!value)}
+                      aria-label="Select row"
+                    />
+                  </div>
                 ),
                 enableSorting: false,
                 enableHiding: false,
                 meta: {
-                  headerClass: "w-fit min-w-2 md:max-w-2",
-                  cellClass: "w-fit min-w-2 md:max-w-2",
+                  headerClass: "xl:max-w-3",
+                  cellClass: "xl:max-w-3",
                 },
               },
               {
@@ -106,7 +106,7 @@ export const TeamTab = () => {
                   />
                 ),
                 cell: ({ row }) => {
-                  return <>{capitalize(row.getValue("name"))}</>;
+                  return <div>{capitalize(row.getValue("name"))}</div>;
                 },
               },
               {
@@ -119,7 +119,7 @@ export const TeamTab = () => {
                   />
                 ),
                 cell: ({ row }) => {
-                  return <>{row.getValue("email")}</>;
+                  return <div>{row.getValue("email")}</div>;
                 },
               },
               {
@@ -137,10 +137,10 @@ export const TeamTab = () => {
                     row.original.user.id ===
                     selectedMembership?.organization.owner_id
                   ) {
-                    return <>Owner</>;
+                    return <div>Owner</div>;
                   }
 
-                  return <>{capitalize(row.getValue("role"))}</>;
+                  return <div>{capitalize(row.getValue("role"))}</div>;
                 },
               },
               {
@@ -154,7 +154,9 @@ export const TeamTab = () => {
                 ),
                 cell: ({ row }) => {
                   return (
-                    <>{toISODate(row.getValue("updated_at"), userTimezone)}</>
+                    <div>
+                      {toISODate(row.getValue("updated_at"), userTimezone)}
+                    </div>
                   );
                 },
               },
@@ -191,18 +193,19 @@ export const TeamTab = () => {
                   />
                 ),
                 cell: ({ row }) => (
-                  <Checkbox
-                    checked={row.getIsSelected()}
-                    onCheckedChange={(value) => row.toggleSelected(!!value)}
-                    aria-label="Select row"
-                    className="translate-y-[2px]"
-                  />
+                  <div>
+                    <Checkbox
+                      checked={row.getIsSelected()}
+                      onCheckedChange={(value) => row.toggleSelected(!!value)}
+                      aria-label="Select row"
+                    />
+                  </div>
                 ),
                 enableSorting: false,
                 enableHiding: false,
                 meta: {
-                  headerClass: "w-fit min-w-4 md:max-w-4",
-                  cellClass: "w-fit min-w-4 md:max-w-4",
+                  headerClass: "xl:max-w-3",
+                  cellClass: "xl:max-w-3",
                 },
               },
               {
@@ -215,7 +218,7 @@ export const TeamTab = () => {
                   />
                 ),
                 cell: ({ row }) => {
-                  return <>{row.getValue("email")}</>;
+                  return <div>{row.getValue("email")}</div>;
                 },
               },
               {
@@ -248,7 +251,7 @@ export const TeamTab = () => {
                   />
                 ),
                 cell: ({ row }) => {
-                  return <>{capitalize(row.getValue("role"))}</>;
+                  return <div>{capitalize(row.getValue("role"))}</div>;
                 },
               },
               {
@@ -262,7 +265,9 @@ export const TeamTab = () => {
                 ),
                 cell: ({ row }) => {
                   return (
-                    <>{toISODate(row.getValue("created_at"), userTimezone)}</>
+                    <div>
+                      {toISODate(row.getValue("created_at"), userTimezone)}
+                    </div>
                   );
                 },
               },
@@ -277,7 +282,9 @@ export const TeamTab = () => {
                 ),
                 cell: ({ row }) => {
                   return (
-                    <>{toISODate(row.getValue("updated_at"), userTimezone)}</>
+                    <div>
+                      {toISODate(row.getValue("updated_at"), userTimezone)}
+                    </div>
                   );
                 },
               },

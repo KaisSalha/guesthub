@@ -81,7 +81,7 @@ export const Header = () => {
         <h1 className="text-xl font-bold">{title}</h1>
         <p
           className={cn(
-            "text-sm",
+            "text-sm text-foreground-subtle",
             !showSubtitleOnMobile && "hidden md:inline-block"
           )}
         >

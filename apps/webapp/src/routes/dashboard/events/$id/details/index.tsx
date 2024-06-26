@@ -13,6 +13,7 @@ import { formatDateWindow, formatTimestamp } from "@/utils/datetime";
 import { useMe } from "@/hooks/use-me";
 import { client } from "@/lib/apollo-client";
 import { Separator } from "@guesthub/ui/separator";
+import { Skeleton } from "@guesthub/ui/skeleton";
 
 const Details = () => {
   const { selectedMembership } = useMe();
@@ -39,12 +40,18 @@ const Details = () => {
       >
         <div className="relative">
           <AspectRatio ratio={1.91 / 1}>
-            <Avatar className="w-full h-full rounded-none">
-              <AvatarImage
-                src={data.event.banner_url || undefined}
-                className="h-full w-full"
-              />
-              <AvatarFallback className="flex items-center justify-center h-full w-full border border-dashed text-foreground-subtle rounded-md bg-transparent">
+            {data.event.banner_url ? (
+              <Avatar className="w-full h-full rounded-none">
+                <AvatarImage
+                  src={data.event.banner_url || undefined}
+                  className="h-full w-full"
+                />
+                <AvatarFallback className="flex items-center justify-center h-full w-full border border-dashed text-foreground-subtle rounded-md bg-transparent">
+                  <Skeleton className="h-full w-full" />
+                </AvatarFallback>
+              </Avatar>
+            ) : (
+              <div className="flex flex-row gap-2 items-center text-foreground-subtle">
                 <div className="p-1.5 text-foreground-subtle">
                   <Image
                     strokeWidth={1}
@@ -52,8 +59,8 @@ const Details = () => {
                   />
                 </div>
                 <span>Add an event banner</span>
-              </AvatarFallback>
-            </Avatar>
+              </div>
+            )}
           </AspectRatio>
           <Avatar className="absolute -bottom-[4.5rem] left-1/2 transform -translate-x-1/2 md:left-4 md:translate-x-0 w-28 h-28 rounded-md border border-border-subtle">
             <AvatarImage

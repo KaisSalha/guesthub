@@ -109,18 +109,20 @@ export const RolesTab = () => {
                   />
                 ),
                 cell: ({ row }) => (
-                  <Checkbox
-                    checked={row.getIsSelected()}
-                    onCheckedChange={(value) => row.toggleSelected(!!value)}
-                    aria-label="Select row"
-                    className="translate-y-[2px]"
-                  />
+                  <div>
+                    <Checkbox
+                      checked={row.getIsSelected()}
+                      onCheckedChange={(value) => row.toggleSelected(!!value)}
+                      aria-label="Select row"
+                      className="translate-y-[2px]"
+                    />
+                  </div>
                 ),
                 enableSorting: false,
                 enableHiding: false,
                 meta: {
-                  headerClass: "w-fit min-w-3 md:max-w-3",
-                  cellClass: "w-fit min-w-3 md:max-w-3",
+                  headerClass: "xl:max-w-3",
+                  cellClass: "xl:max-w-3",
                 },
               },
               {
@@ -133,7 +135,7 @@ export const RolesTab = () => {
                   />
                 ),
                 cell: ({ row }) => {
-                  return <>{capitalize(row.getValue("name"))}</>;
+                  return <div>{capitalize(row.getValue("name"))}</div>;
                 },
               },
               {
@@ -147,13 +149,13 @@ export const RolesTab = () => {
                 ),
                 cell: ({ row }) => {
                   return (
-                    <>
+                    <div>
                       {
                         Object.values(
                           row.getValue("permissions") as object
                         ).filter((value) => value === true).length
                       }
-                    </>
+                    </div>
                   );
                 },
               },
@@ -168,7 +170,9 @@ export const RolesTab = () => {
                 ),
                 cell: ({ row }) => {
                   return (
-                    <>{toISODate(row.getValue("updated_at"), userTimezone)}</>
+                    <div>
+                      {toISODate(row.getValue("updated_at"), userTimezone)}
+                    </div>
                   );
                 },
               },
