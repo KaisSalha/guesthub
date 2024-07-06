@@ -19,7 +19,7 @@ interface InviteEmailProps {
 	email: string;
 	invitedByEmail: string;
 	invitedByName: string;
-	teamName: string;
+	eventName: string;
 	inviteCode: string;
 	location: string;
 }
@@ -29,15 +29,15 @@ const baseAppUrl =
 		? "https://guesthub.ai"
 		: "https://guesthub.internal:3001";
 
-export const OrgInviteEmail = ({
+export const EventInviteEmail = ({
 	invitedByEmail = "bukinoshita@example.com",
 	invitedByName = "Pontus Abrahamsson",
 	email = "pontus@lostisland.co",
-	teamName = "Acme Co",
+	eventName = "Test Event",
 	inviteCode = "jnwe9203frnwefl239jweflasn1230oqef",
 	location = "São Paulo, Brazil",
 }: InviteEmailProps) => {
-	const inviteLink = `${baseAppUrl}/team-invite?inviteId=${inviteCode}`;
+	const inviteLink = `${baseAppUrl}/event-invite?inviteId=${inviteCode}`;
 
 	return (
 		<Html>
@@ -65,7 +65,7 @@ export const OrgInviteEmail = ({
 						fontStyle='normal'
 					/>
 				</head>
-				<Preview>Join {teamName} on GuestHub</Preview>
+				<Preview>Join {eventName} on GuestHub</Preview>
 
 				<Body className='bg-[#fff] my-auto mx-auto font-sans'>
 					<Container
@@ -74,7 +74,7 @@ export const OrgInviteEmail = ({
 					>
 						<Logo />
 						<Heading className='mx-0 my-[30px] p-0 text-[24px] font-normal text-[#121212] text-center'>
-							Join <strong>{teamName}</strong> on{" "}
+							Join <strong>{eventName}</strong> on{" "}
 							<strong>GuestHub</strong>
 						</Heading>
 
@@ -86,15 +86,16 @@ export const OrgInviteEmail = ({
 							>
 								{invitedByEmail}
 							</Link>
-							) has invited you to the <strong>{teamName}</strong>{" "}
-							team on <strong>GuestHub</strong>.
+							) has invited you to the{" "}
+							<strong>{eventName}</strong> event on{" "}
+							<strong>GuestHub</strong>.
 						</Text>
 						<Section className='mb-[42px] mt-[32px] text-center'>
 							<Button
 								className='bg-transparent rounded-md text-primary text-[14px] text-[#fff] font-medium no-underline text-center px-6 py-3 border bg-[#121212]'
 								href={inviteLink}
 							>
-								Join the team
+								Join the event
 							</Button>
 						</Section>
 
@@ -136,4 +137,4 @@ export const OrgInviteEmail = ({
 	);
 };
 
-export default OrgInviteEmail;
+export default EventInviteEmail;

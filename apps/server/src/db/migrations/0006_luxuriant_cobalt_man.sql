@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS "event_attendance_email_idx" ON "event_attendance" USING btree ("email");

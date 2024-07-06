@@ -13,7 +13,7 @@ import { Organization } from "../organization/organization.js";
 import { OrgRole } from "../org-role/org-role.js";
 import { resolveWindowedConnection } from "../../../utils/resolveWindowedConnection.js";
 import { resend } from "../../../lib/resend.js";
-import { InviteEmail } from "../../../emails/org/invite-team-member.js";
+import { OrgInviteEmail } from "../../../emails/org/invite-team-member.js";
 import { organizations } from "../../../db/schemas/organizations.js";
 import { getCityAddress } from "../../../utils/address.js";
 import { users } from "../../../db/schemas/users.js";
@@ -212,7 +212,8 @@ builder.relayMutationField(
 					parseInt(args.input.orgId.id)
 			);
 
-			if (!membership) return false;
+			if (!membership)
+				throw new Error("User does not belong to organization");
 
 			return membership.role.permissions.CAN_INVITE_GUESTS;
 		},
@@ -283,7 +284,7 @@ builder.relayMutationField(
 				.returning();
 
 			const html = render(
-				InviteEmail({
+				OrgInviteEmail({
 					email,
 					invitedByEmail: ctx.user.email,
 					invitedByName: `${ctx.user.first_name} ${ctx.user.last_name}`,

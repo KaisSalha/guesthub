@@ -121,4 +121,31 @@ builder.queryFields((t) => ({
 				);
 			},
 		}),
+	allOrgMembers: t
+		.withAuth({
+			isAuthenticated: true,
+		})
+		.field({
+			type: [OrgMembership],
+			args: {
+				orgId: t.arg.globalID({ required: true }),
+			},
+			authScopes: async (_, args, ctx) => {
+				const userBelongsToOrg = ctx.user.orgMemberships?.some(
+					(orgMembership) =>
+						orgMembership.organization.id ===
+						parseInt(args.orgId.id)
+				);
+
+				return !!userBelongsToOrg;
+			},
+			resolve: async (_parent, args) => {
+				return await db.query.orgMemberships.findMany({
+					where: eq(
+						orgMemberships.organization_id,
+						parseInt(args.orgId.id)
+					),
+				});
+			},
+		}),
 }));

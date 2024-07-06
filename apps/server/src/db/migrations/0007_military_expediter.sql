@@ -1,0 +1,1 @@
+ALTER TABLE "event_attendance" ALTER COLUMN "attendance_type" DROP DEFAULT;

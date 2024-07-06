@@ -108,6 +108,29 @@ describe("orgMemberships", async () => {
 		expect(result.data.orgMembers.totalCount).toBe(2);
 	});
 
+	it("queries all org members", async () => {
+		client.setHeaders({
+			"x-debug-user": user.email,
+		});
+
+		const result = await client.query<any, { orgId: string }>(
+			`
+			query GetOrgMembers($orgId: ID!) {
+				allOrgMembers(orgId: $orgId) {
+					id
+				}
+			}
+		`,
+			{
+				variables: {
+					orgId: encodeGlobalID("Organization", organization.id),
+				},
+			}
+		);
+
+		expect(result.data.allOrgMembers.length).toBe(2);
+	});
+
 	it("gives an error if you don't belong to the organization", async () => {
 		client.setHeaders({
 			"x-debug-user": user.email,
