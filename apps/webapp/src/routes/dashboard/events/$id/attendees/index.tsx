@@ -28,6 +28,7 @@ import {
 import { InviteGuestForm } from "./-components/invite-guest-form";
 import { useMe } from "@/hooks/use-me";
 import { Button } from "@guesthub/ui/button";
+import { Badge } from "@guesthub/ui/badge";
 
 const Attendees = () => {
   const { permissions } = useMe();
@@ -124,8 +125,103 @@ const Attendees = () => {
                   enableSorting: false,
                   enableHiding: false,
                   meta: {
-                    headerClass: "xl:max-w-3",
-                    cellClass: "xl:max-w-3",
+                    headerClass: "xl:max-w-4",
+                    cellClass: "xl:max-w-4",
+                  },
+                },
+                {
+                  id: "email",
+                  accessorFn: (node) => node.email,
+                  header: ({ column }) => (
+                    <DataTable.DataTableColumnHeader
+                      column={column}
+                      title="Email"
+                    />
+                  ),
+                  cell: ({ row }) => {
+                    return <div>{row.getValue("email")}</div>;
+                  },
+                },
+                {
+                  id: "attendance_type",
+                  accessorFn: (node) =>
+                    capitalize(node.attendance_type.replace("_", " ")),
+                  header: ({ column }) => (
+                    <DataTable.DataTableColumnHeader
+                      column={column}
+                      title="Attendance Type"
+                    />
+                  ),
+                },
+                {
+                  id: "status",
+                  accessorFn: (node) => node.status,
+                  header: ({ column }) => (
+                    <DataTable.DataTableColumnHeader
+                      column={column}
+                      title="Status"
+                    />
+                  ),
+                  cell: ({ row }) => {
+                    switch (row.getValue("status")) {
+                      case "pending":
+                        return <Badge variant="attention">Pending</Badge>;
+                      case "accepted":
+                        return <Badge variant="success">Accepted</Badge>;
+                      default:
+                        return <Badge variant="destructive">Declined</Badge>;
+                    }
+                  },
+                },
+                {
+                  id: "travel_required",
+                  accessorFn: (node) => node.travel_required,
+                  header: ({ column }) => (
+                    <DataTable.DataTableColumnHeader
+                      column={column}
+                      title="Travel Required"
+                    />
+                  ),
+                  cell: ({ row }) => {
+                    return (
+                      <div>
+                        {row.getValue("travel_required") ? "Yes" : "No"}
+                      </div>
+                    );
+                  },
+                },
+                {
+                  id: "accommodation_required",
+                  accessorFn: (node) => node.accommodation_required,
+                  header: ({ column }) => (
+                    <DataTable.DataTableColumnHeader
+                      column={column}
+                      title="Accommodation Required"
+                    />
+                  ),
+                  cell: ({ row }) => {
+                    return (
+                      <div>
+                        {row.getValue("accommodation_required") ? "Yes" : "No"}
+                      </div>
+                    );
+                  },
+                },
+                {
+                  id: "invited_at",
+                  accessorFn: (node) => node.created_at,
+                  header: ({ column }) => (
+                    <DataTable.DataTableColumnHeader
+                      column={column}
+                      title="Invited At"
+                    />
+                  ),
+                  cell: ({ row }) => {
+                    return (
+                      <div>
+                        {toISODate(row.getValue("invited_at"), userTimezone)}
+                      </div>
+                    );
                   },
                 },
                 {
