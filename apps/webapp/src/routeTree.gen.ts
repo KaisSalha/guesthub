@@ -21,23 +21,35 @@ import { Route as TeamInviteSignupIndexImport } from './routes/team-invite/signu
 import { Route as TeamInviteAcceptIndexImport } from './routes/team-invite/accept/index'
 import { Route as SignupProfileIndexImport } from './routes/signup/profile/index'
 import { Route as SignupOrganizationIndexImport } from './routes/signup/organization/index'
-import { Route as DashboardTeamIndexImport } from './routes/dashboard/team/index'
-import { Route as DashboardRequestsIndexImport } from './routes/dashboard/requests/index'
-import { Route as DashboardReportsIndexImport } from './routes/dashboard/reports/index'
-import { Route as DashboardHelpIndexImport } from './routes/dashboard/help/index'
-import { Route as DashboardGuestsIndexImport } from './routes/dashboard/guests/index'
-import { Route as DashboardEventsIndexImport } from './routes/dashboard/events/index'
-import { Route as DashboardCalendarIndexImport } from './routes/dashboard/calendar/index'
 import { Route as DashboardAccountIndexImport } from './routes/dashboard/account/index'
-import { Route as DashboardEventsIdImport } from './routes/dashboard/events/$id'
 import { Route as TeamInviteSignupProfileIndexImport } from './routes/team-invite/signup/profile/index'
-import { Route as DashboardEventsCreateEventIndexImport } from './routes/dashboard/events/create-event/index'
-import { Route as DashboardEventsIdIndexImport } from './routes/dashboard/events/$id/index'
-import { Route as DashboardEventsIdRequestsIndexImport } from './routes/dashboard/events/$id/requests/index'
-import { Route as DashboardEventsIdDetailsIndexImport } from './routes/dashboard/events/$id/details/index'
-import { Route as DashboardEventsIdContentIndexImport } from './routes/dashboard/events/$id/content/index'
-import { Route as DashboardEventsIdAttendeesIndexImport } from './routes/dashboard/events/$id/attendees/index'
-import { Route as DashboardEventsIdAgendaIndexImport } from './routes/dashboard/events/$id/agenda/index'
+import { Route as DashboardOrgTeamIndexImport } from './routes/dashboard/org/team/index'
+import { Route as DashboardOrgRequestsIndexImport } from './routes/dashboard/org/requests/index'
+import { Route as DashboardOrgReportsIndexImport } from './routes/dashboard/org/reports/index'
+import { Route as DashboardOrgHelpIndexImport } from './routes/dashboard/org/help/index'
+import { Route as DashboardOrgGuestsIndexImport } from './routes/dashboard/org/guests/index'
+import { Route as DashboardOrgEventsIndexImport } from './routes/dashboard/org/events/index'
+import { Route as DashboardOrgCalendarIndexImport } from './routes/dashboard/org/calendar/index'
+import { Route as DashboardGuestRequestsIndexImport } from './routes/dashboard/guest/requests/index'
+import { Route as DashboardGuestReportsIndexImport } from './routes/dashboard/guest/reports/index'
+import { Route as DashboardGuestHelpIndexImport } from './routes/dashboard/guest/help/index'
+import { Route as DashboardGuestEventsIndexImport } from './routes/dashboard/guest/events/index'
+import { Route as DashboardGuestCalendarIndexImport } from './routes/dashboard/guest/calendar/index'
+import { Route as DashboardOrgEventsIdImport } from './routes/dashboard/org/events/$id'
+import { Route as DashboardGuestEventsIdImport } from './routes/dashboard/guest/events/$id'
+import { Route as DashboardOrgEventsCreateEventIndexImport } from './routes/dashboard/org/events/create-event/index'
+import { Route as DashboardOrgEventsIdIndexImport } from './routes/dashboard/org/events/$id/index'
+import { Route as DashboardGuestEventsIdIndexImport } from './routes/dashboard/guest/events/$id/index'
+import { Route as DashboardOrgEventsIdRequestsIndexImport } from './routes/dashboard/org/events/$id/requests/index'
+import { Route as DashboardOrgEventsIdDetailsIndexImport } from './routes/dashboard/org/events/$id/details/index'
+import { Route as DashboardOrgEventsIdContentIndexImport } from './routes/dashboard/org/events/$id/content/index'
+import { Route as DashboardOrgEventsIdAttendeesIndexImport } from './routes/dashboard/org/events/$id/attendees/index'
+import { Route as DashboardOrgEventsIdAgendaIndexImport } from './routes/dashboard/org/events/$id/agenda/index'
+import { Route as DashboardGuestEventsIdRequestsIndexImport } from './routes/dashboard/guest/events/$id/requests/index'
+import { Route as DashboardGuestEventsIdDetailsIndexImport } from './routes/dashboard/guest/events/$id/details/index'
+import { Route as DashboardGuestEventsIdContentIndexImport } from './routes/dashboard/guest/events/$id/content/index'
+import { Route as DashboardGuestEventsIdAttendeesIndexImport } from './routes/dashboard/guest/events/$id/attendees/index'
+import { Route as DashboardGuestEventsIdAgendaIndexImport } from './routes/dashboard/guest/events/$id/agenda/index'
 
 // Create/Update Routes
 
@@ -91,48 +103,8 @@ const SignupOrganizationIndexRoute = SignupOrganizationIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardTeamIndexRoute = DashboardTeamIndexImport.update({
-  path: '/team/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardRequestsIndexRoute = DashboardRequestsIndexImport.update({
-  path: '/requests/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardReportsIndexRoute = DashboardReportsIndexImport.update({
-  path: '/reports/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardHelpIndexRoute = DashboardHelpIndexImport.update({
-  path: '/help/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardGuestsIndexRoute = DashboardGuestsIndexImport.update({
-  path: '/guests/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardEventsIndexRoute = DashboardEventsIndexImport.update({
-  path: '/events/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardCalendarIndexRoute = DashboardCalendarIndexImport.update({
-  path: '/calendar/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
 const DashboardAccountIndexRoute = DashboardAccountIndexImport.update({
   path: '/account/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardEventsIdRoute = DashboardEventsIdImport.update({
-  path: '/events/$id',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -142,45 +114,155 @@ const TeamInviteSignupProfileIndexRoute =
     getParentRoute: () => rootRoute,
   } as any)
 
-const DashboardEventsCreateEventIndexRoute =
-  DashboardEventsCreateEventIndexImport.update({
-    path: '/events/create-event/',
+const DashboardOrgTeamIndexRoute = DashboardOrgTeamIndexImport.update({
+  path: '/org/team/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardOrgRequestsIndexRoute = DashboardOrgRequestsIndexImport.update({
+  path: '/org/requests/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardOrgReportsIndexRoute = DashboardOrgReportsIndexImport.update({
+  path: '/org/reports/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardOrgHelpIndexRoute = DashboardOrgHelpIndexImport.update({
+  path: '/org/help/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardOrgGuestsIndexRoute = DashboardOrgGuestsIndexImport.update({
+  path: '/org/guests/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardOrgEventsIndexRoute = DashboardOrgEventsIndexImport.update({
+  path: '/org/events/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardOrgCalendarIndexRoute = DashboardOrgCalendarIndexImport.update({
+  path: '/org/calendar/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardGuestRequestsIndexRoute =
+  DashboardGuestRequestsIndexImport.update({
+    path: '/guest/requests/',
     getParentRoute: () => DashboardRoute,
   } as any)
 
-const DashboardEventsIdIndexRoute = DashboardEventsIdIndexImport.update({
-  path: '/',
-  getParentRoute: () => DashboardEventsIdRoute,
+const DashboardGuestReportsIndexRoute = DashboardGuestReportsIndexImport.update(
+  {
+    path: '/guest/reports/',
+    getParentRoute: () => DashboardRoute,
+  } as any,
+)
+
+const DashboardGuestHelpIndexRoute = DashboardGuestHelpIndexImport.update({
+  path: '/guest/help/',
+  getParentRoute: () => DashboardRoute,
 } as any)
 
-const DashboardEventsIdRequestsIndexRoute =
-  DashboardEventsIdRequestsIndexImport.update({
+const DashboardGuestEventsIndexRoute = DashboardGuestEventsIndexImport.update({
+  path: '/guest/events/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardGuestCalendarIndexRoute =
+  DashboardGuestCalendarIndexImport.update({
+    path: '/guest/calendar/',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+
+const DashboardOrgEventsIdRoute = DashboardOrgEventsIdImport.update({
+  path: '/org/events/$id',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardGuestEventsIdRoute = DashboardGuestEventsIdImport.update({
+  path: '/guest/events/$id',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardOrgEventsCreateEventIndexRoute =
+  DashboardOrgEventsCreateEventIndexImport.update({
+    path: '/org/events/create-event/',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+
+const DashboardOrgEventsIdIndexRoute = DashboardOrgEventsIdIndexImport.update({
+  path: '/',
+  getParentRoute: () => DashboardOrgEventsIdRoute,
+} as any)
+
+const DashboardGuestEventsIdIndexRoute =
+  DashboardGuestEventsIdIndexImport.update({
+    path: '/',
+    getParentRoute: () => DashboardGuestEventsIdRoute,
+  } as any)
+
+const DashboardOrgEventsIdRequestsIndexRoute =
+  DashboardOrgEventsIdRequestsIndexImport.update({
     path: '/requests/',
-    getParentRoute: () => DashboardEventsIdRoute,
+    getParentRoute: () => DashboardOrgEventsIdRoute,
   } as any)
 
-const DashboardEventsIdDetailsIndexRoute =
-  DashboardEventsIdDetailsIndexImport.update({
+const DashboardOrgEventsIdDetailsIndexRoute =
+  DashboardOrgEventsIdDetailsIndexImport.update({
     path: '/details/',
-    getParentRoute: () => DashboardEventsIdRoute,
+    getParentRoute: () => DashboardOrgEventsIdRoute,
   } as any)
 
-const DashboardEventsIdContentIndexRoute =
-  DashboardEventsIdContentIndexImport.update({
+const DashboardOrgEventsIdContentIndexRoute =
+  DashboardOrgEventsIdContentIndexImport.update({
     path: '/content/',
-    getParentRoute: () => DashboardEventsIdRoute,
+    getParentRoute: () => DashboardOrgEventsIdRoute,
   } as any)
 
-const DashboardEventsIdAttendeesIndexRoute =
-  DashboardEventsIdAttendeesIndexImport.update({
+const DashboardOrgEventsIdAttendeesIndexRoute =
+  DashboardOrgEventsIdAttendeesIndexImport.update({
     path: '/attendees/',
-    getParentRoute: () => DashboardEventsIdRoute,
+    getParentRoute: () => DashboardOrgEventsIdRoute,
   } as any)
 
-const DashboardEventsIdAgendaIndexRoute =
-  DashboardEventsIdAgendaIndexImport.update({
+const DashboardOrgEventsIdAgendaIndexRoute =
+  DashboardOrgEventsIdAgendaIndexImport.update({
     path: '/agenda/',
-    getParentRoute: () => DashboardEventsIdRoute,
+    getParentRoute: () => DashboardOrgEventsIdRoute,
+  } as any)
+
+const DashboardGuestEventsIdRequestsIndexRoute =
+  DashboardGuestEventsIdRequestsIndexImport.update({
+    path: '/requests/',
+    getParentRoute: () => DashboardGuestEventsIdRoute,
+  } as any)
+
+const DashboardGuestEventsIdDetailsIndexRoute =
+  DashboardGuestEventsIdDetailsIndexImport.update({
+    path: '/details/',
+    getParentRoute: () => DashboardGuestEventsIdRoute,
+  } as any)
+
+const DashboardGuestEventsIdContentIndexRoute =
+  DashboardGuestEventsIdContentIndexImport.update({
+    path: '/content/',
+    getParentRoute: () => DashboardGuestEventsIdRoute,
+  } as any)
+
+const DashboardGuestEventsIdAttendeesIndexRoute =
+  DashboardGuestEventsIdAttendeesIndexImport.update({
+    path: '/attendees/',
+    getParentRoute: () => DashboardGuestEventsIdRoute,
+  } as any)
+
+const DashboardGuestEventsIdAgendaIndexRoute =
+  DashboardGuestEventsIdAgendaIndexImport.update({
+    path: '/agenda/',
+    getParentRoute: () => DashboardGuestEventsIdRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -229,67 +311,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamInviteIndexImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard/events/$id': {
-      id: '/dashboard/events/$id'
-      path: '/events/$id'
-      fullPath: '/dashboard/events/$id'
-      preLoaderRoute: typeof DashboardEventsIdImport
-      parentRoute: typeof DashboardImport
-    }
     '/dashboard/account/': {
       id: '/dashboard/account/'
       path: '/account'
       fullPath: '/dashboard/account'
       preLoaderRoute: typeof DashboardAccountIndexImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/calendar/': {
-      id: '/dashboard/calendar/'
-      path: '/calendar'
-      fullPath: '/dashboard/calendar'
-      preLoaderRoute: typeof DashboardCalendarIndexImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/events/': {
-      id: '/dashboard/events/'
-      path: '/events'
-      fullPath: '/dashboard/events'
-      preLoaderRoute: typeof DashboardEventsIndexImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/guests/': {
-      id: '/dashboard/guests/'
-      path: '/guests'
-      fullPath: '/dashboard/guests'
-      preLoaderRoute: typeof DashboardGuestsIndexImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/help/': {
-      id: '/dashboard/help/'
-      path: '/help'
-      fullPath: '/dashboard/help'
-      preLoaderRoute: typeof DashboardHelpIndexImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/reports/': {
-      id: '/dashboard/reports/'
-      path: '/reports'
-      fullPath: '/dashboard/reports'
-      preLoaderRoute: typeof DashboardReportsIndexImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/requests/': {
-      id: '/dashboard/requests/'
-      path: '/requests'
-      fullPath: '/dashboard/requests'
-      preLoaderRoute: typeof DashboardRequestsIndexImport
-      parentRoute: typeof DashboardImport
-    }
-    '/dashboard/team/': {
-      id: '/dashboard/team/'
-      path: '/team'
-      fullPath: '/dashboard/team'
-      preLoaderRoute: typeof DashboardTeamIndexImport
       parentRoute: typeof DashboardImport
     }
     '/signup/organization/': {
@@ -320,18 +346,102 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamInviteSignupIndexImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard/events/$id/': {
-      id: '/dashboard/events/$id/'
-      path: '/'
-      fullPath: '/dashboard/events/$id/'
-      preLoaderRoute: typeof DashboardEventsIdIndexImport
-      parentRoute: typeof DashboardEventsIdImport
+    '/dashboard/guest/events/$id': {
+      id: '/dashboard/guest/events/$id'
+      path: '/guest/events/$id'
+      fullPath: '/dashboard/guest/events/$id'
+      preLoaderRoute: typeof DashboardGuestEventsIdImport
+      parentRoute: typeof DashboardImport
     }
-    '/dashboard/events/create-event/': {
-      id: '/dashboard/events/create-event/'
-      path: '/events/create-event'
-      fullPath: '/dashboard/events/create-event'
-      preLoaderRoute: typeof DashboardEventsCreateEventIndexImport
+    '/dashboard/org/events/$id': {
+      id: '/dashboard/org/events/$id'
+      path: '/org/events/$id'
+      fullPath: '/dashboard/org/events/$id'
+      preLoaderRoute: typeof DashboardOrgEventsIdImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/guest/calendar/': {
+      id: '/dashboard/guest/calendar/'
+      path: '/guest/calendar'
+      fullPath: '/dashboard/guest/calendar'
+      preLoaderRoute: typeof DashboardGuestCalendarIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/guest/events/': {
+      id: '/dashboard/guest/events/'
+      path: '/guest/events'
+      fullPath: '/dashboard/guest/events'
+      preLoaderRoute: typeof DashboardGuestEventsIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/guest/help/': {
+      id: '/dashboard/guest/help/'
+      path: '/guest/help'
+      fullPath: '/dashboard/guest/help'
+      preLoaderRoute: typeof DashboardGuestHelpIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/guest/reports/': {
+      id: '/dashboard/guest/reports/'
+      path: '/guest/reports'
+      fullPath: '/dashboard/guest/reports'
+      preLoaderRoute: typeof DashboardGuestReportsIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/guest/requests/': {
+      id: '/dashboard/guest/requests/'
+      path: '/guest/requests'
+      fullPath: '/dashboard/guest/requests'
+      preLoaderRoute: typeof DashboardGuestRequestsIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/org/calendar/': {
+      id: '/dashboard/org/calendar/'
+      path: '/org/calendar'
+      fullPath: '/dashboard/org/calendar'
+      preLoaderRoute: typeof DashboardOrgCalendarIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/org/events/': {
+      id: '/dashboard/org/events/'
+      path: '/org/events'
+      fullPath: '/dashboard/org/events'
+      preLoaderRoute: typeof DashboardOrgEventsIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/org/guests/': {
+      id: '/dashboard/org/guests/'
+      path: '/org/guests'
+      fullPath: '/dashboard/org/guests'
+      preLoaderRoute: typeof DashboardOrgGuestsIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/org/help/': {
+      id: '/dashboard/org/help/'
+      path: '/org/help'
+      fullPath: '/dashboard/org/help'
+      preLoaderRoute: typeof DashboardOrgHelpIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/org/reports/': {
+      id: '/dashboard/org/reports/'
+      path: '/org/reports'
+      fullPath: '/dashboard/org/reports'
+      preLoaderRoute: typeof DashboardOrgReportsIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/org/requests/': {
+      id: '/dashboard/org/requests/'
+      path: '/org/requests'
+      fullPath: '/dashboard/org/requests'
+      preLoaderRoute: typeof DashboardOrgRequestsIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/org/team/': {
+      id: '/dashboard/org/team/'
+      path: '/org/team'
+      fullPath: '/dashboard/org/team'
+      preLoaderRoute: typeof DashboardOrgTeamIndexImport
       parentRoute: typeof DashboardImport
     }
     '/team-invite/signup/profile/': {
@@ -341,40 +451,96 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamInviteSignupProfileIndexImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard/events/$id/agenda/': {
-      id: '/dashboard/events/$id/agenda/'
+    '/dashboard/guest/events/$id/': {
+      id: '/dashboard/guest/events/$id/'
+      path: '/'
+      fullPath: '/dashboard/guest/events/$id/'
+      preLoaderRoute: typeof DashboardGuestEventsIdIndexImport
+      parentRoute: typeof DashboardGuestEventsIdImport
+    }
+    '/dashboard/org/events/$id/': {
+      id: '/dashboard/org/events/$id/'
+      path: '/'
+      fullPath: '/dashboard/org/events/$id/'
+      preLoaderRoute: typeof DashboardOrgEventsIdIndexImport
+      parentRoute: typeof DashboardOrgEventsIdImport
+    }
+    '/dashboard/org/events/create-event/': {
+      id: '/dashboard/org/events/create-event/'
+      path: '/org/events/create-event'
+      fullPath: '/dashboard/org/events/create-event'
+      preLoaderRoute: typeof DashboardOrgEventsCreateEventIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/guest/events/$id/agenda/': {
+      id: '/dashboard/guest/events/$id/agenda/'
       path: '/agenda'
-      fullPath: '/dashboard/events/$id/agenda'
-      preLoaderRoute: typeof DashboardEventsIdAgendaIndexImport
-      parentRoute: typeof DashboardEventsIdImport
+      fullPath: '/dashboard/guest/events/$id/agenda'
+      preLoaderRoute: typeof DashboardGuestEventsIdAgendaIndexImport
+      parentRoute: typeof DashboardGuestEventsIdImport
     }
-    '/dashboard/events/$id/attendees/': {
-      id: '/dashboard/events/$id/attendees/'
+    '/dashboard/guest/events/$id/attendees/': {
+      id: '/dashboard/guest/events/$id/attendees/'
       path: '/attendees'
-      fullPath: '/dashboard/events/$id/attendees'
-      preLoaderRoute: typeof DashboardEventsIdAttendeesIndexImport
-      parentRoute: typeof DashboardEventsIdImport
+      fullPath: '/dashboard/guest/events/$id/attendees'
+      preLoaderRoute: typeof DashboardGuestEventsIdAttendeesIndexImport
+      parentRoute: typeof DashboardGuestEventsIdImport
     }
-    '/dashboard/events/$id/content/': {
-      id: '/dashboard/events/$id/content/'
+    '/dashboard/guest/events/$id/content/': {
+      id: '/dashboard/guest/events/$id/content/'
       path: '/content'
-      fullPath: '/dashboard/events/$id/content'
-      preLoaderRoute: typeof DashboardEventsIdContentIndexImport
-      parentRoute: typeof DashboardEventsIdImport
+      fullPath: '/dashboard/guest/events/$id/content'
+      preLoaderRoute: typeof DashboardGuestEventsIdContentIndexImport
+      parentRoute: typeof DashboardGuestEventsIdImport
     }
-    '/dashboard/events/$id/details/': {
-      id: '/dashboard/events/$id/details/'
+    '/dashboard/guest/events/$id/details/': {
+      id: '/dashboard/guest/events/$id/details/'
       path: '/details'
-      fullPath: '/dashboard/events/$id/details'
-      preLoaderRoute: typeof DashboardEventsIdDetailsIndexImport
-      parentRoute: typeof DashboardEventsIdImport
+      fullPath: '/dashboard/guest/events/$id/details'
+      preLoaderRoute: typeof DashboardGuestEventsIdDetailsIndexImport
+      parentRoute: typeof DashboardGuestEventsIdImport
     }
-    '/dashboard/events/$id/requests/': {
-      id: '/dashboard/events/$id/requests/'
+    '/dashboard/guest/events/$id/requests/': {
+      id: '/dashboard/guest/events/$id/requests/'
       path: '/requests'
-      fullPath: '/dashboard/events/$id/requests'
-      preLoaderRoute: typeof DashboardEventsIdRequestsIndexImport
-      parentRoute: typeof DashboardEventsIdImport
+      fullPath: '/dashboard/guest/events/$id/requests'
+      preLoaderRoute: typeof DashboardGuestEventsIdRequestsIndexImport
+      parentRoute: typeof DashboardGuestEventsIdImport
+    }
+    '/dashboard/org/events/$id/agenda/': {
+      id: '/dashboard/org/events/$id/agenda/'
+      path: '/agenda'
+      fullPath: '/dashboard/org/events/$id/agenda'
+      preLoaderRoute: typeof DashboardOrgEventsIdAgendaIndexImport
+      parentRoute: typeof DashboardOrgEventsIdImport
+    }
+    '/dashboard/org/events/$id/attendees/': {
+      id: '/dashboard/org/events/$id/attendees/'
+      path: '/attendees'
+      fullPath: '/dashboard/org/events/$id/attendees'
+      preLoaderRoute: typeof DashboardOrgEventsIdAttendeesIndexImport
+      parentRoute: typeof DashboardOrgEventsIdImport
+    }
+    '/dashboard/org/events/$id/content/': {
+      id: '/dashboard/org/events/$id/content/'
+      path: '/content'
+      fullPath: '/dashboard/org/events/$id/content'
+      preLoaderRoute: typeof DashboardOrgEventsIdContentIndexImport
+      parentRoute: typeof DashboardOrgEventsIdImport
+    }
+    '/dashboard/org/events/$id/details/': {
+      id: '/dashboard/org/events/$id/details/'
+      path: '/details'
+      fullPath: '/dashboard/org/events/$id/details'
+      preLoaderRoute: typeof DashboardOrgEventsIdDetailsIndexImport
+      parentRoute: typeof DashboardOrgEventsIdImport
+    }
+    '/dashboard/org/events/$id/requests/': {
+      id: '/dashboard/org/events/$id/requests/'
+      path: '/requests'
+      fullPath: '/dashboard/org/events/$id/requests'
+      preLoaderRoute: typeof DashboardOrgEventsIdRequestsIndexImport
+      parentRoute: typeof DashboardOrgEventsIdImport
     }
   }
 }
@@ -385,23 +551,36 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   DashboardRoute: DashboardRoute.addChildren({
     DashboardIndexRoute,
-    DashboardEventsIdRoute: DashboardEventsIdRoute.addChildren({
-      DashboardEventsIdIndexRoute,
-      DashboardEventsIdAgendaIndexRoute,
-      DashboardEventsIdAttendeesIndexRoute,
-      DashboardEventsIdContentIndexRoute,
-      DashboardEventsIdDetailsIndexRoute,
-      DashboardEventsIdRequestsIndexRoute,
-    }),
     DashboardAccountIndexRoute,
-    DashboardCalendarIndexRoute,
-    DashboardEventsIndexRoute,
-    DashboardGuestsIndexRoute,
-    DashboardHelpIndexRoute,
-    DashboardReportsIndexRoute,
-    DashboardRequestsIndexRoute,
-    DashboardTeamIndexRoute,
-    DashboardEventsCreateEventIndexRoute,
+    DashboardGuestEventsIdRoute: DashboardGuestEventsIdRoute.addChildren({
+      DashboardGuestEventsIdIndexRoute,
+      DashboardGuestEventsIdAgendaIndexRoute,
+      DashboardGuestEventsIdAttendeesIndexRoute,
+      DashboardGuestEventsIdContentIndexRoute,
+      DashboardGuestEventsIdDetailsIndexRoute,
+      DashboardGuestEventsIdRequestsIndexRoute,
+    }),
+    DashboardOrgEventsIdRoute: DashboardOrgEventsIdRoute.addChildren({
+      DashboardOrgEventsIdIndexRoute,
+      DashboardOrgEventsIdAgendaIndexRoute,
+      DashboardOrgEventsIdAttendeesIndexRoute,
+      DashboardOrgEventsIdContentIndexRoute,
+      DashboardOrgEventsIdDetailsIndexRoute,
+      DashboardOrgEventsIdRequestsIndexRoute,
+    }),
+    DashboardGuestCalendarIndexRoute,
+    DashboardGuestEventsIndexRoute,
+    DashboardGuestHelpIndexRoute,
+    DashboardGuestReportsIndexRoute,
+    DashboardGuestRequestsIndexRoute,
+    DashboardOrgCalendarIndexRoute,
+    DashboardOrgEventsIndexRoute,
+    DashboardOrgGuestsIndexRoute,
+    DashboardOrgHelpIndexRoute,
+    DashboardOrgReportsIndexRoute,
+    DashboardOrgRequestsIndexRoute,
+    DashboardOrgTeamIndexRoute,
+    DashboardOrgEventsCreateEventIndexRoute,
   }),
   LoginIndexRoute,
   SignupIndexRoute,
@@ -440,16 +619,22 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "dashboard.tsx",
       "children": [
         "/dashboard/",
-        "/dashboard/events/$id",
         "/dashboard/account/",
-        "/dashboard/calendar/",
-        "/dashboard/events/",
-        "/dashboard/guests/",
-        "/dashboard/help/",
-        "/dashboard/reports/",
-        "/dashboard/requests/",
-        "/dashboard/team/",
-        "/dashboard/events/create-event/"
+        "/dashboard/guest/events/$id",
+        "/dashboard/org/events/$id",
+        "/dashboard/guest/calendar/",
+        "/dashboard/guest/events/",
+        "/dashboard/guest/help/",
+        "/dashboard/guest/reports/",
+        "/dashboard/guest/requests/",
+        "/dashboard/org/calendar/",
+        "/dashboard/org/events/",
+        "/dashboard/org/guests/",
+        "/dashboard/org/help/",
+        "/dashboard/org/reports/",
+        "/dashboard/org/requests/",
+        "/dashboard/org/team/",
+        "/dashboard/org/events/create-event/"
       ]
     },
     "/dashboard/": {
@@ -465,48 +650,8 @@ export const routeTree = rootRoute.addChildren({
     "/team-invite/": {
       "filePath": "team-invite/index.tsx"
     },
-    "/dashboard/events/$id": {
-      "filePath": "dashboard/events/$id.tsx",
-      "parent": "/dashboard",
-      "children": [
-        "/dashboard/events/$id/",
-        "/dashboard/events/$id/agenda/",
-        "/dashboard/events/$id/attendees/",
-        "/dashboard/events/$id/content/",
-        "/dashboard/events/$id/details/",
-        "/dashboard/events/$id/requests/"
-      ]
-    },
     "/dashboard/account/": {
       "filePath": "dashboard/account/index.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/calendar/": {
-      "filePath": "dashboard/calendar/index.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/events/": {
-      "filePath": "dashboard/events/index.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/guests/": {
-      "filePath": "dashboard/guests/index.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/help/": {
-      "filePath": "dashboard/help/index.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/reports/": {
-      "filePath": "dashboard/reports/index.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/requests/": {
-      "filePath": "dashboard/requests/index.tsx",
-      "parent": "/dashboard"
-    },
-    "/dashboard/team/": {
-      "filePath": "dashboard/team/index.tsx",
       "parent": "/dashboard"
     },
     "/signup/organization/": {
@@ -521,36 +666,132 @@ export const routeTree = rootRoute.addChildren({
     "/team-invite/signup/": {
       "filePath": "team-invite/signup/index.tsx"
     },
-    "/dashboard/events/$id/": {
-      "filePath": "dashboard/events/$id/index.tsx",
-      "parent": "/dashboard/events/$id"
+    "/dashboard/guest/events/$id": {
+      "filePath": "dashboard/guest/events/$id.tsx",
+      "parent": "/dashboard",
+      "children": [
+        "/dashboard/guest/events/$id/",
+        "/dashboard/guest/events/$id/agenda/",
+        "/dashboard/guest/events/$id/attendees/",
+        "/dashboard/guest/events/$id/content/",
+        "/dashboard/guest/events/$id/details/",
+        "/dashboard/guest/events/$id/requests/"
+      ]
     },
-    "/dashboard/events/create-event/": {
-      "filePath": "dashboard/events/create-event/index.tsx",
+    "/dashboard/org/events/$id": {
+      "filePath": "dashboard/org/events/$id.tsx",
+      "parent": "/dashboard",
+      "children": [
+        "/dashboard/org/events/$id/",
+        "/dashboard/org/events/$id/agenda/",
+        "/dashboard/org/events/$id/attendees/",
+        "/dashboard/org/events/$id/content/",
+        "/dashboard/org/events/$id/details/",
+        "/dashboard/org/events/$id/requests/"
+      ]
+    },
+    "/dashboard/guest/calendar/": {
+      "filePath": "dashboard/guest/calendar/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/guest/events/": {
+      "filePath": "dashboard/guest/events/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/guest/help/": {
+      "filePath": "dashboard/guest/help/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/guest/reports/": {
+      "filePath": "dashboard/guest/reports/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/guest/requests/": {
+      "filePath": "dashboard/guest/requests/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/org/calendar/": {
+      "filePath": "dashboard/org/calendar/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/org/events/": {
+      "filePath": "dashboard/org/events/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/org/guests/": {
+      "filePath": "dashboard/org/guests/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/org/help/": {
+      "filePath": "dashboard/org/help/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/org/reports/": {
+      "filePath": "dashboard/org/reports/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/org/requests/": {
+      "filePath": "dashboard/org/requests/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/org/team/": {
+      "filePath": "dashboard/org/team/index.tsx",
       "parent": "/dashboard"
     },
     "/team-invite/signup/profile/": {
       "filePath": "team-invite/signup/profile/index.tsx"
     },
-    "/dashboard/events/$id/agenda/": {
-      "filePath": "dashboard/events/$id/agenda/index.tsx",
-      "parent": "/dashboard/events/$id"
+    "/dashboard/guest/events/$id/": {
+      "filePath": "dashboard/guest/events/$id/index.tsx",
+      "parent": "/dashboard/guest/events/$id"
     },
-    "/dashboard/events/$id/attendees/": {
-      "filePath": "dashboard/events/$id/attendees/index.tsx",
-      "parent": "/dashboard/events/$id"
+    "/dashboard/org/events/$id/": {
+      "filePath": "dashboard/org/events/$id/index.tsx",
+      "parent": "/dashboard/org/events/$id"
     },
-    "/dashboard/events/$id/content/": {
-      "filePath": "dashboard/events/$id/content/index.tsx",
-      "parent": "/dashboard/events/$id"
+    "/dashboard/org/events/create-event/": {
+      "filePath": "dashboard/org/events/create-event/index.tsx",
+      "parent": "/dashboard"
     },
-    "/dashboard/events/$id/details/": {
-      "filePath": "dashboard/events/$id/details/index.tsx",
-      "parent": "/dashboard/events/$id"
+    "/dashboard/guest/events/$id/agenda/": {
+      "filePath": "dashboard/guest/events/$id/agenda/index.tsx",
+      "parent": "/dashboard/guest/events/$id"
     },
-    "/dashboard/events/$id/requests/": {
-      "filePath": "dashboard/events/$id/requests/index.tsx",
-      "parent": "/dashboard/events/$id"
+    "/dashboard/guest/events/$id/attendees/": {
+      "filePath": "dashboard/guest/events/$id/attendees/index.tsx",
+      "parent": "/dashboard/guest/events/$id"
+    },
+    "/dashboard/guest/events/$id/content/": {
+      "filePath": "dashboard/guest/events/$id/content/index.tsx",
+      "parent": "/dashboard/guest/events/$id"
+    },
+    "/dashboard/guest/events/$id/details/": {
+      "filePath": "dashboard/guest/events/$id/details/index.tsx",
+      "parent": "/dashboard/guest/events/$id"
+    },
+    "/dashboard/guest/events/$id/requests/": {
+      "filePath": "dashboard/guest/events/$id/requests/index.tsx",
+      "parent": "/dashboard/guest/events/$id"
+    },
+    "/dashboard/org/events/$id/agenda/": {
+      "filePath": "dashboard/org/events/$id/agenda/index.tsx",
+      "parent": "/dashboard/org/events/$id"
+    },
+    "/dashboard/org/events/$id/attendees/": {
+      "filePath": "dashboard/org/events/$id/attendees/index.tsx",
+      "parent": "/dashboard/org/events/$id"
+    },
+    "/dashboard/org/events/$id/content/": {
+      "filePath": "dashboard/org/events/$id/content/index.tsx",
+      "parent": "/dashboard/org/events/$id"
+    },
+    "/dashboard/org/events/$id/details/": {
+      "filePath": "dashboard/org/events/$id/details/index.tsx",
+      "parent": "/dashboard/org/events/$id"
+    },
+    "/dashboard/org/events/$id/requests/": {
+      "filePath": "dashboard/org/events/$id/requests/index.tsx",
+      "parent": "/dashboard/org/events/$id"
     }
   }
 }

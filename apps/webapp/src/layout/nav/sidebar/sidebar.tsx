@@ -1,104 +1,23 @@
-import {
-  ChevronRight,
-  ChevronLeft,
-  Home,
-  Calendar,
-  Ticket,
-  Users,
-  UsersRound,
-  ConciergeBell,
-  LineChart,
-  CircleHelp,
-} from "lucide-react";
-import { NavItem, NavProps } from "./nav-item";
+import { ChevronRight, ChevronLeft, CircleHelp } from "lucide-react";
+import { NavItem } from "./nav-item";
 import { cn } from "@guesthub/ui/lib";
-import { Fragment, useCallback, useMemo, useRef } from "react";
+import { Fragment, useCallback, useRef } from "react";
 import { useRouter, useRouterState } from "@tanstack/react-router";
-import { atomWithStorage } from "jotai/utils";
-import { useAtom } from "jotai";
+import { useSidebarCollapsed } from "../../../hooks/use-sidebar-collapsed";
 import { SearchBar } from "@/components/search-bar";
 import Logo from "@/components/logo";
-
-const sidebarCollapsedAtom = atomWithStorage("sidebar-collapsed", false);
+import { OrgSelect } from "@/components/org-select";
+import { useNav } from "@/hooks/use-nav";
 
 export const Sidebar = () => {
   const panelRef = useRef<HTMLDivElement>(null);
-  const [isCollapsed, setIsCollapsed] = useAtom(sidebarCollapsedAtom);
   const router = useRouter();
   const routerState = useRouterState();
-
-  const sections: NavProps["links"][] = useMemo(
-    () => [
-      [
-        {
-          title: "Home",
-          icon: Home,
-          selected: routerState.location.pathname === "/dashboard",
-          onClick: () =>
-            router.navigate({
-              to: "/dashboard",
-            }),
-        },
-        {
-          title: "Events",
-          icon: Ticket,
-          selected:
-            routerState.location.pathname.startsWith("/dashboard/events"),
-          onClick: () =>
-            router.navigate({
-              to: "/dashboard/events",
-            }),
-        },
-        {
-          title: "Calendar",
-          icon: Calendar,
-          selected: routerState.location.pathname.startsWith(
-            "/dashboard/calendar"
-          ),
-          onClick: () =>
-            router.navigate({
-              to: "/dashboard/calendar",
-            }),
-        },
-        {
-          title: "Requests",
-          icon: ConciergeBell,
-          selected: routerState.location.pathname.startsWith(
-            "/dashboard/requests"
-          ),
-          onClick: () =>
-            router.navigate({
-              to: "/dashboard/requests",
-            }),
-        },
-        {
-          title: "Guests",
-          icon: UsersRound,
-          selected:
-            routerState.location.pathname.startsWith("/dashboard/guests"),
-          onClick: () =>
-            router.navigate({
-              to: "/dashboard/guests",
-            }),
-        },
-        {
-          title: "Reports",
-          icon: LineChart,
-          selected:
-            routerState.location.pathname.startsWith("/dashboard/reports"),
-          onClick: () =>
-            router.navigate({
-              to: "/dashboard/reports",
-            }),
-        },
-      ],
-    ],
-    [router, routerState.location.pathname]
-  );
-
+  const [isCollapsed, setIsCollapsed] = useSidebarCollapsed();
   const toggleSize = useCallback(() => {
     setIsCollapsed((isCollapsed) => !isCollapsed);
   }, [setIsCollapsed]);
+  const { sidebarSections } = useNav();
 
   return (
     <>
@@ -134,34 +53,28 @@ export const Sidebar = () => {
           <SearchBar isCollapsed={isCollapsed} />
         </div>
         <div>
-          {sections.map((section, index) => (
+          {sidebarSections.map((section, index) => (
             <Fragment key={index}>
               <NavItem isCollapsed={isCollapsed} links={section} />
             </Fragment>
           ))}
         </div>
         <div className="mt-auto">
+          <div className="mb-2 mx-4">
+            <OrgSelect />
+          </div>
           <NavItem
             isCollapsed={isCollapsed}
             links={[
               {
-                title: "Team",
-                icon: Users,
-                selected:
-                  routerState.location.pathname.startsWith("/dashboard/team"),
-                onClick: () =>
-                  router.navigate({
-                    to: "/dashboard/team",
-                  }),
-              },
-              {
                 title: "Help",
                 icon: CircleHelp,
-                selected:
-                  routerState.location.pathname.startsWith("/dashboard/help"),
+                selected: routerState.location.pathname.startsWith(
+                  "/dashboard/guest/help"
+                ),
                 onClick: () =>
                   router.navigate({
-                    to: "/dashboard/help",
+                    to: "/dashboard/guest/help",
                   }),
               },
               {

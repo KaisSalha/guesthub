@@ -7,6 +7,7 @@ import { useAtom } from "jotai";
 import { OWNER_PERMISSIONS, PERMISSIONS } from "@/utils/permissions";
 import { client } from "@/lib/apollo-client";
 import { jotaiStore } from "@/lib/jotai-store";
+import { Mode, useMode } from "./use-mode";
 
 export const selectedMembershipIdAtom = atomWithStorage<string | undefined>(
   "selectedMembership",
@@ -33,6 +34,8 @@ export const getMe = async () => {
 };
 
 export const useMe = () => {
+  const { mode, setMode } = useMode();
+
   const { data, loading, error, client, refetch } = useQuery<GetMeQuery>(
     useMe.query
   );
@@ -43,7 +46,13 @@ export const useMe = () => {
 
   // Select the first membership if none is selected
   useEffect(() => {
+    if (!loading && !data?.me?.orgMemberships.length && mode != Mode.Guest) {
+      setMode(Mode.Guest);
+      return;
+    }
+
     if (
+      mode === Mode.Org &&
       !!data?.me?.orgMemberships.length &&
       (!selectedMembershipId ||
         !data.me.orgMemberships.find(
@@ -52,7 +61,14 @@ export const useMe = () => {
     ) {
       setSelectedMembershipId(data.me.orgMemberships[0].id);
     }
-  }, [data, selectedMembershipId, setSelectedMembershipId]);
+  }, [
+    data,
+    loading,
+    mode,
+    selectedMembershipId,
+    setMode,
+    setSelectedMembershipId,
+  ]);
 
   const selectedMembership = useMemo(
     () =>
@@ -61,6 +77,8 @@ export const useMe = () => {
       ),
     [data, selectedMembershipId]
   );
+
+  const memberships = useMemo(() => data?.me?.orgMemberships, [data]);
 
   // If the selected membership is the owner, use the owner permissions
   const permissions: PERMISSIONS = useMemo(
@@ -77,6 +95,7 @@ export const useMe = () => {
 
   return {
     selectedMembership,
+    memberships,
     permissions,
     setSelectedMembershipId,
     me: data?.me,
