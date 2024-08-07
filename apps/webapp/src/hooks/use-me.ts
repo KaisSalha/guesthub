@@ -61,6 +61,10 @@ export const useMe = () => {
     ) {
       setSelectedMembershipId(data.me.orgMemberships[0].id);
     }
+
+    if (!loading && mode === Mode.Guest) {
+      setSelectedMembershipId(undefined);
+    }
   }, [
     data,
     loading,

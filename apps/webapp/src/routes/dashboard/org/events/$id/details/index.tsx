@@ -85,7 +85,7 @@ const Details = () => {
         </div>
         <div className="flex flex-col gap-5 md:gap-10">
           <div className="flex flex-col lg:flex-row px-4 md:px-6 gap-4 lg:gap-0">
-            <p className="flex flex-row gap-2 items-center text-foreground-subtle flex-1 text-sm">
+            <div className="flex flex-row gap-2 items-center text-foreground-subtle flex-1 text-sm">
               <Calendar className="w-6 h-6" strokeWidth={1.25} />
               <div>
                 {formatDateWindow({
@@ -96,13 +96,13 @@ const Details = () => {
                   },
                 })}
               </div>
-            </p>
-            <p className="flex flex-row gap-2 items-center text-foreground-subtle flex-1 text-sm">
+            </div>
+            <div className="flex flex-row gap-2 items-center text-foreground-subtle flex-1 text-sm">
               <MapPin className="w-6 h-6" strokeWidth={1.25} />
               <span>
                 {data.event.address}, {data.event.city}
               </span>
-            </p>
+            </div>
           </div>
           <div className="flex flex-col gap-2 px-4 pb-10">
             <p className="leading-7">{data.event.description}</p>
@@ -133,7 +133,7 @@ const Details = () => {
         <Separator className="md:hidden" />
         <Card variant="desktopOnly">
           <Card.Content className="px-3 flex flex-col gap-2.5 w-full p-2 pb-4 md:p-4">
-            <p className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
+            <div className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
               <Calendar className="w-4 h-4" />
               <span>
                 {formatDateWindow({
@@ -144,13 +144,13 @@ const Details = () => {
                   },
                 })}
               </span>
-            </p>
-            <p className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
+            </div>
+            <div className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
               <MapPin className="w-4 h-4" />
               <span>
                 {data.event.address}, {data.event.city}
               </span>
-            </p>
+            </div>
           </Card.Content>
         </Card>
       </div>

@@ -96,16 +96,16 @@ const Events = () => {
                       })}
                     </span>
                   </div>
-                  <p className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
+                  <div className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
                     <MapPin className="w-4 h-4" />
                     <span>
                       {node.address}, {node.city}
                     </span>
-                  </p>
-                  <p className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
+                  </div>
+                  <div className="text-sm flex flex-row gap-2 items-center text-foreground-subtle">
                     <UsersRound className="w-4 h-4" />
                     <span>0 Guests</span>
-                  </p>
+                  </div>
                 </Card.Content>
               </Card>
             ))}

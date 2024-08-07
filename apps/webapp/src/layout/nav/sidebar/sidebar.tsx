@@ -14,9 +14,11 @@ export const Sidebar = () => {
   const router = useRouter();
   const routerState = useRouterState();
   const [isCollapsed, setIsCollapsed] = useSidebarCollapsed();
+
   const toggleSize = useCallback(() => {
     setIsCollapsed((isCollapsed) => !isCollapsed);
   }, [setIsCollapsed]);
+
   const { sidebarSections } = useNav();
 
   return (
