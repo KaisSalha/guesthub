@@ -12,7 +12,6 @@ import { useSetHeader } from "@/components/header";
 const Team = () => {
   useSetHeader({
     title: "Team",
-    subtitle: "Organize your team members and assign event roles",
   });
 
   return (

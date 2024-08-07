@@ -26,9 +26,7 @@ const Event = () => {
 
   useSetHeader({
     title: data?.event?.name || "",
-    subtitle: data?.event?.tagline || "",
     showOnMobile: true,
-    showSubtitleOnMobile: true,
   });
 
   const tabs = useMemo(

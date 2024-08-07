@@ -10,7 +10,7 @@ import {
 } from "@guesthub/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
 import { useMe } from "@/hooks/use-me";
-// import { NotificationCenter } from "@/components/notification-center";
+import { NotificationCenter } from "@/components/notification-center";
 
 export const TopBar = () => {
   const { me } = useMe();
@@ -27,7 +27,7 @@ export const TopBar = () => {
         <div className="flex flex-row gap-5 items-center">
           <Search className="cursor-pointer h-5 w-5" />
 
-          {/* <NotificationCenter /> */}
+          <NotificationCenter />
 
           <DropdownMenu>
             <DropdownMenuTrigger>

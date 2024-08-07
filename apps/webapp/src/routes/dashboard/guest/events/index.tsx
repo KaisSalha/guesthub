@@ -50,7 +50,6 @@ const Events = () => {
 
   useSetHeader({
     title: "Events",
-    subtitle: "Manage event details and schedules",
   });
 
   return (

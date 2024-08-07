@@ -34,9 +34,7 @@ const CreateEvent = () => {
 
   useSetHeader({
     title: "Create Event",
-    subtitle: "Create a new upcoming event",
     showOnMobile: true,
-    showSubtitleOnMobile: true,
   });
 
   const [createEvent, { loading }] = useMutation<

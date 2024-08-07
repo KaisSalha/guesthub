@@ -5,7 +5,6 @@ import { useSetHeader } from "@/components/header";
 const Profile = () => {
   useSetHeader({
     title: "Account",
-    subtitle: "",
   });
 
   return <div className="flex flex-col gap-8 mb-4"></div>;

@@ -4,7 +4,6 @@ import { cn } from "@guesthub/ui/lib";
 import { Fragment, useCallback, useRef } from "react";
 import { useRouter, useRouterState } from "@tanstack/react-router";
 import { useSidebarCollapsed } from "../../../hooks/use-sidebar-collapsed";
-import { SearchBar } from "@/components/search-bar";
 import Logo from "@/components/logo";
 import { OrgSelect } from "@/components/org-select";
 import { useNav } from "@/hooks/use-nav";
@@ -32,7 +31,7 @@ export const Sidebar = () => {
       <div
         ref={panelRef}
         className={cn(
-          "hidden md:flex flex-col gap-3.5 bg-background-surface w-56 min-h-screen fixed border-r border-border-subtle py-5",
+          "hidden md:flex flex-col gap-4 bg-background-surface w-56 min-h-screen fixed border-r border-border-subtle py-5",
           isCollapsed && "w-12"
         )}
       >
@@ -46,14 +45,6 @@ export const Sidebar = () => {
           <Logo isCollapsed={isCollapsed} />
         </div>
 
-        <div
-          className={cn(
-            "w-full flex items-center justify-center px-2",
-            isCollapsed && "h-10"
-          )}
-        >
-          <SearchBar isCollapsed={isCollapsed} />
-        </div>
         <div>
           {sidebarSections.map((section, index) => (
             <Fragment key={index}>

@@ -15,7 +15,7 @@ export interface NavProps {
 export const NavItem = ({ links, isCollapsed }: NavProps) => {
   return (
     <div data-collapsed={isCollapsed}>
-      <nav className="grid gap-1.5">
+      <nav className="grid gap-2">
         {links.map((link, index) =>
           isCollapsed ? (
             <Tooltip key={index} delayDuration={0}>

@@ -13,29 +13,22 @@ import { useAuth } from "@/hooks/use-auth";
 import { useMe } from "@/hooks/use-me";
 import { cn } from "@guesthub/ui/lib";
 import { useDocumentTitle } from "usehooks-ts";
+import { SearchBar } from "./search-bar";
+import { NotificationCenter } from "./notification-center";
 
 // import { NotificationCenter } from "./notification-center";
 
 interface HeaderProps {
   title: string;
-  subtitle?: string | React.ReactNode;
   showOnMobile?: boolean;
-  showSubtitleOnMobile?: boolean;
 }
 
 const HeaderContext = atom<HeaderProps>({
   title: "",
-  subtitle: "",
   showOnMobile: false,
-  showSubtitleOnMobile: false,
 });
 
-export const useSetHeader = ({
-  title,
-  subtitle,
-  showOnMobile = false,
-  showSubtitleOnMobile = false,
-}: HeaderProps) => {
+export const useSetHeader = ({ title, showOnMobile = false }: HeaderProps) => {
   const [_, setHeader] = useAtom(HeaderContext);
   useDocumentTitle(`GuestHub | ${title}`, {
     preserveTitleOnUnmount: false,
@@ -44,25 +37,20 @@ export const useSetHeader = ({
   useEffect(() => {
     setHeader({
       title,
-      subtitle,
       showOnMobile,
-      showSubtitleOnMobile,
     });
 
     return () => {
       setHeader({
         title: "",
-        subtitle: "",
         showOnMobile: false,
-        showSubtitleOnMobile: false,
       });
     };
-  }, [setHeader, title, subtitle, showOnMobile, showSubtitleOnMobile]);
+  }, [setHeader, title, showOnMobile]);
 };
 
 export const Header = () => {
-  const { title, subtitle, showOnMobile, showSubtitleOnMobile } =
-    useAtomValue(HeaderContext);
+  const { title, showOnMobile } = useAtomValue(HeaderContext);
   const { me } = useMe();
   const router = useRouter();
   const { logout } = useAuth();
@@ -72,27 +60,21 @@ export const Header = () => {
   return (
     <div
       className={cn(
-        "w-full flex-row justify-between items-start relative",
+        "w-full flex-row justify-between items-center relative",
         showOnMobile && "flex",
         !showOnMobile && "hidden md:flex"
       )}
     >
-      <div className="w-fit flex flex-col items-start">
+      <div className="w-fit flex flex-col items-center">
         <h1 className="text-xl font-bold">{title}</h1>
-        <p
-          className={cn(
-            "text-sm text-foreground-subtle",
-            !showSubtitleOnMobile && "hidden md:inline-block"
-          )}
-        >
-          {subtitle}
-        </p>
       </div>
-      <div className="flex-row gap-4 items-center hidden md:flex">
-        {/* <NotificationCenter /> */}
+
+      <div className="w-fit flex-row justify-between gap-4 items-center hidden md:flex">
+        <SearchBar />
+        <NotificationCenter />
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Avatar className="cursor-pointer w-fit h-fit">
+            <Avatar className="cursor-pointer h-10 w-10">
               <AvatarImage
                 src={me?.avatar_url ?? undefined}
                 className="h-10 w-10"
