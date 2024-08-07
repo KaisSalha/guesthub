@@ -33,7 +33,7 @@ export const RolesTab = () => {
 
   return (
     <>
-      <Sheet open={!!selectedRow} modal={false}>
+      <Sheet open={!!selectedRow}>
         <SheetContent
           onPointerDownOutside={(e) => {
             if (tableRef.current?.contains(e.target as Node)) {
@@ -44,7 +44,6 @@ export const RolesTab = () => {
 
             setSelectedRow(undefined);
           }}
-          close={() => setSelectedRow(undefined)}
         >
           <SheetHeader>
             <SheetTitle>{capitalize(selectedRow?.name)}</SheetTitle>

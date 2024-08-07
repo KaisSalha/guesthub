@@ -45,7 +45,7 @@ const Attendees = () => {
     <>
       <Dialog>
         <DialogOverlay />
-        <Sheet open={!!selectedRow} modal={false}>
+        <Sheet open={!!selectedRow}>
           <SheetContent
             onPointerDownOutside={(e) => {
               if (tableRef.current?.contains(e.target as Node)) {
@@ -56,7 +56,6 @@ const Attendees = () => {
 
               setSelectedRow(undefined);
             }}
-            close={() => setSelectedRow(undefined)}
           >
             <SheetHeader>
               <SheetTitle>{capitalize(selectedRow?.email)}</SheetTitle>
