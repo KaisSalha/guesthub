@@ -92,7 +92,7 @@ export const NotificationCenter = () => {
   return (
     <Popover onOpenChange={setOpen} open={isOpen}>
       <PopoverTrigger asChild>
-        <div className="md:p-2 rounded-full cursor-pointer relative md:bg-background-subtle md:hover:bg-background-emphasis">
+        <div className="md:p-2 rounded-full cursor-pointer relative md:bg-background-subtle md:hover:bg-background-emphasis md:text-foreground-subtle">
           {hasUnseenNotificaitons && (
             <div className="w-1.5 h-1.5 bg-[#FFD02B] rounded-full absolute top-0 right-1" />
           )}

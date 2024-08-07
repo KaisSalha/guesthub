@@ -45,7 +45,7 @@ export const OrgSelect = () => {
           mode,
         })}
       >
-        <SelectTrigger>
+        <SelectTrigger variant="noShadow">
           <SelectValue placeholder="Select attendance type" />
         </SelectTrigger>
         <SelectContent>
