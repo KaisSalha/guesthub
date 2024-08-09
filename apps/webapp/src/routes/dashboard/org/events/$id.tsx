@@ -1,4 +1,3 @@
-import { cn } from "@guesthub/ui/lib";
 import { Outlet, createFileRoute, useParams } from "@tanstack/react-router";
 import { useRouter, useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
@@ -7,7 +6,7 @@ import { useQuery } from "@apollo/client";
 import { GetEventQuery, GetEventQueryVariables } from "@/gql/graphql";
 import { client } from "@/lib/apollo-client";
 import { useSetHeader } from "@/components/header";
-import { ScrollArea, ScrollBar } from "@guesthub/ui/scroll-area";
+import { NavBar } from "@/components/nav-bar";
 
 const Event = () => {
   const router = useRouter();
@@ -131,27 +130,7 @@ const Event = () => {
 
   return (
     <>
-      <div className="border-b border-border-subtle mb-5 md:mb-6">
-        <ScrollArea>
-          <div className="flex flex-row gap-8 *:pb-3 *:cursor-pointer *:text-sm">
-            {tabs.map((tab) => (
-              <nav
-                key={tab.title}
-                className={cn(
-                  "font-medium",
-                  tab.selected
-                    ? "border-b border-brand"
-                    : "text-foreground-muted hover:text-foreground"
-                )}
-                onClick={tab.onClick}
-              >
-                {tab.title}
-              </nav>
-            ))}
-          </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-      </div>
+      <NavBar tabs={tabs} />
       <Outlet />
     </>
   );

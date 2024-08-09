@@ -1,3 +1,4 @@
+import { createFileRoute } from "@tanstack/react-router";
 import React, { useRef, useState } from "react";
 import { useMe } from "@/hooks/use-me";
 import { graphql } from "gql.tada";
@@ -20,10 +21,15 @@ import {
 } from "@guesthub/ui/sheet";
 import { Label } from "@guesthub/ui/label";
 import { Checkbox } from "@guesthub/ui/checkbox";
+import { useSetHeader } from "@/components/header";
 
-export const RolesTab = () => {
+export const Roles = () => {
   const { selectedMembership } = useMe();
   const tableRef = useRef<HTMLDivElement>(null);
+
+  useSetHeader({
+    title: "Roles & Permissions",
+  });
 
   const [selectedRow, setSelectedRow] = useState<
     GetOrgRoles_RolesFragment | undefined
@@ -74,7 +80,7 @@ export const RolesTab = () => {
         </SheetContent>
       </Sheet>
       <div ref={tableRef}>
-        <div className="flex flex-col gap-2 md:px-4">
+        <div className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold">Roles</h2>
           <QueryTable<
             "orgRoles",
@@ -82,7 +88,7 @@ export const RolesTab = () => {
             GetOrgRolesQueryVariables,
             GetOrgRoles_RolesFragment
           >
-            query={RolesTab.query}
+            query={Roles.query}
             variables={{
               orgId: selectedMembership?.organization.id,
             }}
@@ -183,7 +189,7 @@ export const RolesTab = () => {
   );
 };
 
-RolesTab.query = graphql(/* GraphQL */ `
+Roles.query = graphql(/* GraphQL */ `
   query GetOrgRoles($first: Int!, $offset: Int!, $orgId: ID!) {
     orgRoles(first: $first, offset: $offset, orgId: $orgId) {
       totalCount
@@ -208,3 +214,7 @@ RolesTab.query = graphql(/* GraphQL */ `
     updated_at
   }
 `);
+
+export const Route = createFileRoute("/dashboard/org/team/roles")({
+  component: Roles,
+});

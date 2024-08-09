@@ -14,8 +14,6 @@ import { useMe } from "@/hooks/use-me";
 import { cn } from "@guesthub/ui/lib";
 import { useDocumentTitle } from "usehooks-ts";
 import { SearchBar } from "./search-bar";
-import { NotificationCenter } from "./notification-center";
-
 // import { NotificationCenter } from "./notification-center";
 
 interface HeaderProps {
@@ -71,7 +69,7 @@ export const Header = () => {
 
       <div className="w-fit flex-row justify-between gap-4 items-center hidden md:flex">
         <SearchBar />
-        <NotificationCenter />
+        {/* <NotificationCenter /> */}
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar className="cursor-pointer h-10 w-10">
