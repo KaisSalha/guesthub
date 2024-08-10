@@ -389,23 +389,24 @@ export const Route = createFileRoute("/dashboard/org/team/")({
 
     if (!selectedMembershipId) return;
 
-    await client.query({
-      query: Team.queries.orgMembers,
-      variables: {
-        orgId: selectedMembershipId,
-        first: 10,
-        offset: 0,
-      },
-    });
-
-    await client.query({
-      query: Team.queries.orgInvites,
-      variables: {
-        orgId: selectedMembershipId,
-        first: 10,
-        offset: 0,
-      },
-    });
+    await Promise.all([
+      client.query({
+        query: Team.queries.orgMembers,
+        variables: {
+          orgId: selectedMembershipId,
+          first: 10,
+          offset: 0,
+        },
+      }),
+      client.query({
+        query: Team.queries.orgInvites,
+        variables: {
+          orgId: selectedMembershipId,
+          first: 10,
+          offset: 0,
+        },
+      }),
+    ]);
   },
   component: Team,
 });

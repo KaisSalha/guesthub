@@ -24,6 +24,8 @@ import { Route as SignupProfileIndexImport } from './routes/signup/profile/index
 import { Route as SignupOrganizationIndexImport } from './routes/signup/organization/index'
 import { Route as EventInviteSignupIndexImport } from './routes/event-invite/signup/index'
 import { Route as EventInviteAcceptIndexImport } from './routes/event-invite/accept/index'
+import { Route as DashboardOrgIndexImport } from './routes/dashboard/org/index'
+import { Route as DashboardGuestIndexImport } from './routes/dashboard/guest/index'
 import { Route as DashboardAccountIndexImport } from './routes/dashboard/account/index'
 import { Route as DashboardOrgTeamImport } from './routes/dashboard/org/team'
 import { Route as TeamInviteSignupProfileIndexImport } from './routes/team-invite/signup/profile/index'
@@ -122,6 +124,16 @@ const EventInviteSignupIndexRoute = EventInviteSignupIndexImport.update({
 const EventInviteAcceptIndexRoute = EventInviteAcceptIndexImport.update({
   path: '/event-invite/accept/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardOrgIndexRoute = DashboardOrgIndexImport.update({
+  path: '/org/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardGuestIndexRoute = DashboardGuestIndexImport.update({
+  path: '/guest/',
+  getParentRoute: () => DashboardRoute,
 } as any)
 
 const DashboardAccountIndexRoute = DashboardAccountIndexImport.update({
@@ -367,6 +379,20 @@ declare module '@tanstack/react-router' {
       path: '/account'
       fullPath: '/dashboard/account'
       preLoaderRoute: typeof DashboardAccountIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/guest/': {
+      id: '/dashboard/guest/'
+      path: '/guest'
+      fullPath: '/dashboard/guest'
+      preLoaderRoute: typeof DashboardGuestIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/org/': {
+      id: '/dashboard/org/'
+      path: '/org'
+      fullPath: '/dashboard/org'
+      preLoaderRoute: typeof DashboardOrgIndexImport
       parentRoute: typeof DashboardImport
     }
     '/event-invite/accept/': {
@@ -635,6 +661,8 @@ export const routeTree = rootRoute.addChildren({
       DashboardOrgTeamIndexRoute,
     }),
     DashboardAccountIndexRoute,
+    DashboardGuestIndexRoute,
+    DashboardOrgIndexRoute,
     DashboardGuestEventsIdRoute: DashboardGuestEventsIdRoute.addChildren({
       DashboardGuestEventsIdIndexRoute,
       DashboardGuestEventsIdAgendaIndexRoute,
@@ -711,6 +739,8 @@ export const routeTree = rootRoute.addChildren({
         "/dashboard/",
         "/dashboard/org/team",
         "/dashboard/account/",
+        "/dashboard/guest/",
+        "/dashboard/org/",
         "/dashboard/guest/events/$id",
         "/dashboard/org/events/$id",
         "/dashboard/guest/calendar/",
@@ -753,6 +783,14 @@ export const routeTree = rootRoute.addChildren({
     },
     "/dashboard/account/": {
       "filePath": "dashboard/account/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/guest/": {
+      "filePath": "dashboard/guest/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/org/": {
+      "filePath": "dashboard/org/index.tsx",
       "parent": "/dashboard"
     },
     "/event-invite/accept/": {

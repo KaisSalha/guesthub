@@ -35,10 +35,10 @@ export const useNav = () => {
               {
                 title: "Home",
                 icon: Home,
-                selected: routerState.location.pathname === "/dashboard",
+                selected: routerState.location.pathname === "/dashboard/org",
                 onClick: () =>
                   router.navigate({
-                    to: "/dashboard",
+                    to: "/dashboard/org",
                   }),
               },
               {
@@ -114,10 +114,10 @@ export const useNav = () => {
               {
                 title: "Home",
                 icon: Home,
-                selected: routerState.location.pathname === "/dashboard",
+                selected: routerState.location.pathname === "/dashboard/guest",
                 onClick: () =>
                   router.navigate({
-                    to: "/dashboard",
+                    to: "/dashboard/guest",
                   }),
               },
               {
