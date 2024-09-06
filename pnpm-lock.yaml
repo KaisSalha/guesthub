@@ -343,8 +343,8 @@ importers:
         specifier: ^1.30.0
         version: 1.38.0(vite@5.2.10)
       axios:
-        specifier: ^1.7.2
-        version: 1.7.2(debug@4.3.4)
+        specifier: ^1.7.4
+        version: 1.7.4(debug@4.3.4)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -5210,7 +5210,7 @@ packages:
       '@novu/shared': 0.24.2
       '@tanstack/react-query': 4.36.1(react-dom@18.3.1)(react@18.3.1)
       acorn-jsx: 5.3.2(acorn@8.11.3)
-      axios: 1.7.2(debug@4.3.4)
+      axios: 1.7.4(debug@4.3.4)
       lodash.clonedeep: 4.5.0
       lodash.debounce: 4.0.8
       lodash.merge: 4.6.2
@@ -5233,7 +5233,7 @@ packages:
   /@novu/shared@0.24.2:
     resolution: {integrity: sha512-RaPf+wUxluGGPqv+QdRkXS+rNgbSTXe5Iu87vs+SyOzrV4R24lx8TAe3tpDLJTyMcs9sQ5eF5qyz0kwIGf7JiA==}
     dependencies:
-      axios: 1.7.2(debug@4.3.4)
+      axios: 1.7.4(debug@4.3.4)
       class-transformer: 0.5.1
       class-validator: 0.14.0
     transitivePeerDependencies:
@@ -10661,8 +10661,8 @@ packages:
       is-retry-allowed: 2.2.0
     dev: false
 
-  /axios@1.7.2(debug@4.3.4):
-    resolution: {integrity: sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==}
+  /axios@1.7.4(debug@4.3.4):
+    resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
     dependencies:
       follow-redirects: 1.15.6(debug@4.3.4)
       form-data: 4.0.0
@@ -17982,7 +17982,7 @@ packages:
       vite: '>=3'
     dependencies:
       '@octokit/rest': 20.1.0
-      axios: 1.7.2(debug@4.3.4)
+      axios: 1.7.4(debug@4.3.4)
       debug: 4.3.4(supports-color@5.5.0)
       picocolors: 1.0.0
       vite: 5.2.10(@types/node@20.12.7)
